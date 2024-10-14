@@ -1,7 +1,9 @@
-﻿using TaleWorlds.MountAndBlade;
+﻿using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
 
 
-namespace Echoes_of_an_Empire___Code
+namespace EOAE_Code
 {
     public class SubModule : MBSubModuleBase
     {
@@ -21,6 +23,15 @@ namespace Echoes_of_an_Empire___Code
         {
             base.OnBeforeInitialModuleScreenSetAsRoot();
 
+        }
+
+        protected override void InitializeGameStarter(Game game, IGameStarter starterObject)
+        {
+            if (Game.Current.GameType is Campaign && starterObject is CampaignGameStarter)
+            {
+                var starter = starterObject as CampaignGameStarter;
+                starter.AddBehavior(new SavePatch());
+            }
         }
     }
 }

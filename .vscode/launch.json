@@ -6,7 +6,7 @@
             "name": "Start Debugging [net472] (Steam/GOG/Epic)",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}\\Echoes_of_an_Empire___Code.csproj",
+            "projectPath": "${workspaceFolder}\\EOAE_Code.csproj",
             "launchConfigurationId": "TargetFramework=net472;Bannerlord"
         },
         {
@@ -26,7 +26,7 @@
             "name": "Start Debugging [net6] (Xbox)",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}\\Echoes_of_an_Empire___Code.csproj",
+            "projectPath": "${workspaceFolder}\\EOAE_Code.csproj",
             "launchConfigurationId": "TargetFramework=net6;Bannerlord"
         },
         {

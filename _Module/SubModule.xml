@@ -15,7 +15,6 @@
     <DependedModule Id="Sandbox" />
     <DependedModule Id="StoryMode" />
     <DependedModule Id="CustomBattle" />
-    <DependedModule Id="CustomBattle" />
     <DependedModule Id="Echoes of an Empire" />
     <DependedModule Id="Echoes of an Empire - Map" />
   </DependedModules>
@@ -35,8 +34,8 @@
   <SubModules>
     <SubModule>
       <Name value="$modulename$" />
-      <DLLName value="$modulename$.dll" />
-      <SubModuleClassType value="$modulename$.SubModule" />
+      <DLLName value="$moduleid$.dll" />
+      <SubModuleClassType value="$moduleid$.SubModule" />
       <Tags />
     </SubModule>
   </SubModules>
