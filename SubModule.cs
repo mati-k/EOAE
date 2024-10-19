@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using EOAE_Code.SettlementUniqueMilitia;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,9 @@ namespace EOAE_Code
         {
             base.OnSubModuleLoad();
             ApplyTradeBoundFix();
+            SettlementUniqueMilitiaLoader.LoadSettlements();
+
+            Harmony.PatchAll();
         }
 
         private void ApplyTradeBoundFix()
