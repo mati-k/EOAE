@@ -1,4 +1,5 @@
-﻿using EOAE_Code.SettlementUniqueMilitia;
+﻿using EOAE_Code.BaseGameFixes;
+using EOAE_Code.SettlementUniqueMilitia;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -15,39 +16,15 @@ namespace EOAE_Code
     public class SubModule : MBSubModuleBase
     {
         private static readonly Harmony Harmony = new("EOAE_Code");
-        private static float tradeBoundDistance;
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
-            ApplyTradeBoundFix();
             SettlementUniqueMilitiaLoader.LoadSettlements();
 
+            TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
         }
-
-        private void ApplyTradeBoundFix()
-        {
-            tradeBoundDistance = Convert.ToSingle(File.ReadAllText(ModuleHelper.GetModuleFullPath("EOAE_Code") + "TradeBoundDistance.txt"));
-            var villageTradeBoundCampaignBehavior = AccessTools.TypeByName("VillageTradeBoundCampaignBehavior");
-            var original = AccessTools.Method(villageTradeBoundCampaignBehavior, "TryToAssignTradeBoundForVillage");
-            var transpiler = AccessTools.Method(typeof(SubModule), nameof(Transpiler));
-            Harmony.Patch(original: original, transpiler: new HarmonyMethod(transpiler));
-        }
-
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            foreach (var instruction in instructions)
-            {
-                if (instruction.opcode == OpCodes.Ldc_R4 && instruction.OperandIs(150))
-                {
-                    instruction.operand = tradeBoundDistance;
-                }
-
-                yield return instruction;
-            }
-        }
-
 
         protected override void OnSubModuleUnloaded()
         {

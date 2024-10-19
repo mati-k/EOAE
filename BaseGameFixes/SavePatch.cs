@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 
-namespace EOAE_Code
+namespace EOAE_Code.BaseGameFixes
 {
     public class SavePatch : CampaignBehaviorBase
     {
