@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.BaseGameFixes;
+using EOAE_Code.Magic;
 using EOAE_Code.SettlementUniqueMilitia;
 using HarmonyLib;
 using System;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Reflection.Emit;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
+using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
 
@@ -45,6 +47,13 @@ namespace EOAE_Code
                 var starter = starterObject as CampaignGameStarter;
                 starter.AddBehavior(new SavePatch());
             }
+        }
+
+        public override void OnMissionBehaviorInitialize(Mission mission)
+        {
+            base.OnMissionBehaviorInitialize(mission);
+
+            mission.AddMissionBehavior(new MagicMissionView());
         }
     }
 }

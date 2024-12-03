@@ -1,0 +1,67 @@
+﻿<Brushes>
+  <Brush Name="Mission.MainAgentHUD.HeroMagicBar.Frame">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="General\Mission\health_bar_frame" />
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" />
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="Mission.MainAgentHUD.HeroMagicBar.Canvas">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="General\Mission\hero_canvas" />
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" />
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="Mission.MainAgentHUD.HeroMagicBar.FillBB">
+    <Layers>
+      <BrushLayer Name="DefaultFill" Sprite="mission_health_bar_fill_9" Color="#FFFFFFFF"  />
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" />
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="Mission.MainAgentHUD.HeroMagicBar.Fill">
+    <Layers>
+      <BrushLayer Name="DefaultFill" Sprite="mission_health_bar_fill_9" HueFactor="-47" />
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" />
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="Mission.MainAgentHUD.HeroMagicBar.FillChange">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="mission_health_bar_fill_damage_9" Color="#FBB1B1FF" SaturationFactor="-65" ValueFactor="50" />
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" />
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="Mission.MainAgentHUD.HeroMagicBar.FillGlow">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="General\Mission\health_bar_fill_glow" />
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" />
+      </Style>
+    </Styles>
+  </Brush>
+</Brushes>
