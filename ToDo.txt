@@ -1,0 +1,1 @@
+﻿WeaponComponentData -> RelevantSkill -> check all uses and update for spells

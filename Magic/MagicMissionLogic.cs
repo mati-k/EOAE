@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Extensions;
+using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View.MissionViews;
+
+namespace EOAE_Code.Magic
+{
+    public class MagicMissionLogic : MissionLogic
+    {
+        public static Dictionary<Agent, float> CurrentMana = new Dictionary<Agent, float>();
+
+        public override void AfterStart()
+        {
+            base.AfterStart();
+            CurrentMana.Clear();
+        }
+
+        public override void OnAgentBuild(Agent agent, Banner banner)
+        {
+            base.OnAgentBuild(agent, banner);
+            CurrentMana.Add(agent, 100);
+        }
+
+        public override void OnAgentDeleted(Agent affectedAgent)
+        {
+            base.OnAgentDeleted(affectedAgent);
+
+            if (CurrentMana.ContainsKey(affectedAgent))
+            {
+                CurrentMana.Remove(affectedAgent);
+            }
+        }
+
+        public override void OnMissionTick(float dt)
+        {
+            base.OnMissionTick(dt);
+
+            foreach (Agent agent in this.Mission.Agents)
+            {
+                if (CurrentMana.ContainsKey(agent))
+                {
+                    CurrentMana[agent] = Math.Min(CurrentMana[agent] + dt, 100f);
+                }
+            }
+        }
+    }
+}

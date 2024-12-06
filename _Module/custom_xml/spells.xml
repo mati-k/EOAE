@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfSpellModel>
+  <SpellModel
+        Name="fireball"
+        ItemName="fireball"
+        School="Destruction"
+        Cost="25"
+    />
+</ArrayOfSpellModel>

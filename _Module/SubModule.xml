@@ -17,6 +17,7 @@
     <DependedModule Id="CustomBattle" />
     <DependedModule Id="Echoes of an Empire" />
     <DependedModule Id="Echoes of an Empire - Map" />
+    <DependedModule Id="Echoes of an Empire - Magic" />
   </DependedModules>
   <!-- Community Dependency Metadata -->
   <!-- https://github.com/BUTR/Bannerlord.BLSE#community-dependency-metadata -->
@@ -29,6 +30,7 @@
     <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" />
     <DependedModuleMetadata id="Echoes of an Empire" order="LoadBeforeThis" />
     <DependedModuleMetadata id="Echoes of an Empire - Map" order="LoadBeforeThis" />
+    <DependedModuleMetadata id="Echoes of an Empire - Magic" order="LoadBeforeThis" />
   </DependedModuleMetadatas>
   <!-- Community Dependency Metadata -->
   <SubModules>

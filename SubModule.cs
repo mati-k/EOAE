@@ -22,7 +22,9 @@ namespace EOAE_Code
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
+        
             SettlementUniqueMilitiaLoader.LoadSettlements();
+            SpellLoader.LoadSpells();
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
@@ -53,6 +55,7 @@ namespace EOAE_Code
         {
             base.OnMissionBehaviorInitialize(mission);
 
+            mission.AddMissionBehavior(new MagicMissionLogic());
             mission.AddMissionBehavior(new MagicMissionView());
         }
     }
