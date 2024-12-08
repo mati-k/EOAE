@@ -69,7 +69,15 @@ namespace EOAE_Code.Magic
                         }
                         else
                         {
-                            InformationManager.DisplayMessage(new InformationMessage("Not enough mana."));
+                            if (shooterAgent.IsPlayerControlled)
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("Not enough mana."));
+                            }
+                            else
+                            {
+                                shooterAgent.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire);
+                            }
+
                             return false;
                         }
                     }

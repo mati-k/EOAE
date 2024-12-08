@@ -35,6 +35,11 @@ namespace EOAE_Code.Magic
             return spellWeapons.ContainsKey(weaponComponentData);
         }
 
+        public static SpellModel GetSpellFromItem(string itemName)
+        {
+            return spells[itemName];
+        }
+
         public static SpellModel GetSpellFromWeapon(WeaponComponentData weaponComponentData)
         {
             return spells[spellWeapons[weaponComponentData].StringId];
