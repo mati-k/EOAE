@@ -28,6 +28,19 @@ namespace EOAE_Code.Magic
         }
 
         [HarmonyPrefix]
+        [HarmonyPatch(typeof(ItemObject), nameof(WeaponComponentData.RelevantSkill), MethodType.Getter)]
+        public static bool PatchMagicSkillForWeapon(ItemObject __instance, ref SkillObject __result)
+        {
+            if (SpellLoader.IsSpell(__instance.StringId))
+            {
+                __result = Skills.Instance.Destruction;
+                return false;
+            }
+
+            return true;
+        }
+
+        [HarmonyPrefix]
         [HarmonyPatch(typeof(WeaponComponentData), nameof(WeaponComponentData.RelevantSkill), MethodType.Getter)]
         public static bool PatchMagicSkillForWeapon(WeaponComponentData __instance, ref SkillObject __result)
         {
