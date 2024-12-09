@@ -5,12 +5,16 @@ using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
 using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Magic
@@ -51,6 +55,37 @@ namespace EOAE_Code.Magic
             }
 
             return true;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(MissionMainAgentEquipmentControllerVM), "GetItemTypeAsString")]
+        public static bool GetItemTypeAsStringPrefix(ItemObject item, ref string __result)
+        {
+            if (SpellLoader.IsSpell(item.StringId))
+            {
+                __result = "Spell";
+                return false;
+            }
+
+            return true;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(ItemMenuVM), "SetWeaponComponentTooltip")]
+        public static void ChangeWeaponClassText(in EquipmentElement targetWeapon, int targetWeaponUsageIndex, EquipmentElement comparedWeapon, int comparedWeaponUsageIndex, bool isInit, ItemMenuVM __instance, TextObject ____classText)
+        {
+            if (targetWeapon.Item != null && SpellLoader.IsSpell(targetWeapon.Item.StringId))
+            {
+                ItemMenuTooltipPropertyVM property = __instance.TargetItemProperties.Where(property => property.DefinitionLabel == ____classText.ToString()).First();
+                property.ValueLabel = "Spell";
+            }
+
+            if (comparedWeapon.Item != null && SpellLoader.IsSpell(comparedWeapon.Item.StringId))
+            {
+                WeaponComponentData weaponWithUsageIndex = targetWeapon.Item.GetWeaponWithUsageIndex(targetWeaponUsageIndex);
+                ItemMenuTooltipPropertyVM property = __instance.ComparedItemProperties.Where(property => property.ValueLabel == GameTexts.FindText("str_inventory_weapon", ((int)weaponWithUsageIndex.WeaponClass).ToString()).ToString()).First();
+                property.ValueLabel = "Spell";
+            }
         }
 
         [HarmonyPatch(typeof(Mission))]
