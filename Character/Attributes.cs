@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace EOAE_Code.Magic
+namespace EOAE_Code.Character
 {
     public class Attributes
     {
@@ -23,8 +23,8 @@ namespace EOAE_Code.Magic
                 return _instance;
             }
         }
-            
-        public CharacterAttribute Magic {  get; private set; }
+
+        public CharacterAttribute Magic { get; private set; }
 
         public void Initialize()
         {

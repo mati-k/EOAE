@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ArrayOfSettlementUniqueMilitiaModel>
+<ArrayOfSettlementUniqueMilitiaDataXml>
 	<SettlementUniqueMilitiaModel
         SettlementId="town_EW6"
         MeleeMilitiaId="sword_sisters_sister_t3"
@@ -7,4 +7,4 @@
         RangedMilitiaId = "sword_sisters_sister_t4"
         RangedEliteMilitiaId = "sword_sisters_sister_t5"
     />
-</ArrayOfSettlementUniqueMilitiaModel>
+</ArrayOfSettlementUniqueMilitiaDataXml>

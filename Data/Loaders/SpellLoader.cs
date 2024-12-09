@@ -1,18 +1,15 @@
-﻿using System;
+﻿using EOAE_Code.Data.Xml;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TaleWorlds.Core;
 using TaleWorlds.ModuleManager;
 
-namespace EOAE_Code.Magic
+namespace EOAE_Code.Data.Loaders
 {
     public static class SpellLoader
     {
-        private static Dictionary<string, SpellModel> spells = new Dictionary<string, SpellModel>();
+        private static Dictionary<string, SpellDataXml> spells = new Dictionary<string, SpellDataXml>();
         private static Dictionary<WeaponComponentData, ItemObject> spellWeapons = new Dictionary<WeaponComponentData, ItemObject>();
 
         private static string spellFile = "spells.xml";
@@ -35,26 +32,26 @@ namespace EOAE_Code.Magic
             return spellWeapons.ContainsKey(weaponComponentData);
         }
 
-        public static SpellModel GetSpellFromItem(string itemName)
+        public static SpellDataXml GetSpellFromItem(string itemName)
         {
             return spells[itemName];
         }
 
-        public static SpellModel GetSpellFromWeapon(WeaponComponentData weaponComponentData)
+        public static SpellDataXml GetSpellFromWeapon(WeaponComponentData weaponComponentData)
         {
             return spells[spellWeapons[weaponComponentData].StringId];
         }
 
         public static void LoadSpells()
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<SpellModel>));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<SpellDataXml>));
             string path = ModuleHelper.GetModuleFullPath("EOAE_Code") + "custom_xml/" + spellFile;
             if (File.Exists(path))
             {
-                List<SpellModel> loadedSpells = xmlSerializer.Deserialize(File.OpenRead(path)) as List<SpellModel> ?? new List<SpellModel>();
-                foreach (SpellModel spell in loadedSpells)
+                List<SpellDataXml> loadedSpells = xmlSerializer.Deserialize(File.OpenRead(path)) as List<SpellDataXml> ?? new List<SpellDataXml>();
+                foreach (SpellDataXml spell in loadedSpells)
                 {
-                    SpellLoader.spells.Add(spell.ItemName, spell);
+                    spells.Add(spell.ItemName, spell);
                 }
             }
         }

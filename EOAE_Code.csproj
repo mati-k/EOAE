@@ -70,6 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Parsed\" />
     <Folder Include="Extensions\" />
     <Folder Include="Patches\" />
   </ItemGroup>

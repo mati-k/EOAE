@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using EOAE_Code.Character;
+using EOAE_Code.Data.Loaders;
+using HarmonyLib;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
@@ -14,16 +16,8 @@ using TaleWorlds.ObjectSystem;
 namespace EOAE_Code.Magic
 {
     [HarmonyPatch]
-    public static class SkillPatch
+    public static class SpellCastPatch
     {
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(Game), "InitializeDefaultGameObjects")]
-        public static void LoadSkills()
-        {
-            Attributes.Instance.Initialize();
-            Skills.Instance.Initialize();
-        }
-
         [HarmonyPostfix]
         [HarmonyPatch(typeof(WeaponComponentData))]
         [HarmonyPatch(MethodType.Constructor)]

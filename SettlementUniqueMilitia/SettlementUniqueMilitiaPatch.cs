@@ -1,11 +1,9 @@
-﻿using EOAE_Code.Extensions;
+﻿using EOAE_Code.Data.Xml;
+using EOAE_Code.Extensions;
 using HarmonyLib;
 using SandBox.CampaignBehaviors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
@@ -21,7 +19,7 @@ namespace EOAE_Code.SettlementUniqueMilitia
         [HarmonyPatch(typeof(Settlement), "AddMilitiasToParty")]
         public static bool AddMilitiasToPartyOverride(MobileParty militaParty, int militiaToAdd, Settlement __instance)
         {
-            SettlementUniqueMilitiaModel settlementUniqueMilitia = __instance.GetSettlementUniqueMilitia();
+            SettlementUniqueMilitiaDataXml settlementUniqueMilitia = __instance.GetSettlementUniqueMilitia();
             // Use culture militia if settlement got no custom defined
             if (settlementUniqueMilitia == null)
             {

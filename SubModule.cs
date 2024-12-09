@@ -1,6 +1,6 @@
 ﻿using EOAE_Code.BaseGameFixes;
+using EOAE_Code.Data.Loaders;
 using EOAE_Code.Magic;
-using EOAE_Code.SettlementUniqueMilitia;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;

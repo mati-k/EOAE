@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace EOAE_Code.SettlementUniqueMilitia
+namespace EOAE_Code.Data.Xml
 {
     [Serializable]
-    public class SettlementUniqueMilitiaModel
+    public class SettlementUniqueMilitiaDataXml
     {
         [XmlAttribute]
         public string SettlementId = "";
