@@ -3,16 +3,16 @@ using TaleWorlds.Localization;
 
 namespace EOAE_Code.Character
 {
-    public class Skills
+    public class CustomSkills
     {
-        private static Skills _instance;
-        public static Skills Instance
+        private static CustomSkills _instance;
+        public static CustomSkills Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new Skills();
+                    _instance = new CustomSkills();
                 }
 
                 return _instance;

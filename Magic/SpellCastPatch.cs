@@ -37,7 +37,7 @@ namespace EOAE_Code.Magic
         {
             if (SpellLoader.IsSpell(__instance.StringId))
             {
-                __result = Skills.Instance.Destruction;
+                __result = SpellLoader.GetSpellFromItem(__instance.StringId).School;
                 return false;
             }
 
@@ -50,7 +50,7 @@ namespace EOAE_Code.Magic
         {
             if (SpellLoader.IsWeaponSpell(__instance))
             {
-                __result = Skills.Instance.Destruction;
+                __result = CustomSkills.Instance.Destruction;
                 return false;
             }
 

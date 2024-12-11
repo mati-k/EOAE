@@ -12,7 +12,7 @@ namespace EOAE_Code.Character
         public static void LoadSkills()
         {
             Attributes.Instance.Initialize();
-            Skills.Instance.Initialize();
+            CustomSkills.Instance.Initialize();
         }
     }
 }
