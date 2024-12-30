@@ -1,20 +1,18 @@
 ﻿using EOAE_Code.Data.Xml;
+using EOAE_Code.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using TaleWorlds.Core;
-using TaleWorlds.ModuleManager;
 
-namespace EOAE_Code.Data.Loaders
+namespace EOAE_Code.Data.Managers
 {
-    public static class SpellLoader
+    public class SpellManager : IDataManager<SpellDataXml>
     {
-        
         private static Dictionary<string, SpellDataXml> spells = new Dictionary<string, SpellDataXml>();
         private static Dictionary<WeaponComponentData, ItemObject> spellWeapons = new Dictionary<WeaponComponentData, ItemObject>();
-
-        private static string spellFile = "spells.xml";
 
         public static bool IsSpell(string itemName)
         {
@@ -54,18 +52,9 @@ namespace EOAE_Code.Data.Loaders
             return spells.Values.ToList()[index];
         }
 
-        public static void LoadSpells()
+        public void Add(SpellDataXml item)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<SpellDataXml>));
-            string path = ModuleHelper.GetModuleFullPath("EOAE_Code") + "custom_xml/" + spellFile;
-            if (File.Exists(path))
-            {
-                List<SpellDataXml> loadedSpells = xmlSerializer.Deserialize(File.OpenRead(path)) as List<SpellDataXml> ?? new List<SpellDataXml>();
-                foreach (SpellDataXml spell in loadedSpells)
-                {
-                    spells.Add(spell.ItemName, spell);
-                }
-            }
+            spells.Add(item.Name, item);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace EOAE_Code.Extensions
     {
         public static SettlementUniqueMilitiaDataXml GetSettlementUniqueMilitia(this Settlement settlement)
         {
-            return SettlementUniqueMilitiaLoader.GetSettlementUniqueMilitia(settlement.StringId);
+            return SettlementUniqueMilitiaManager.GetSettlementUniqueMilitia(settlement.StringId);
         }
 
     }

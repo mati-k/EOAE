@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace EOAE_Code.Magic
             {
                 AgentMagic = (int)MagicMissionLogic.CurrentMana[Agent.Main];
                 
-                SpellDataXml spell = SpellLoader.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
+                SpellDataXml spell = SpellManager.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
                 SpellInfo = $"{spell.Name} ({spell.Cost})";
             }
         }

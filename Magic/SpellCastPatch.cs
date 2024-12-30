@@ -1,5 +1,6 @@
 ﻿using EOAE_Code.Character;
 using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -29,16 +30,16 @@ namespace EOAE_Code.Magic
         [HarmonyPatch(new Type[] { typeof(ItemObject), typeof(WeaponClass), typeof(WeaponFlags) })]
         public static void StoreSpellWeapon(ref ItemObject item, WeaponComponentData __instance)
         {
-            SpellLoader.AddWeaponSpell(item, __instance);
+            SpellManager.AddWeaponSpell(item, __instance);
         }
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(ItemObject), nameof(WeaponComponentData.RelevantSkill), MethodType.Getter)]
         public static bool PatchMagicSkillForWeapon(ItemObject __instance, ref SkillObject __result)
         {
-            if (SpellLoader.IsSpell(__instance.StringId))
+            if (SpellManager.IsSpell(__instance.StringId))
             {
-                __result = SpellLoader.GetSpellFromItem(__instance.StringId).School;
+                __result = SpellManager.GetSpellFromItem(__instance.StringId).School;
                 return false;
             }
 
@@ -49,7 +50,7 @@ namespace EOAE_Code.Magic
         [HarmonyPatch(typeof(WeaponComponentData), nameof(WeaponComponentData.RelevantSkill), MethodType.Getter)]
         public static bool PatchMagicSkillForWeapon(WeaponComponentData __instance, ref SkillObject __result)
         {
-            if (SpellLoader.IsWeaponSpell(__instance))
+            if (SpellManager.IsWeaponSpell(__instance))
             {
                 __result = CustomSkills.Instance.Destruction;
                 return false;
@@ -62,7 +63,7 @@ namespace EOAE_Code.Magic
         [HarmonyPatch(typeof(MissionMainAgentEquipmentControllerVM), "GetItemTypeAsString")]
         public static bool GetItemTypeAsStringPrefix(ItemObject item, ref string __result)
         {
-            if (SpellLoader.IsSpell(item.StringId))
+            if (SpellManager.IsSpell(item.StringId))
             {
                 __result = "Spell";
                 return false;
@@ -75,13 +76,13 @@ namespace EOAE_Code.Magic
         [HarmonyPatch(typeof(ItemMenuVM), "SetWeaponComponentTooltip")]
         public static void ChangeWeaponClassText(in EquipmentElement targetWeapon, int targetWeaponUsageIndex, EquipmentElement comparedWeapon, int comparedWeaponUsageIndex, bool isInit, ItemMenuVM __instance, TextObject ____classText)
         {
-            if (targetWeapon.Item != null && SpellLoader.IsSpell(targetWeapon.Item.StringId))
+            if (targetWeapon.Item != null && SpellManager.IsSpell(targetWeapon.Item.StringId))
             {
                 ItemMenuTooltipPropertyVM property = __instance.TargetItemProperties.Where(property => property.DefinitionLabel == ____classText.ToString()).First();
                 property.ValueLabel = "Spell";
             }
 
-            if (comparedWeapon.Item != null && SpellLoader.IsSpell(comparedWeapon.Item.StringId))
+            if (comparedWeapon.Item != null && SpellManager.IsSpell(comparedWeapon.Item.StringId))
             {
                 WeaponComponentData weaponWithUsageIndex = targetWeapon.Item.GetWeaponWithUsageIndex(targetWeaponUsageIndex);
                 ItemMenuTooltipPropertyVM property = __instance.ComparedItemProperties.Where(property => property.ValueLabel == GameTexts.FindText("str_inventory_weapon", ((int)weaponWithUsageIndex.WeaponClass).ToString()).ToString()).First();
@@ -98,13 +99,13 @@ namespace EOAE_Code.Magic
             private static bool Prefix(Agent shooterAgent, EquipmentIndex weaponIndex)
             {
                 MissionWeapon missionWeapon = shooterAgent.Equipment[weaponIndex];
-                if (SpellLoader.IsWeaponSpell(missionWeapon.CurrentUsageItem))
+                if (SpellManager.IsWeaponSpell(missionWeapon.CurrentUsageItem))
                 {
                     shooterAgent.SetWeaponAmountInSlot(weaponIndex, 1+1, true);
                  
                     if (MagicMissionLogic.CurrentMana.ContainsKey(shooterAgent))
                     {
-                        SpellDataXml spell = SpellLoader.GetSpellFromWeapon(missionWeapon.CurrentUsageItem);
+                        SpellDataXml spell = SpellManager.GetSpellFromWeapon(missionWeapon.CurrentUsageItem);
                         int spellCost = spell.Cost;
 
                         if (MagicMissionLogic.CurrentMana[shooterAgent] >= spellCost)

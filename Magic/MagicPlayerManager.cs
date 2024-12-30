@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace EOAE_Code.Magic
 
         public static void SwitchPlayerSpell(int change)
         {
-            currentSpellIndex = (currentSpellIndex + change + SpellLoader.GetSpellCount()) % SpellLoader.GetSpellCount();
+            currentSpellIndex = (currentSpellIndex + change + SpellManager.GetSpellCount()) % SpellManager.GetSpellCount();
         }
 
         public static int GetPlayerSpellIndex()

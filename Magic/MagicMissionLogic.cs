@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,9 +61,9 @@ namespace EOAE_Code.Magic
                             }
 
                             string itemId = agent.Equipment[i].Item.StringId;
-                            if (SpellLoader.IsSpell(itemId))
+                            if (SpellManager.IsSpell(itemId))
                             {
-                                manaCost = SpellLoader.GetSpellFromItem(itemId).Cost;
+                                manaCost = SpellManager.GetSpellFromItem(itemId).Cost;
                                 break;
                             }
                         }
