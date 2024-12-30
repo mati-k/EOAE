@@ -47,6 +47,8 @@
             <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroHealthBar.Icon.Width" SuggestedHeight="!Mission.MainAgentHUD.HeroHealthBar.Icon.Height" VerticalAlignment="Center" HorizontalAlignment="Left" PositionXOffset="-36" MarginBottom="15" Sprite="General\Mission\hero_icon"/>
           </Children>
         </AgentHealthWidget>
+
+        <TextWidget Text="@SpellInfo" HorizontalAlignment="Left" VerticalAlignment="Bottom" WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" MarginBottom="16" MarginLeft="16" DoNotAcceptEvents="true"/>
       </Children>
     </Widget>
   </Window>

@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
+using SandBox.BoardGames.AI;
+using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Xml;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.MountAndBlade;
+using TaleWorlds.Core;
 
 namespace EOAE_Code.Magic
 {
@@ -31,8 +37,35 @@ namespace EOAE_Code.Magic
 
             if (magicHUD != null)
             {
+                if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.Q))
+                {
+                    MagicPlayerManager.SwitchPlayerSpell(-1);
+                }
+
+                if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.E))
+                {
+                    MagicPlayerManager.SwitchPlayerSpell(1);
+                }
+
+                if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.F))
+                {
+                    EquipCurrentSpell();
+                }
+
                 magicHUD.Tick();
             }
+        }
+
+        private void EquipCurrentSpell()
+        {
+            Agent player = Mission.MainAgent;
+
+            SpellDataXml spell = SpellLoader.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
+            ItemObject spellObject = Game.Current.ObjectManager.GetObject<ItemObject>(spell.ItemName);
+            MissionWeapon spellWeapon = new MissionWeapon(spellObject, null, null);
+
+            player.EquipWeaponWithNewEntity(EquipmentIndex.ExtraWeaponSlot, ref spellWeapon);
+            player.TryToWieldWeaponInSlot(EquipmentIndex.ExtraWeaponSlot, Agent.WeaponWieldActionType.Instant, false);
         }
     }
 }

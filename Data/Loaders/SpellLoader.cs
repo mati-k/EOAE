@@ -1,6 +1,7 @@
 ﻿using EOAE_Code.Data.Xml;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using TaleWorlds.Core;
 using TaleWorlds.ModuleManager;
@@ -9,6 +10,7 @@ namespace EOAE_Code.Data.Loaders
 {
     public static class SpellLoader
     {
+        
         private static Dictionary<string, SpellDataXml> spells = new Dictionary<string, SpellDataXml>();
         private static Dictionary<WeaponComponentData, ItemObject> spellWeapons = new Dictionary<WeaponComponentData, ItemObject>();
 
@@ -40,6 +42,16 @@ namespace EOAE_Code.Data.Loaders
         public static SpellDataXml GetSpellFromWeapon(WeaponComponentData weaponComponentData)
         {
             return spells[spellWeapons[weaponComponentData].StringId];
+        }
+
+        public static int GetSpellCount()
+        {
+            return spells.Count;
+        }
+
+        public static SpellDataXml GetSpell(int index)
+        {
+            return spells.Values.ToList()[index];
         }
 
         public static void LoadSpells()

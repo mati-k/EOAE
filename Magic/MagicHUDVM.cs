@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +29,22 @@ namespace EOAE_Code.Magic
                 }
             } 
         }
+        
+        private string _spellInfo;
+        [DataSourceProperty]
+        public string SpellInfo
+        {
+            get { return _spellInfo; }
+            set
+            {
+                if (_spellInfo != value)
+                {
+                    _spellInfo = value;
+                    base.OnPropertyChangedWithValue(value, "SpellInfo");
+                }
+            }
+        }
+
         [DataSourceProperty]
         public int AgentMagicMax { get { return 100; } }
         [DataSourceProperty]
@@ -43,6 +61,9 @@ namespace EOAE_Code.Magic
             if (Agent.Main != null && MagicMissionLogic.CurrentMana.ContainsKey(Agent.Main))
             {
                 AgentMagic = (int)MagicMissionLogic.CurrentMana[Agent.Main];
+                
+                SpellDataXml spell = SpellLoader.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
+                SpellInfo = $"{spell.Name} ({spell.Cost})";
             }
         }
     }

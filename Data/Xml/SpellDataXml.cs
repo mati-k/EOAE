@@ -16,6 +16,12 @@ namespace EOAE_Code.Data.Xml
         public string SchoolName = "";
         [XmlAttribute]
         public int Cost = 0;
+        [XmlAttribute]
+        public string Effect = "";
+        [XmlAttribute]
+        public float EffecValue = 0;
+        [XmlAttribute]
+        public float Range = 0;
 
         [XmlIgnore]
         public SkillObject School

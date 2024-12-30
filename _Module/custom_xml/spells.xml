@@ -1,9 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfSpellDataXml>
   <SpellDataXml
-        Name="fireball"
+        Name="Fireball"
         ItemName="fireball"
         School="Destruction"
         Cost="25"
+        Effect="Throw"
+    />
+  <SpellDataXml
+      Name="Heal"
+      ItemName="blueFlame"
+      School="Restoration"
+      Cost="25"
+      Effect="HealSelf"
+      EffecValue="50"
+    />
+  <SpellDataXml
+      Name="Group Heal"
+      ItemName="bloodFlame"
+      School="Restoration"
+      Cost="25"
+      Effect="HealGroup"
+      Range="15"
+      EffecValue="25"
     />
 </ArrayOfSpellDataXml>

@@ -1,5 +1,6 @@
 ﻿using EOAE_Code.Character;
 using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Xml;
 using HarmonyLib;
 using JetBrains.Annotations;
 using System;
@@ -103,12 +104,24 @@ namespace EOAE_Code.Magic
                  
                     if (MagicMissionLogic.CurrentMana.ContainsKey(shooterAgent))
                     {
-                        int spellCost = SpellLoader.GetSpellFromWeapon(missionWeapon.CurrentUsageItem).Cost;
+                        SpellDataXml spell = SpellLoader.GetSpellFromWeapon(missionWeapon.CurrentUsageItem);
+                        int spellCost = spell.Cost;
 
                         if (MagicMissionLogic.CurrentMana[shooterAgent] >= spellCost)
                         {
                             MagicMissionLogic.CurrentMana[shooterAgent] -= spellCost;
+
+                            if (spell.Effect != "Throw")
+                            {
+                                if (spell.Effect == "HealSelf")
+                                {
+                                    shooterAgent.Health += Math.Min(shooterAgent.Health + spell.EffecValue, shooterAgent.HealthLimit);
+                                }
+
+                                return false;
+                            }
                         }
+
                         else
                         {
                             if (shooterAgent.IsPlayerControlled)
