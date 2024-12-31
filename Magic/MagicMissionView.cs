@@ -13,6 +13,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.Core;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Magic.Spells;
 
 namespace EOAE_Code.Magic
 {
@@ -61,7 +62,7 @@ namespace EOAE_Code.Magic
         {
             Agent player = Mission.MainAgent;
 
-            SpellDataXml spell = SpellManager.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
+            Spell spell = SpellManager.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
             ItemObject spellObject = Game.Current.ObjectManager.GetObject<ItemObject>(spell.ItemName);
             MissionWeapon spellWeapon = new MissionWeapon(spellObject, null, null);
 
