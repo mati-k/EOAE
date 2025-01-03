@@ -1,4 +1,5 @@
-﻿using EOAE_Code.Data.Loaders;
+﻿using EOAE_Code.AI;
+using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace EOAE_Code.Magic
         {
             base.OnAgentBuild(agent, banner);
             CurrentMana.Add(agent, 100);
+
+            // If is caster
+            agent.AddComponent(new AICastingComponent(agent));
         }
 
         public override void OnAgentDeleted(Agent affectedAgent)

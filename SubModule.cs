@@ -25,7 +25,7 @@ namespace EOAE_Code
         {
             base.OnSubModuleLoad();
 
-            XmlDataLoader.LoadXmlData<SettlementUniqueMilitiaDataXml, SettlementUniqueMilitiaManager>("spells.xml");
+            XmlDataLoader.LoadXmlData<SettlementUniqueMilitiaDataXml, SettlementUniqueMilitiaManager>("custom_militia.xml");
             XmlDataLoader.LoadXmlData<SpellDataXml, SpellManager>("spells.xml");
 
             TradeBoundPatch.Apply(Harmony);

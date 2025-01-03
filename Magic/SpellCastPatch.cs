@@ -97,13 +97,11 @@ namespace EOAE_Code.Magic
         [MBCallback]
         private class OverrideOnAgentShootMissile
         {
-            private static bool Prefix(Agent shooterAgent, EquipmentIndex weaponIndex)
+            private static bool Prefix(Agent shooterAgent, EquipmentIndex weaponIndex, bool hasRigidBody)
             {
                 MissionWeapon missionWeapon = shooterAgent.Equipment[weaponIndex];
                 if (SpellManager.IsWeaponSpell(missionWeapon.CurrentUsageItem))
                 {
-                    shooterAgent.SetWeaponAmountInSlot(weaponIndex, 1+1, true);
-                 
                     if (MagicMissionLogic.CurrentMana.ContainsKey(shooterAgent))
                     {
                         Spell spell = SpellManager.GetSpellFromWeapon(missionWeapon.CurrentUsageItem);
@@ -111,6 +109,12 @@ namespace EOAE_Code.Magic
                         if (MagicMissionLogic.CurrentMana[shooterAgent] >= spell.Cost)
                         {
                             MagicMissionLogic.CurrentMana[shooterAgent] -= spell.Cost;
+
+                            if (shooterAgent.IsPlayerControlled || MagicMissionLogic.CurrentMana[shooterAgent] >= spell.Cost)
+                            {
+                                // Restock for player or AI with enough mana to keep firing without interruption
+                                shooterAgent.SetWeaponAmountInSlot(weaponIndex, 1 + 1, true);
+                            }
 
                             if (!spell.IsThrown)
                             {
@@ -120,16 +124,10 @@ namespace EOAE_Code.Magic
                             }
                         }
 
-                        else
+                        else if (shooterAgent.IsPlayerControlled)
                         {
-                            if (shooterAgent.IsPlayerControlled)
-                            {
-                                InformationManager.DisplayMessage(new InformationMessage("Not enough mana."));
-                            }
-                            else
-                            {
-                                shooterAgent.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.HoldYourFire);
-                            }
+                            InformationManager.DisplayMessage(new InformationMessage("Not enough mana."));
+                            shooterAgent.SetWeaponAmountInSlot(weaponIndex, 1 + 1, true);
 
                             return false;
                         }
@@ -139,6 +137,20 @@ namespace EOAE_Code.Magic
 
                 return true;
             }
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Agent), "DropItem")]
+        public static bool AgentDropItemPrefix(EquipmentIndex itemIndex, WeaponClass pickedUpItemType, Agent __instance)
+        {
+            // Prevent from spells being droped on ground and costing mana
+            if (itemIndex == EquipmentIndex.ExtraWeaponSlot && SpellManager.IsWeaponSpell(__instance.Equipment[itemIndex].CurrentUsageItem))
+            {
+                __instance.RemoveEquippedWeapon(itemIndex);
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -68,7 +68,7 @@ namespace EOAE_Code.Data.Managers
                     spell = new MissileSpell(item); break;
             }
 
-            spells.Add(item.Name, spell);
+            spells.Add(item.ItemName, spell);
         }
     }
 }
