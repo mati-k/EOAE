@@ -18,7 +18,11 @@ namespace EOAE_Code.AI
         private const float SPELLCASTING_DELAY = 2.5f;
         private float timeSinceLastCast = 0;
 
+        private EquipmentIndex equipmentIndex = EquipmentIndex.ExtraWeaponSlot;
+        private bool isSlotSetupDone = false;
+
         private Spell spell;
+
 
         public AICastingComponent(Agent agent) : base(agent)
         {
@@ -36,26 +40,53 @@ namespace EOAE_Code.AI
             }
         }
 
-        public void RunSpellcastingLogic()
+        // Try to use unused slot for spells instead of extra one. Allows AI to keep spells / switch to them in regular way (mainly for basic thrower unit)
+        private void SetupSpellSlot()
+        {
+            if (!isSlotSetupDone)
+            {
+                for (int slot = 0; slot < (int)EquipmentIndex.NumPrimaryWeaponSlots; slot++)
+                {
+                    if (this.Agent.Equipment[slot].Item == null)
+                    {
+                        equipmentIndex = (EquipmentIndex)slot;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void RunSpellcastingLogic()
         {
             if (Agent.Equipment == null)
             {
                 return;
             }
 
+            SetupSpellSlot();
+
             // If is already using spell, don't interrupt
-            if (Agent.GetWieldedItemIndex(Agent.HandIndex.MainHand) == EquipmentIndex.ExtraWeaponSlot)
+            if (Agent.GetWieldedItemIndex(Agent.HandIndex.MainHand) == equipmentIndex)
             {
                 return;
             }
 
             if (MagicMissionLogic.CurrentMana[Agent] >= spell.Cost)
             {
-                ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName);
-                MissionWeapon spawnedSpell = new MissionWeapon(spellObject, null, null, 1);
-                
-                Agent.EquipWeaponWithNewEntity(EquipmentIndex.ExtraWeaponSlot, ref spawnedSpell);
-                Agent.TryToWieldWeaponInSlot(EquipmentIndex.ExtraWeaponSlot, Agent.WeaponWieldActionType.Instant, false);
+
+                if (Agent.Equipment[equipmentIndex].Item == null || Agent.Equipment[equipmentIndex].Item.StringId != spell.ItemName)
+                {
+                    ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName);
+                    MissionWeapon spawnedSpell = new MissionWeapon(spellObject, null, null, 1);
+
+                    Agent.EquipWeaponWithNewEntity(equipmentIndex, ref spawnedSpell);
+                }
+
+                // If it's regular thrown spell and has free slot, there is no need to manually wield spell
+                if (!spell.IsThrown || equipmentIndex == EquipmentIndex.ExtraWeaponSlot)
+                {
+                    Agent.TryToWieldWeaponInSlot(EquipmentIndex.ExtraWeaponSlot, Agent.WeaponWieldActionType.Instant, false);
+                }
             }
         }
     }
