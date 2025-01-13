@@ -24,4 +24,18 @@
       Range="15"
       EffecValue="25"
     />
+    <SpellDataXml
+      Name="Summon"
+      ItemName="arcanesparks"
+      School="Conjuration"
+      Cost="25"
+      Effect="Summon"
+      Range="15"
+    >
+      <SummonSpellData
+        AgentName="sword_sisters_sister_infantry_t5"
+        Duration="15"
+        Amount="3"
+      />
+    </SpellDataXml>
 </ArrayOfSpellDataXml>

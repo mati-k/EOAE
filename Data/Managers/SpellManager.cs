@@ -13,14 +13,18 @@ namespace EOAE_Code.Data.Managers
     public class SpellManager : IDataManager<SpellDataXml>
     {
         private static Dictionary<string, Spell> spells = new Dictionary<string, Spell>();
-        private static Dictionary<WeaponComponentData, ItemObject> spellWeapons = new Dictionary<WeaponComponentData, ItemObject>();
+        private static Dictionary<WeaponComponentData, ItemObject> spellWeapons =
+            new Dictionary<WeaponComponentData, ItemObject>();
 
         public static bool IsSpell(string itemName)
         {
             return spells.ContainsKey(itemName);
         }
 
-        public static void AddWeaponSpell(ItemObject itemObject, WeaponComponentData weaponComponentData)
+        public static void AddWeaponSpell(
+            ItemObject itemObject,
+            WeaponComponentData weaponComponentData
+        )
         {
             if (spells.ContainsKey(itemObject.StringId))
             {
@@ -59,13 +63,20 @@ namespace EOAE_Code.Data.Managers
             switch (item.Effect)
             {
                 case "Throw":
-                    spell = new MissileSpell(item); break;
+                    spell = new MissileSpell(item);
+                    break;
                 case "HealSelf":
-                    spell = new HealSelfSpell(item); break;
+                    spell = new HealSelfSpell(item);
+                    break;
                 case "HealGroup":
-                    spell = new HealGroupSpell(item); break;
+                    spell = new HealGroupSpell(item);
+                    break;
+                case "Summon":
+                    spell = new SummonSpell(item);
+                    break;
                 default:
-                    spell = new MissileSpell(item); break;
+                    spell = new MissileSpell(item);
+                    break;
             }
 
             spells.Add(item.ItemName, spell);
