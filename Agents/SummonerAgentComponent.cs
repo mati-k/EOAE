@@ -66,5 +66,7 @@ public class SummonerAgentComponent : AgentComponent
                 summonedAgentComponent.Die();
             }
         }
+
+        _summonedAgents.Clear();
     }
 }
