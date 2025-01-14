@@ -1,6 +1,6 @@
-﻿using EOAE_Code.Character;
-using System;
+﻿using System;
 using System.Xml.Serialization;
+using EOAE_Code.Character;
 using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Xml
@@ -10,18 +10,27 @@ namespace EOAE_Code.Data.Xml
     {
         [XmlAttribute]
         public string Name = "";
+
         [XmlAttribute]
         public string ItemName = "";
+
         [XmlAttribute("School")]
         public string SchoolName = "";
+
         [XmlAttribute]
         public int Cost = 0;
+
         [XmlAttribute]
         public string Effect = "";
+
         [XmlAttribute]
         public float EffecValue = 0;
+
         [XmlAttribute]
         public float Range = 0;
+
+        [XmlElement]
+        public SummonSpellData? SummonSpellData = null;
 
         [XmlIgnore]
         public SkillObject School
