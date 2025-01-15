@@ -31,6 +31,6 @@ public class SummonSpell : Spell
             caster.AddComponent(summonerComponent);
         }
 
-        summonerComponent.Summon(caster, _data);
+        summonerComponent.Summon(caster, GetAimedPosition(caster), _data);
     }
 }
