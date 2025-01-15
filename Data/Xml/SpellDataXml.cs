@@ -29,6 +29,15 @@ namespace EOAE_Code.Data.Xml
         [XmlAttribute]
         public float Range = 0;
 
+        [XmlAttribute]
+        public float AreaRange = 0;
+
+        [XmlAttribute]
+        public bool AreaAim = false;
+
+        [XmlAttribute]
+        public string AreaAimPrefab = "";
+
         [XmlElement]
         public SummonSpellData? SummonSpellData = null;
 

@@ -16,17 +16,17 @@ public class SummonerAgentComponent : AgentComponent
     public SummonerAgentComponent(Agent agent)
         : base(agent) { }
 
-    public void Summon(Agent caster, SummonSpellData data)
+    public void Summon(Agent caster, Vec3 position, SummonSpellData data)
     {
         ClearSummons();
 
         for (var i = 0; i < data.Amount; i++)
         {
-            SummonAgent(caster, data);
+            SummonAgent(caster, position, data);
         }
     }
 
-    private void SummonAgent(Agent caster, SummonSpellData data)
+    private void SummonAgent(Agent caster, Vec3 position, SummonSpellData data)
     {
         var character = MBObjectManager.Instance.GetObject<CharacterObject>(data.AgentName);
         var agent = Mission.Current.SpawnTroop(
@@ -40,7 +40,7 @@ public class SummonerAgentComponent : AgentComponent
             true,
             true,
             true,
-            caster.Position + caster.GetMovementDirection().ToVec3(1) * 3,
+            position,
             caster.GetMovementDirection()
         );
 

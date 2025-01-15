@@ -31,6 +31,9 @@
       Cost="25"
       Effect="Summon"
       Range="15"
+      AreaRange="3"
+      AreaAim="true"
+      AreaAimPrefab="casting_circle_prefab"
     >
       <SummonSpellData
         AgentName="sword_sisters_sister_infantry_t5"
