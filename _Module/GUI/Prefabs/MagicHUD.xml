@@ -1,39 +1,70 @@
 ﻿<Prefab>
   <Constants>
-    <Constant Name="Mission.MainAgentHUD.HeroHealthBar.Icon.Width" BrushName="Mission.MainAgentHUD.HeroHealthBar.Icon" BrushLayer="Default" BrushValueType="Width"/>
-    <Constant Name="Mission.MainAgentHUD.HeroHealthBar.Icon.Height" BrushName="Mission.MainAgentHUD.HeroHealthBar.Icon" BrushLayer="Default" BrushValueType="Height"/>
-    
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Frame.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.Frame" BrushLayer="Default" BrushValueType="Width"/>
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Frame.Height" BrushName="Mission.MainAgentHUD.HeroMagicBar.Frame" BrushLayer="Default" BrushValueType="Height"/>
+    <Constant Name="Mission.MainAgentHUD.HeroHealthBar.Icon.Width" BrushName="Mission.MainAgentHUD.HeroHealthBar.Icon"
+              BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="Mission.MainAgentHUD.HeroHealthBar.Icon.Height" BrushName="Mission.MainAgentHUD.HeroHealthBar.Icon"
+              BrushLayer="Default" BrushValueType="Height"/>
 
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Canvas.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.Canvas" BrushLayer="Default" BrushValueType="Width" Additive="5"/>
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Canvas.Height" BrushName="Mission.MainAgentHUD.HeroMagicBar.Canvas" BrushLayer="Default" BrushValueType="Height"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Frame.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.Frame"
+              BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Frame.Height" BrushName="Mission.MainAgentHUD.HeroMagicBar.Frame"
+              BrushLayer="Default" BrushValueType="Height"/>
 
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Fill.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.Fill" BrushLayer="DefaultFill" BrushValueType="Width"/>
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Fill.Height" BrushName="Mission.MainAgentHUD.HeroMagicBar.Fill" BrushLayer="DefaultFill" BrushValueType="Height"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Canvas.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.Canvas"
+              BrushLayer="Default" BrushValueType="Width" Additive="5"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Canvas.Height"
+              BrushName="Mission.MainAgentHUD.HeroMagicBar.Canvas" BrushLayer="Default" BrushValueType="Height"/>
 
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.FillGlow.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.FillGlow" BrushLayer="Default" BrushValueType="Width"/>
-    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.FillGlow.Height" BrushName="Mission.MainAgentHUD.HeroMagicBar.FillGlow" BrushLayer="Default" BrushValueType="Height"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Fill.Width" BrushName="Mission.MainAgentHUD.HeroMagicBar.Fill"
+              BrushLayer="DefaultFill" BrushValueType="Width"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.Fill.Height" BrushName="Mission.MainAgentHUD.HeroMagicBar.Fill"
+              BrushLayer="DefaultFill" BrushValueType="Height"/>
+
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.FillGlow.Width"
+              BrushName="Mission.MainAgentHUD.HeroMagicBar.FillGlow" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="Mission.MainAgentHUD.HeroMagicBar.FillGlow.Height"
+              BrushName="Mission.MainAgentHUD.HeroMagicBar.FillGlow" BrushLayer="Default" BrushValueType="Height"/>
   </Constants>
-  
+
   <Window>
     <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
       <Children>
-        <AgentHealthWidget Id="HeroMagicWidget" Health="@AgentMagic" MaxHealth="@AgentMagicMax" HealthBar="Canvas\FillBar" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.Frame.Width" SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.Frame.Height" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="40" MarginRight="64" ShowHealthBar="@ShowMagicHealthBar" HealthDropContainer="Canvas\HealthDropContainer" HealthDropBrush="Mission.MainAgentHUD.HeroMagicBar.FillChange">
+        <AgentHealthWidget Id="HeroMagicWidget" Health="@AgentMagic" MaxHealth="@AgentMagicMax"
+                           HealthBar="Canvas\FillBar" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                           SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.Frame.Width"
+                           SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.Frame.Height" HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom" MarginBottom="40" MarginRight="64"
+                           ShowHealthBar="@ShowMagicHealthBar" HealthDropContainer="Canvas\HealthDropContainer"
+                           HealthDropBrush="Mission.MainAgentHUD.HeroMagicBar.FillChange">
           <Children>
-            <Widget Id="Canvas" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.Canvas.Width" SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.Canvas.Height" HorizontalAlignment="Left" VerticalAlignment="Center" Sprite="General\Mission\hero_canvas">
+            <Widget Id="Canvas" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                    SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.Canvas.Width"
+                    SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.Canvas.Height" HorizontalAlignment="Left"
+                    VerticalAlignment="Center" Sprite="General\Mission\hero_canvas">
               <Children>
-                <Widget Id="HealthDropContainer" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="12" VerticalAlignment="Center" PositionYOffset="-2" MarginRight="22" MarginTop="5">
+                <Widget Id="HealthDropContainer" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed"
+                        SuggestedHeight="12" VerticalAlignment="Center" PositionYOffset="-2" MarginRight="22"
+                        MarginTop="5">
                   <Children>
                   </Children>
                 </Widget>
-                <FillBarWidget Id="FillBar" ClipContents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.Fill.Height" VerticalAlignment="Center" PositionYOffset="-2" IsVertical="false" MarginLeft="22" MarginRight="22" MarginTop="5" FillWidget="FillVisualParent\FillVisual">
+                <FillBarWidget Id="FillBar" ClipContents="true" WidthSizePolicy="StretchToParent"
+                               HeightSizePolicy="Fixed" SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.Fill.Height"
+                               VerticalAlignment="Center" PositionYOffset="-2" IsVertical="false" MarginLeft="22"
+                               MarginRight="22" MarginTop="5" FillWidget="FillVisualParent\FillVisual">
                   <Children>
-                    <Widget Id="FillVisualParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="205">
+                    <Widget Id="FillVisualParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent"
+                            SuggestedWidth="205">
                       <Children>
-                        <BrushWidget Id="FillVisual" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.Canvas.Width" HorizontalAlignment="Left" Brush="Mission.MainAgentHUD.HeroMagicBar.Fill">
+                        <BrushWidget Id="FillVisual" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent"
+                                     SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.Canvas.Width"
+                                     HorizontalAlignment="Left" Brush="Mission.MainAgentHUD.HeroMagicBar.Fill">
                           <Children>
-                            <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.FillGlow.Width" SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.FillGlow.Height" HorizontalAlignment="Right" VerticalAlignment="Center" Brush="Mission.MainAgentHUD.HeroMagicBar.FillGlow" />
+                            <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                         SuggestedWidth="!Mission.MainAgentHUD.HeroMagicBar.FillGlow.Width"
+                                         SuggestedHeight="!Mission.MainAgentHUD.HeroMagicBar.FillGlow.Height"
+                                         HorizontalAlignment="Right" VerticalAlignment="Center"
+                                         Brush="Mission.MainAgentHUD.HeroMagicBar.FillGlow"/>
                           </Children>
                         </BrushWidget>
                       </Children>
@@ -43,12 +74,19 @@
               </Children>
             </Widget>
 
-            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="General\Mission\health_bar_frame"/>
-            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroHealthBar.Icon.Width" SuggestedHeight="!Mission.MainAgentHUD.HeroHealthBar.Icon.Height" VerticalAlignment="Center" HorizontalAlignment="Left" PositionXOffset="-36" MarginBottom="15" Sprite="General\Mission\hero_icon"/>
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
+                    Sprite="General\Mission\health_bar_frame"/>
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                    SuggestedWidth="!Mission.MainAgentHUD.HeroHealthBar.Icon.Width"
+                    SuggestedHeight="!Mission.MainAgentHUD.HeroHealthBar.Icon.Height" VerticalAlignment="Center"
+                    HorizontalAlignment="Left" PositionXOffset="-36" MarginBottom="15"
+                    Sprite="General\Mission\hero_icon"/>
           </Children>
         </AgentHealthWidget>
 
-        <TextWidget Text="@SpellInfo" HorizontalAlignment="Left" VerticalAlignment="Bottom" WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" MarginBottom="16" MarginLeft="16" DoNotAcceptEvents="true"/>
+        <TextWidget Text="@SpellInfo" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginBottom="16" MarginLeft="16"
+                    DoNotAcceptEvents="true"/>
       </Children>
     </Widget>
   </Window>

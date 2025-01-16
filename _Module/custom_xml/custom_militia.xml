@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfSettlementUniqueMilitiaDataXml>
   <SettlementUniqueMilitiaDataXml
-        SettlementId="town_EW6"
-        MeleeMilitiaId="sword_sisters_sister_t3"
-        MeleeEliteMilitiaId = "sword_sisters_sister_infantry_t5"
-        RangedMilitiaId = "sword_sisters_sister_t4"
-        RangedEliteMilitiaId = "sword_sisters_sister_t5"
-    />
+    SettlementId="town_EW6"
+    MeleeMilitiaId="sword_sisters_sister_t3"
+    MeleeEliteMilitiaId="sword_sisters_sister_infantry_t5"
+    RangedMilitiaId="sword_sisters_sister_t4"
+    RangedEliteMilitiaId="sword_sisters_sister_t5"
+  />
 </ArrayOfSettlementUniqueMilitiaDataXml>
