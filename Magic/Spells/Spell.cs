@@ -16,6 +16,7 @@ namespace EOAE_Code.Magic.Spells
         public string Name { get; private set; }
         public string ItemName { get; private set; }
         public int Cost { get; private set; }
+        public float EffectValue { get; private set; }
         public float Range { get; private set; }
         public float AreaRange { get; private set; }
         public SkillObject School { get; private set; }
@@ -28,6 +29,7 @@ namespace EOAE_Code.Magic.Spells
             Name = data.Name;
             ItemName = data.ItemName;
             Cost = data.Cost;
+            EffectValue = data.EffecValue;
             Range = data.Range;
             AreaRange = data.AreaRange;
             AreaAim = data.AreaAim;
