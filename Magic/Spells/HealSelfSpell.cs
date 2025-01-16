@@ -20,7 +20,7 @@ namespace EOAE_Code.Magic.Spells
 
         public override void Cast(Agent caster)
         {
-            caster.Health += Math.Min(caster.Health + HealEffect, caster.HealthLimit);
+            caster.Health = Math.Min(caster.Health + HealEffect, caster.HealthLimit);
         }
     }
 }

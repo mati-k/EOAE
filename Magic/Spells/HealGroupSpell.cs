@@ -28,7 +28,7 @@ namespace EOAE_Code.Magic.Spells
 
             foreach (Agent agent in agents)
             {
-                agent.Health += Math.Min(agent.Health + HealEffect, agent.HealthLimit);
+                agent.Health = Math.Min(agent.Health + HealEffect, agent.HealthLimit);
             }
         }
     }
