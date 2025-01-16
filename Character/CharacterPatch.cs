@@ -3,7 +3,6 @@ using TaleWorlds.Core;
 
 namespace EOAE_Code.Character
 {
- 
     [HarmonyPatch]
     public class CharacterPatch
     {

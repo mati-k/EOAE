@@ -29,8 +29,14 @@ namespace EOAE_Code.Character
 
         public void Initialize()
         {
-            Magic = Game.Current.ObjectManager.RegisterPresumedObject(new CharacterAttribute("magic"));
-            Magic.Initialize(new TextObject("{=!}Magic", null), new TextObject("{=!}Magic is cool thing allowing you to do cool things.", null), new TextObject("{=!}MAG", null));
+            Magic = Game.Current.ObjectManager.RegisterPresumedObject(
+                new CharacterAttribute("magic")
+            );
+            Magic.Initialize(
+                new TextObject("{=!}Magic", null),
+                new TextObject("{=!}Magic is cool thing allowing you to do cool things.", null),
+                new TextObject("{=!}MAG", null)
+            );
         }
     }
 }

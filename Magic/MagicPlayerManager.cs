@@ -1,10 +1,10 @@
-﻿using EOAE_Code.Data.Loaders;
-using EOAE_Code.Data.Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EOAE_Code.Data.Loaders;
+using EOAE_Code.Data.Managers;
 
 namespace EOAE_Code.Magic
 {
@@ -14,7 +14,9 @@ namespace EOAE_Code.Magic
 
         public static void SwitchPlayerSpell(int change)
         {
-            currentSpellIndex = (currentSpellIndex + change + SpellManager.GetSpellCount()) % SpellManager.GetSpellCount();
+            currentSpellIndex =
+                (currentSpellIndex + change + SpellManager.GetSpellCount())
+                % SpellManager.GetSpellCount();
         }
 
         public static int GetPlayerSpellIndex()

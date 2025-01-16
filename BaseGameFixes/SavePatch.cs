@@ -24,7 +24,10 @@ namespace EOAE_Code.BaseGameFixes
             {
                 foreach (var hero in Hero.AllAliveHeroes)
                 {
-                    if (heroRaceMap.ContainsKey(hero.StringId) && heroRaceMap[hero.StringId] != hero.CharacterObject.Race)
+                    if (
+                        heroRaceMap.ContainsKey(hero.StringId)
+                        && heroRaceMap[hero.StringId] != hero.CharacterObject.Race
+                    )
                     {
                         hero.CharacterObject.Race = heroRaceMap[hero.StringId];
                     }

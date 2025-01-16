@@ -1,12 +1,12 @@
-﻿using EOAE_Code.Data.Managers;
-using EOAE_Code.Magic;
-using EOAE_Code.Magic.Spells;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using EOAE_Code.Data.Managers;
+using EOAE_Code.Magic;
+using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
@@ -23,8 +23,8 @@ namespace EOAE_Code.AI
 
         private Spell spell;
 
-
-        public AICastingComponent(Agent agent) : base(agent)
+        public AICastingComponent(Agent agent)
+            : base(agent)
         {
             // ToDo: proper setup of spells and stuff
             spell = SpellManager.GetSpellFromItem("fireball");
@@ -71,13 +71,17 @@ namespace EOAE_Code.AI
                 return;
             }
 
-            
             MagicMissionLogic.CurrentMana.TryGetValue(Agent, out var currentMana);
             if (currentMana >= spell.Cost)
             {
-                if (Agent.Equipment[equipmentIndex].Item == null || Agent.Equipment[equipmentIndex].Item.StringId != spell.ItemName)
+                if (
+                    Agent.Equipment[equipmentIndex].Item == null
+                    || Agent.Equipment[equipmentIndex].Item.StringId != spell.ItemName
+                )
                 {
-                    ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName);
+                    ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(
+                        spell.ItemName
+                    );
                     MissionWeapon spawnedSpell = new MissionWeapon(spellObject, null, null, 1);
 
                     Agent.EquipWeaponWithNewEntity(equipmentIndex, ref spawnedSpell);
@@ -86,7 +90,11 @@ namespace EOAE_Code.AI
                 // If it's regular thrown spell and has free slot, there is no need to manually wield spell
                 if (!spell.IsThrown || equipmentIndex == EquipmentIndex.ExtraWeaponSlot)
                 {
-                    Agent.TryToWieldWeaponInSlot(EquipmentIndex.ExtraWeaponSlot, Agent.WeaponWieldActionType.Instant, false);
+                    Agent.TryToWieldWeaponInSlot(
+                        EquipmentIndex.ExtraWeaponSlot,
+                        Agent.WeaponWieldActionType.Instant,
+                        false
+                    );
                 }
             }
         }
