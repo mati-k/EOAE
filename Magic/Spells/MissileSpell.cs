@@ -10,7 +10,7 @@ namespace EOAE_Code.Magic.Spells
 {
     public class MissileSpell : Spell
     {
-        public override bool IsThrown { get { return true; } }
+        public override bool IsThrown => true;
 
         public MissileSpell(SpellDataXml data) : base(data)
         {

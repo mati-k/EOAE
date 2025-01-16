@@ -10,7 +10,7 @@ namespace EOAE_Code.Data.Managers
 {
     public class SettlementUniqueMilitiaManager : IDataManager<SettlementUniqueMilitiaDataXml>
     {
-        private static Dictionary<string, SettlementUniqueMilitiaDataXml> settlementsMilitia = new Dictionary<string, SettlementUniqueMilitiaDataXml>();
+        private static Dictionary<string, SettlementUniqueMilitiaDataXml> settlementsMilitia = new();
 
         public static SettlementUniqueMilitiaDataXml GetSettlementUniqueMilitia(string settlementId)
         {

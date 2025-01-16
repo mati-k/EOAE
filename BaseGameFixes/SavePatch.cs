@@ -9,7 +9,7 @@ namespace EOAE_Code.BaseGameFixes
 {
     public class SavePatch : CampaignBehaviorBase
     {
-        private Dictionary<string, int> _heroRaceMap = new Dictionary<string, int>();
+        private Dictionary<string, int> heroRaceMap = new();
 
         public override void RegisterEvents()
         {
@@ -20,13 +20,13 @@ namespace EOAE_Code.BaseGameFixes
         private void OnSessionStart(CampaignGameStarter obj)
         {
             Hero main = Hero.AllAliveHeroes.Find(hero => hero.StringId == "main_hero");
-            if (_heroRaceMap.Count > 0)
+            if (heroRaceMap.Count > 0)
             {
                 foreach (var hero in Hero.AllAliveHeroes)
                 {
-                    if (_heroRaceMap.ContainsKey(hero.StringId) && _heroRaceMap[hero.StringId] != hero.CharacterObject.Race)
+                    if (heroRaceMap.ContainsKey(hero.StringId) && heroRaceMap[hero.StringId] != hero.CharacterObject.Race)
                     {
-                        hero.CharacterObject.Race = _heroRaceMap[hero.StringId];
+                        hero.CharacterObject.Race = heroRaceMap[hero.StringId];
                     }
                 }
             }
@@ -34,20 +34,20 @@ namespace EOAE_Code.BaseGameFixes
 
         private void OnSave()
         {
-            _heroRaceMap = new Dictionary<string, int>();
+            heroRaceMap = new Dictionary<string, int>();
             Hero main = Hero.AllAliveHeroes.Find(hero => hero.StringId == "main_hero");
             foreach (var hero in Hero.AllAliveHeroes)
             {
-                if (!_heroRaceMap.ContainsKey(hero.StringId))
+                if (!heroRaceMap.ContainsKey(hero.StringId))
                 {
-                    _heroRaceMap.Add(hero.StringId, hero.CharacterObject.Race);
+                    heroRaceMap.Add(hero.StringId, hero.CharacterObject.Race);
                 }
             }
         }
 
         public override void SyncData(IDataStore dataStore)
         {
-            dataStore.SyncData("_heroRaceMap", ref _heroRaceMap);
+            dataStore.SyncData("_heroRaceMap", ref heroRaceMap);
         }
     }
 }

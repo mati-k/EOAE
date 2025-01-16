@@ -9,7 +9,7 @@ public class SummonSpell : Spell
 {
     public override bool IsThrown => false;
 
-    private readonly SummonSpellData _data;
+    private readonly SummonSpellData data;
 
     public SummonSpell(SpellDataXml data)
         : base(data)
@@ -19,7 +19,7 @@ public class SummonSpell : Spell
             throw new Exception("Summon data is null");
         }
 
-        _data = data.SummonSpellData;
+        this.data = data.SummonSpellData;
     }
 
     public override void Cast(Agent caster)
@@ -31,6 +31,6 @@ public class SummonSpell : Spell
             caster.AddComponent(summonerComponent);
         }
 
-        summonerComponent.Summon(caster, GetAimedPosition(caster), _data);
+        summonerComponent.Summon(caster, GetAimedPosition(caster), data);
     }
 }

@@ -15,13 +15,13 @@ namespace EOAE_Code.Magic
 {
     public class MagicHudVM : ViewModel
     {
-        Mission _mission;
+        Mission mission;
 
         private int _agentMagic;
         [DataSourceProperty]
         public int AgentMagic 
         { 
-            get { return _agentMagic; } 
+            get => _agentMagic;
             set 
             {
                 if (_agentMagic != value)
@@ -36,7 +36,7 @@ namespace EOAE_Code.Magic
         [DataSourceProperty]
         public string SpellInfo
         {
-            get { return _spellInfo; }
+            get => _spellInfo;
             set
             {
                 if (_spellInfo != value)
@@ -48,13 +48,14 @@ namespace EOAE_Code.Magic
         }
 
         [DataSourceProperty]
-        public int AgentMagicMax { get { return 100; } }
+        public int AgentMagicMax => 100;
+
         [DataSourceProperty]
-        public bool ShowMagicHealthBar { get { return true; } }
+        public bool ShowMagicHealthBar => true;
 
         public MagicHudVM(Mission mission)
         {
-            this._mission = mission;
+            this.mission = mission;
             this.RefreshValues();
         }
 

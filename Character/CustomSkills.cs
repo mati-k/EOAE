@@ -5,17 +5,18 @@ namespace EOAE_Code.Character
 {
     public class CustomSkills
     {
-        private static CustomSkills _instance;
+        private static CustomSkills? instance;
+
         public static CustomSkills Instance
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
                 {
-                    _instance = new CustomSkills();
+                    instance = new CustomSkills();
                 }
 
-                return _instance;
+                return instance;
             }
         }
 

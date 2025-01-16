@@ -16,7 +16,7 @@ namespace EOAE_Code.Magic
 {
     public class MagicMissionLogic : MissionLogic
     {
-        public static Dictionary<Agent, float> CurrentMana = new Dictionary<Agent, float>();
+        public static Dictionary<Agent, float> CurrentMana = new();
 
         public override void AfterStart()
         {
