@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using EOAE_Code.Data.Managers;
+﻿using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Emit;
-using EOAE_Code.BaseGameFixes;
+﻿using EOAE_Code.BaseGameFixes;
 using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
@@ -10,8 +6,6 @@ using EOAE_Code.Magic;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.Engine.GauntletUI;
-using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code
