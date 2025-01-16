@@ -71,9 +71,10 @@ namespace EOAE_Code.AI
                 return;
             }
 
-            if (MagicMissionLogic.CurrentMana[Agent] >= spell.Cost)
+            
+            MagicMissionLogic.CurrentMana.TryGetValue(Agent, out var currentMana);
+            if (currentMana >= spell.Cost)
             {
-
                 if (Agent.Equipment[equipmentIndex].Item == null || Agent.Equipment[equipmentIndex].Item.StringId != spell.ItemName)
                 {
                     ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName);

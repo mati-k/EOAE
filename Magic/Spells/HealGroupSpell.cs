@@ -1,9 +1,5 @@
-﻿using EOAE_Code.Data.Xml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using EOAE_Code.Data.Xml;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -11,24 +7,24 @@ namespace EOAE_Code.Magic.Spells
 {
     public class HealGroupSpell : Spell
     {
-        public float HealEffect {  get; private set; }
-        public float HealRadius { get; private set; }
-        public override bool IsThrown { get { return false; } }
+        public override bool IsThrown => false;
 
-        public HealGroupSpell(SpellDataXml data) : base(data)
-        {
-            HealEffect = data.EffecValue;
-            HealRadius = data.Range;
-        }
+        public HealGroupSpell(SpellDataXml data)
+            : base(data) { }
 
         public override void Cast(Agent caster)
         {
-            MBList<Agent> agents = new MBList<Agent>(Mission.Current.Agents);
-            Mission.Current.GetNearbyAllyAgents(caster.Position.AsVec2, HealRadius, caster.Team, agents);
+            var agents = new MBList<Agent>(Mission.Current.Agents);
+            Mission.Current.GetNearbyAllyAgents(
+                caster.Position.AsVec2,
+                AreaRange,
+                caster.Team,
+                agents
+            );
 
-            foreach (Agent agent in agents)
+            foreach (var agent in agents)
             {
-                agent.Health += Math.Min(agent.Health + HealEffect, agent.HealthLimit);
+                agent.Health = Math.Min(agent.Health + EffectValue, agent.HealthLimit);
             }
         }
     }

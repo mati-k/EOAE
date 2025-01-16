@@ -1,26 +1,19 @@
-﻿using EOAE_Code.Data.Xml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using EOAE_Code.Data.Xml;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.Spells
 {
     public class HealSelfSpell : Spell
     {
-        public float HealEffect {  get; private set; }
-        public override bool IsThrown { get { return false; } }
+        public override bool IsThrown => false;
 
-        public HealSelfSpell(SpellDataXml data) : base(data)
-        {
-            HealEffect = data.EffecValue;
-        }
+        public HealSelfSpell(SpellDataXml data)
+            : base(data) { }
 
         public override void Cast(Agent caster)
         {
-            caster.Health += Math.Min(caster.Health + HealEffect, caster.HealthLimit);
+            caster.Health = Math.Min(caster.Health + EffectValue, caster.HealthLimit);
         }
     }
 }
