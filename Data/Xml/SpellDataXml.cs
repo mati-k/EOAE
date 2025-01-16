@@ -44,6 +44,9 @@ namespace EOAE_Code.Data.Xml
         [XmlElement]
         public SummonSpellData? SummonSpellData = null;
 
+        [XmlElement]
+        public BombardSpellData? BombardSpellData = null;
+
         [XmlIgnore]
         public SkillObject School
         {
