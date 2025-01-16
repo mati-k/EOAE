@@ -10,17 +10,18 @@ namespace EOAE_Code.Character
 {
     public class Attributes
     {
-        private static Attributes _instance;
+        private static Attributes? instance;
+
         public static Attributes Instance
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
                 {
-                    _instance = new Attributes();
+                    instance = new Attributes();
                 }
 
-                return _instance;
+                return instance;
             }
         }
 
