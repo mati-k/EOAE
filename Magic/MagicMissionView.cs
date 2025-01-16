@@ -14,6 +14,7 @@ namespace EOAE_Code.Magic
     [DefaultView]
     public class MagicMissionView : MissionView
     {
+        public bool UsingAreaAim => _areaAimEntity != null;
         public MatrixFrame LastAreaAimFrame { get; private set; }
 
         private MagicHudVM magicHUD;

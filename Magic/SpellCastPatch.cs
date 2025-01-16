@@ -1,24 +1,17 @@
-﻿using EOAE_Code.Character;
-using EOAE_Code.Data.Loaders;
+﻿using System;
+using System.Linq;
+using EOAE_Code.Character;
 using EOAE_Code.Data.Managers;
-using EOAE_Code.Data.Xml;
 using EOAE_Code.Magic.Spells;
 using HarmonyLib;
 using JetBrains.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.GauntletUI.Mission;
 using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
-using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Magic
 {
@@ -147,6 +140,20 @@ namespace EOAE_Code.Magic
             if (itemIndex == EquipmentIndex.ExtraWeaponSlot && SpellManager.IsWeaponSpell(__instance.Equipment[itemIndex].CurrentUsageItem))
             {
                 __instance.RemoveEquippedWeapon(itemIndex);
+                return false;
+            }
+
+            return true;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(MissionGauntletCrosshair), "GetShouldCrosshairBeVisible")]
+        public static bool PatchGetShouldCrosshairBeVisible(ref bool __result)
+        {
+            var usingAreaAim = Mission.Current.GetMissionBehavior<MagicMissionView>().UsingAreaAim;
+            if (Mission.Current.MainAgent != null && usingAreaAim)
+            {
+                __result = false;
                 return false;
             }
 
