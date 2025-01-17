@@ -200,7 +200,7 @@ namespace EOAE_Code.Magic
         [HarmonyPatch(typeof(MissionGauntletCrosshair), "GetShouldCrosshairBeVisible")]
         public static bool PatchGetShouldCrosshairBeVisible(ref bool __result)
         {
-            var usingAreaAim = Mission.Current.GetMissionBehavior<MagicMissionView>().UsingAreaAim;
+            var usingAreaAim = Mission.Current.GetMissionBehavior<SpellAimView>().IsActive;
             if (Mission.Current.MainAgent != null && usingAreaAim)
             {
                 __result = false;

@@ -1,5 +1,5 @@
-﻿using EOAE_Code.Data.Managers;
-using EOAE_Code.Magic.Spells;
+﻿using System.ComponentModel;
+using EOAE_Code.Data.Managers;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -7,8 +7,6 @@ namespace EOAE_Code.Magic
 {
     public class MagicHudVM : ViewModel
     {
-        Mission mission;
-
         private int _agentMagic;
 
         [DataSourceProperty]
@@ -20,7 +18,7 @@ namespace EOAE_Code.Magic
                 if (_agentMagic != value)
                 {
                     _agentMagic = value;
-                    base.OnPropertyChangedWithValue(value, "AgentMagic");
+                    OnPropertyChangedWithValue(value);
                 }
             }
         }
@@ -36,7 +34,7 @@ namespace EOAE_Code.Magic
                 if (_spellInfo != value)
                 {
                     _spellInfo = value;
-                    base.OnPropertyChangedWithValue(value, "SpellInfo");
+                    OnPropertyChangedWithValue(value);
                 }
             }
         }
@@ -47,10 +45,33 @@ namespace EOAE_Code.Magic
         [DataSourceProperty]
         public bool ShowMagicHealthBar => true;
 
-        public MagicHudVM(Mission mission)
+        public void Initialize()
         {
-            this.mission = mission;
-            this.RefreshValues();
+            Mission.Current.OnMainAgentChanged += OnMainAgentChanged;
+            OnMainAgentChanged(null, null);
+        }
+
+        private void OnMainAgentChanged(object? sender, PropertyChangedEventArgs? e)
+        {
+            if (Agent.Main != null)
+            {
+                Agent.Main.OnMainAgentWieldedItemChange += OnMainAgentWieldedItemChange;
+                OnMainAgentWieldedItemChange();
+            }
+        }
+
+        private void OnMainAgentWieldedItemChange()
+        {
+            var itemName = Agent.Main.WieldedWeapon.Item?.StringId;
+            if (itemName != null && SpellManager.IsSpell(itemName))
+            {
+                var spell = SpellManager.GetSpellFromItem(itemName);
+                SpellInfo = $"{spell.Name} ({spell.Cost})";
+            }
+            else
+            {
+                SpellInfo = "";
+            }
         }
 
         public void Tick()
@@ -58,9 +79,6 @@ namespace EOAE_Code.Magic
             if (Agent.Main != null && MagicMissionLogic.CurrentMana.ContainsKey(Agent.Main))
             {
                 AgentMagic = (int)MagicMissionLogic.CurrentMana[Agent.Main];
-
-                Spell spell = SpellManager.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
-                SpellInfo = $"{spell.Name} ({spell.Cost})";
             }
         }
     }

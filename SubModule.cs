@@ -53,6 +53,8 @@ namespace EOAE_Code
 
             mission.AddMissionBehavior(new MagicMissionLogic());
             mission.AddMissionBehavior(new MagicMissionView());
+            mission.AddMissionBehavior(new SpellAimView());
+            mission.AddMissionBehavior(new SpellSelectorView());
         }
     }
 }

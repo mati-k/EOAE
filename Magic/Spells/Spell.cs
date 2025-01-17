@@ -55,9 +55,7 @@ namespace EOAE_Code.Magic.Spells
         {
             if (AreaAim && caster.IsPlayerControlled)
             {
-                return Mission
-                    .Current.GetMissionBehavior<MagicMissionView>()
-                    .LastAreaAimFrame.origin;
+                return Mission.Current.GetMissionBehavior<SpellAimView>().LastAimFrame.origin;
             }
 
             return caster.Position + caster.GetMovementDirection().ToVec3(1) * 2;
