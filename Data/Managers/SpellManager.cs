@@ -12,9 +12,8 @@ namespace EOAE_Code.Data.Managers
 {
     public class SpellManager : IDataManager<SpellDataXml>
     {
-        private static Dictionary<string, Spell> spells = new Dictionary<string, Spell>();
-        private static Dictionary<WeaponComponentData, ItemObject> spellWeapons =
-            new Dictionary<WeaponComponentData, ItemObject>();
+        private static Dictionary<string, Spell> spells = new();
+        private static Dictionary<WeaponComponentData, ItemObject> spellWeapons = new();
 
         public static bool IsSpell(string itemName)
         {

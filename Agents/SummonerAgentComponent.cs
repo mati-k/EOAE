@@ -11,7 +11,7 @@ namespace EOAE_Code.Agents;
 
 public class SummonerAgentComponent : AgentComponent
 {
-    private readonly List<Agent> _summonedAgents = new();
+    private readonly List<Agent> summonedAgents = new();
 
     public SummonerAgentComponent(Agent agent)
         : base(agent) { }
@@ -49,12 +49,12 @@ public class SummonerAgentComponent : AgentComponent
             (agent.GetAgentFlags() | AgentFlag.CanGetAlarmed) & ~AgentFlag.CanRetreat
         );
         agent.SetTeam(caster.Team, true);
-        _summonedAgents.Add(agent);
+        summonedAgents.Add(agent);
     }
 
     private void ClearSummons()
     {
-        foreach (var summonedAgent in _summonedAgents)
+        foreach (var summonedAgent in summonedAgents)
         {
             if (summonedAgent.State == AgentState.Active)
             {
@@ -67,6 +67,6 @@ public class SummonerAgentComponent : AgentComponent
             }
         }
 
-        _summonedAgents.Clear();
+        summonedAgents.Clear();
     }
 }

@@ -14,13 +14,13 @@ namespace EOAE_Code.Magic
     [DefaultView]
     public class MagicMissionView : MissionView
     {
-        public bool UsingAreaAim => _areaAimEntity != null;
+        public bool UsingAreaAim => areaAimEntity != null;
         public MatrixFrame LastAreaAimFrame { get; private set; }
 
         private MagicHudVM magicHUD;
         private GauntletLayer magicLayer;
-        private GameEntity? _areaAimEntity;
-        private Spell? _aimedAreaSpell;
+        private GameEntity? areaAimEntity;
+        private Spell? aimedAreaSpell;
 
         public override void OnBehaviorInitialize()
         {
@@ -79,33 +79,33 @@ namespace EOAE_Code.Magic
 
         private void UpdateAreaAim(Spell newSpell)
         {
-            if (_areaAimEntity != null)
+            if (areaAimEntity != null)
             {
-                _areaAimEntity.Remove(80);
-                _areaAimEntity = null;
-                _aimedAreaSpell = null;
+                areaAimEntity.Remove(80);
+                areaAimEntity = null;
+                aimedAreaSpell = null;
             }
 
             if (newSpell.AreaAim)
             {
-                _areaAimEntity = GameEntity.Instantiate(
+                areaAimEntity = GameEntity.Instantiate(
                     Mission.Current.Scene,
                     newSpell.AreaAimPrefab,
                     false
                 );
-                _areaAimEntity.SetMobility(GameEntity.Mobility.dynamic);
-                _aimedAreaSpell = newSpell;
+                areaAimEntity.SetMobility(GameEntity.Mobility.dynamic);
+                aimedAreaSpell = newSpell;
             }
         }
 
         private void AreaAimTick()
         {
-            if (_areaAimEntity == null || _aimedAreaSpell == null || Mission.MainAgent == null)
+            if (areaAimEntity == null || aimedAreaSpell == null || Mission.MainAgent == null)
                 return;
 
             var playerAgent = Mission.MainAgent;
             var playerFrame = playerAgent.GetWorldFrame().ToGroundMatrixFrame();
-            var areaAimFrame = _areaAimEntity.GetGlobalFrame();
+            var areaAimFrame = areaAimEntity.GetGlobalFrame();
 
             Mission.Scene.RayCastForClosestEntityOrTerrain(
                 playerAgent.GetEyeGlobalPosition() + playerAgent.LookDirection,
@@ -117,7 +117,7 @@ namespace EOAE_Code.Magic
 
             var distance = MissionScreen.CombatCamera.Position.AsVec2 - closestPoint.AsVec2;
 
-            if (distance.Length < _aimedAreaSpell.Range)
+            if (distance.Length < aimedAreaSpell.Range)
             {
                 closestPoint.z = GetHeightAtPoint(closestPoint.AsVec2);
                 areaAimFrame.origin = closestPoint;
@@ -129,7 +129,7 @@ namespace EOAE_Code.Magic
                 playerLookDirection.NormalizeWithoutChangingZ();
 
                 var furthestPosition =
-                    playerFrame.origin + playerLookDirection * (_aimedAreaSpell.Range - 3);
+                    playerFrame.origin + playerLookDirection * (aimedAreaSpell.Range - 3);
                 furthestPosition.z = GetHeightAtPoint(furthestPosition.AsVec2);
 
                 areaAimFrame.origin = furthestPosition;
@@ -138,9 +138,9 @@ namespace EOAE_Code.Magic
             var areaAimRotation = playerFrame.rotation;
             areaAimRotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
             areaAimFrame.rotation = areaAimRotation;
-            areaAimFrame.Scale(Vec3.One * 0.0002f * _aimedAreaSpell.AreaRange);
+            areaAimFrame.Scale(Vec3.One * 0.0002f * aimedAreaSpell.AreaRange);
 
-            _areaAimEntity.SetGlobalFrame(areaAimFrame);
+            areaAimEntity.SetGlobalFrame(areaAimFrame);
             LastAreaAimFrame = areaAimFrame;
         }
 
@@ -154,7 +154,7 @@ namespace EOAE_Code.Magic
             );
 
             // Bigger the area, higher the height for better visibility
-            height += 0.1f * _aimedAreaSpell.AreaRange;
+            height += 0.1f * aimedAreaSpell.AreaRange;
             return height;
         }
     }

@@ -7,21 +7,21 @@ namespace EOAE_Code.Agents;
 public class SummonedAgentComponent : AgentComponent
 {
     public readonly Agent Caster;
-    private float _lifespan;
+    private float lifespan;
 
     public SummonedAgentComponent(Agent agent, Agent caster, float lifespan)
         : base(agent)
     {
         Caster = caster;
-        _lifespan = lifespan;
+        this.lifespan = lifespan;
     }
 
     public override void OnTickAsAI(float dt)
     {
         base.OnTickAsAI(dt);
 
-        _lifespan -= dt;
-        if (_lifespan <= 0)
+        lifespan -= dt;
+        if (lifespan <= 0)
         {
             InformationManager.DisplayMessage(
                 new InformationMessage("Summoned agent expired", Color.FromUint(0xBF40BF))
