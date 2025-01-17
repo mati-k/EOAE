@@ -3,7 +3,7 @@
   <SpriteCategories>
 
   </SpriteCategories>
-    <SpriteParts>
+  <SpriteParts>
     <SpritePart>
       <SheetID>2</SheetID>
       <Name>SPGeneral\Skills\gui_skills_icon_destruction</Name>

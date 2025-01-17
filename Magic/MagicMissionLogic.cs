@@ -1,16 +1,9 @@
-﻿using EOAE_Code.AI;
-using EOAE_Code.Data.Loaders;
-using EOAE_Code.Data.Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.Extensions;
+using EOAE_Code.AI;
+using EOAE_Code.Data.Managers;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace EOAE_Code.Magic
 {
@@ -72,7 +65,10 @@ namespace EOAE_Code.Magic
                             }
                         }
 
-                        if (nextMana >= manaCost && agent.Formation.FiringOrder == FiringOrder.FiringOrderFireAtWill)
+                        if (
+                            nextMana >= manaCost
+                            && agent.Formation.FiringOrder == FiringOrder.FiringOrderFireAtWill
+                        )
                         {
                             agent.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.FireAtWill);
                         }

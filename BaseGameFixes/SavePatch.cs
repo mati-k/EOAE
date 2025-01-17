@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 
 namespace EOAE_Code.BaseGameFixes
@@ -24,7 +20,10 @@ namespace EOAE_Code.BaseGameFixes
             {
                 foreach (var hero in Hero.AllAliveHeroes)
                 {
-                    if (heroRaceMap.ContainsKey(hero.StringId) && heroRaceMap[hero.StringId] != hero.CharacterObject.Race)
+                    if (
+                        heroRaceMap.ContainsKey(hero.StringId)
+                        && heroRaceMap[hero.StringId] != hero.CharacterObject.Race
+                    )
                     {
                         hero.CharacterObject.Race = heroRaceMap[hero.StringId];
                     }

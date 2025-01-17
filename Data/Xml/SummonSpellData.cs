@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Xml.Serialization;
-using EOAE_Code.Character;
-using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Xml
 {
