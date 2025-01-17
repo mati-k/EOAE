@@ -53,6 +53,11 @@ namespace EOAE_Code.Data.Managers
             return spells.Values.ToList()[index];
         }
 
+        public static List<Spell> GetAllSpell()
+        {
+            return spells.Values.ToList();
+        }
+
         public void Add(SpellDataXml item)
         {
             Spell spell;

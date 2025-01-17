@@ -17,6 +17,7 @@ namespace EOAE_Code.Magic.Spells
         public SkillObject School { get; private set; }
         public bool AreaAim { get; private set; }
         public string AreaAimPrefab { get; private set; }
+        public string Icon { get; private set; }
         public abstract bool IsThrown { get; }
 
         public Spell(SpellDataXml data)
@@ -29,6 +30,7 @@ namespace EOAE_Code.Magic.Spells
             AreaRange = data.AreaRange;
             AreaAim = data.AreaAim;
             AreaAimPrefab = data.AreaAimPrefab;
+            Icon = data.Icon;
 
             switch (data.SchoolName)
             {

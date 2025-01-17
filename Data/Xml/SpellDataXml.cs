@@ -38,6 +38,9 @@ namespace EOAE_Code.Data.Xml
         [XmlAttribute]
         public string AreaAimPrefab = "";
 
+        [XmlAttribute]
+        public string Icon = "";
+
         [XmlElement]
         public SummonSpellData? SummonSpellData = null;
 

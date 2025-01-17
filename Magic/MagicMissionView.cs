@@ -1,12 +1,15 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using System;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
+using TaleWorlds.MountAndBlade.ViewModelCollection;
 using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Magic
@@ -18,6 +21,7 @@ namespace EOAE_Code.Magic
         public MatrixFrame LastAreaAimFrame { get; private set; }
 
         private MagicHudVM magicHUD;
+        private MainAgentSpellControllerVM test;
         private GauntletLayer magicLayer;
         private GameEntity? areaAimEntity;
         private Spell? aimedAreaSpell;
@@ -26,10 +30,19 @@ namespace EOAE_Code.Magic
         {
             base.OnBehaviorInitialize();
 
-            magicHUD = new MagicHudVM(this.Mission);
-            magicLayer = new GauntletLayer(0);
-            magicLayer.LoadMovie("MagicHUD", magicHUD);
-            MissionScreen.AddLayer(magicLayer);
+            magicHUD = new MagicHudVM(Mission);
+            try
+            {
+                test = new MainAgentSpellControllerVM();
+                magicLayer = new GauntletLayer(0);
+                magicLayer.LoadMovie("MainAgentSpellController", test);
+                MissionScreen.AddLayer(magicLayer);
+                test.Initialize();
+            }
+            catch (Exception e)
+            {
+                InformationManager.DisplayMessage(new InformationMessage(e.Message));
+            }
         }
 
         public override void OnMissionTick(float dt)
@@ -38,43 +51,95 @@ namespace EOAE_Code.Magic
 
             if (magicHUD != null)
             {
-                if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.Q))
-                {
-                    MagicPlayerManager.SwitchPlayerSpell(-1);
-                }
-
-                if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.E))
-                {
-                    MagicPlayerManager.SwitchPlayerSpell(1);
-                }
-
-                if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.F))
-                {
-                    EquipCurrentSpell();
-                }
-
                 magicHUD.Tick();
             }
 
             AreaAimTick();
         }
 
-        private void EquipCurrentSpell()
+        private bool holdHandled;
+
+        private bool HoldHandled
         {
-            Agent player = Mission.MainAgent;
+            get => holdHandled;
+            set
+            {
+                holdHandled = value;
+                var missionScreen = MissionScreen;
+                missionScreen?.SetRadialMenuActiveState(value);
+            }
+        }
 
-            Spell spell = SpellManager.GetSpell(MagicPlayerManager.GetPlayerSpellIndex());
-            ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName);
-            MissionWeapon spellWeapon = new MissionWeapon(spellObject, null, null);
+        private bool IsDisplayingADialog
+        {
+            get
+            {
+                IMissionScreen missionScreenAsInterface = MissionScreen;
+                return (
+                        missionScreenAsInterface != null
+                        && missionScreenAsInterface.GetDisplayDialog()
+                    )
+                    || MissionScreen.IsRadialMenuActive
+                    || Mission.IsOrderMenuOpen;
+            }
+        }
+        private float toggleHoldTime;
+        private bool prevKeyDown;
 
-            player.EquipWeaponWithNewEntity(EquipmentIndex.ExtraWeaponSlot, ref spellWeapon);
-            player.TryToWieldWeaponInSlot(
-                EquipmentIndex.ExtraWeaponSlot,
-                Agent.WeaponWieldActionType.Instant,
-                false
-            );
+        public override void OnMissionScreenTick(float dt)
+        {
+            if (
+                MissionScreen.SceneLayer.Input.IsKeyDown(InputKey.F)
+                && !IsDisplayingADialog
+                && Agent.Main != null
+                && Agent.Main.IsActive()
+                && Mission.Mode != MissionMode.Deployment
+                && Mission.Mode != MissionMode.CutScene
+                && !MissionScreen.IsRadialMenuActive
+            )
+            {
+                if (toggleHoldTime > 0.3f && !HoldHandled)
+                {
+                    HandleOpeningHold();
+                    HoldHandled = true;
+                }
+                toggleHoldTime += dt;
+                prevKeyDown = true;
+            }
+            else if (prevKeyDown && !MissionScreen.SceneLayer.Input.IsKeyDown(InputKey.F))
+            {
+                if (toggleHoldTime > 0.3f)
+                {
+                    HandleClosingHold();
+                }
+                HoldHandled = false;
+                toggleHoldTime = 0f;
+                prevKeyDown = false;
+            }
+        }
 
-            UpdateAreaAim(spell);
+        private bool isSlowDownApplied;
+
+        private void HandleOpeningHold()
+        {
+            test.OnToggle(true);
+            MissionScreen.SetRadialMenuActiveState(true);
+            if (!GameNetwork.IsMultiplayer && !isSlowDownApplied)
+            {
+                Mission.AddTimeSpeedRequest(new Mission.TimeSpeedRequest(0.25f, 624));
+                isSlowDownApplied = true;
+            }
+        }
+
+        private void HandleClosingHold()
+        {
+            test.OnToggle(false);
+            MissionScreen.SetRadialMenuActiveState(false);
+            if (!GameNetwork.IsMultiplayer && isSlowDownApplied)
+            {
+                Mission.RemoveTimeSpeedRequest(624);
+                isSlowDownApplied = false;
+            }
         }
 
         private void UpdateAreaAim(Spell newSpell)
