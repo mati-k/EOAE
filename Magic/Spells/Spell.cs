@@ -17,6 +17,7 @@ namespace EOAE_Code.Magic.Spells
         public SkillObject School { get; private set; }
         public bool AreaAim { get; private set; }
         public string AreaAimPrefab { get; private set; }
+        public string Icon { get; private set; }
         public abstract bool IsThrown { get; }
 
         public Spell(SpellDataXml data)
@@ -29,6 +30,7 @@ namespace EOAE_Code.Magic.Spells
             AreaRange = data.AreaRange;
             AreaAim = data.AreaAim;
             AreaAimPrefab = data.AreaAimPrefab;
+            Icon = data.Icon;
 
             switch (data.SchoolName)
             {
@@ -53,9 +55,7 @@ namespace EOAE_Code.Magic.Spells
         {
             if (AreaAim && caster.IsPlayerControlled)
             {
-                return Mission
-                    .Current.GetMissionBehavior<MagicMissionView>()
-                    .LastAreaAimFrame.origin;
+                return Mission.Current.GetMissionBehavior<SpellAimView>().LastAimFrame.origin;
             }
 
             return caster.Position + caster.GetMovementDirection().ToVec3(1) * 2;
