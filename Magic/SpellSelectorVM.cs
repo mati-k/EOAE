@@ -1,10 +1,9 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using EOAE_Code.Agents;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
-using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
-using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Magic
 {
@@ -54,16 +53,7 @@ namespace EOAE_Code.Magic
             }
             else if (hoveredItem is { Identifier: Spell spell })
             {
-                var player = Agent.Main;
-                var spellObject = MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName);
-                var spellWeapon = new MissionWeapon(spellObject, null, null);
-
-                player.EquipWeaponWithNewEntity(EquipmentIndex.ExtraWeaponSlot, ref spellWeapon);
-                player.TryToWieldWeaponInSlot(
-                    EquipmentIndex.ExtraWeaponSlot,
-                    Agent.WeaponWieldActionType.Instant,
-                    false
-                );
+                Agent.Main?.EquipSpell(spell);
             }
 
             RefreshValues();

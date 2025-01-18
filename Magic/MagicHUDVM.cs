@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using EOAE_Code.Data.Managers;
+using EOAE_Code.Agents;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -62,16 +62,9 @@ namespace EOAE_Code.Magic
 
         private void OnMainAgentWieldedItemChange()
         {
-            var itemName = Agent.Main.WieldedWeapon.Item?.StringId;
-            if (itemName != null && SpellManager.IsSpell(itemName))
-            {
-                var spell = SpellManager.GetSpellFromItem(itemName);
-                SpellInfo = $"{spell.Name} ({spell.Cost})";
-            }
-            else
-            {
-                SpellInfo = "";
-            }
+            var equippedSpell = Agent.Main?.GetEquippedSpell();
+
+            SpellInfo = equippedSpell != null ? $"{equippedSpell.Name} ({equippedSpell.Cost})" : "";
         }
 
         public void Tick()
