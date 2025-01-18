@@ -51,14 +51,19 @@ namespace EOAE_Code.Magic.Spells
 
         public abstract void Cast(Agent caster);
 
-        protected Vec3 GetAimedPosition(Agent caster)
+        protected MatrixFrame GetAimedFrame(Agent caster)
         {
             if (AreaAim && caster.IsPlayerControlled)
             {
-                return Mission.Current.GetMissionBehavior<SpellAimView>().LastAimFrame.origin;
+                return Mission.Current.GetMissionBehavior<SpellAimView>().LastAimFrame;
             }
 
-            return caster.Position + caster.GetMovementDirection().ToVec3(1) * 2;
+            return caster.GetWorldFrame().ToGroundMatrixFrame().Advance(3);
+        }
+
+        protected Vec3 GetAimedPosition(Agent caster)
+        {
+            return GetAimedFrame(caster).origin;
         }
     }
 }

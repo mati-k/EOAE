@@ -75,6 +75,9 @@ namespace EOAE_Code.Data.Managers
                 case "Summon":
                     spell = new SummonSpell(item);
                     break;
+                case "Bombard":
+                    spell = new BombardSpell(item);
+                    break;
                 default:
                     spell = new MissileSpell(item);
                     break;
