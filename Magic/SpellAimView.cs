@@ -12,7 +12,6 @@ namespace EOAE_Code.Magic;
 [DefaultView]
 public class SpellAimView : MissionView
 {
-    public bool IsActive => aimEntity != null;
     public MatrixFrame LastAimFrame { get; private set; }
 
     private GameEntity? aimEntity;

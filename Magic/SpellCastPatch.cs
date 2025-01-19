@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EOAE_Code.Agents;
 using EOAE_Code.Character;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
@@ -213,8 +214,8 @@ namespace EOAE_Code.Magic
         [HarmonyPatch(typeof(MissionGauntletCrosshair), "GetShouldCrosshairBeVisible")]
         public static bool PatchGetShouldCrosshairBeVisible(ref bool __result)
         {
-            var usingAreaAim = Mission.Current.GetMissionBehavior<SpellAimView>().IsActive;
-            if (Mission.Current.MainAgent != null && usingAreaAim)
+            var spell = Agent.Main?.GetEquippedSpell();
+            if (spell != null && (spell.AreaAim || !spell.IsThrown))
             {
                 __result = false;
                 return false;
