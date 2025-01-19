@@ -23,7 +23,7 @@ namespace EOAE_Code.AI
         {
             if (!agent.IsHero)
             {
-                spellBook = TroopSpellBookManager.GetSpellBooxForTroop(agent.Character.StringId);
+                spellBook = TroopSpellBookManager.GetSpellBookForTroop(agent.Character.StringId);
             }
         }
 

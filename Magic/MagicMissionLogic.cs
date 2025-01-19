@@ -33,7 +33,10 @@ namespace EOAE_Code.Magic
                 return;
             }
 
-            if (!agent.IsHero && TroopSpellBookManager.GetSpellBooxForTroop(agent.Character.StringId) != null)
+            if (
+                !agent.IsHero
+                && TroopSpellBookManager.GetSpellBookForTroop(agent.Character.StringId) != null
+            )
             {
                 agent.AddComponent(new AICastingComponent(agent));
                 CurrentMana.Add(agent, 100);
