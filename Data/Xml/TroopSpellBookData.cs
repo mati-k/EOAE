@@ -20,12 +20,7 @@ namespace EOAE_Code.Data.Xml
 
         public void Normalize()
         {
-            float totalWeight = 0;
-
-            for (int i = 0; i < Spells.Length; i++)
-            {
-                totalWeight += Spells[i].Weight;
-            }
+            var totalWeight = Spells.Sum(it => it.Weight);
 
             for (int i = 0; i < Spells.Length; i++)
             {
