@@ -85,5 +85,10 @@ namespace EOAE_Code.Data.Managers
 
             spells.Add(item.ItemName, spell);
         }
+
+        public static void Clear()
+        {
+            spells.Clear();
+        }
     }
 }
