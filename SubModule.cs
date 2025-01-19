@@ -23,6 +23,7 @@ namespace EOAE_Code
                 SettlementUniqueMilitiaManager
             >("custom_militia.xml");
             XmlDataLoader.LoadXmlData<SpellDataXml, SpellManager>("spells.xml");
+            XmlDataLoader.LoadXmlData<TroopSpellBookData, TroopSpellBookManager>("troop_spellbooks.xml");
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();

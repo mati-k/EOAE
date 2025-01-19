@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using EOAE_Code.Data.Xml;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
@@ -12,6 +13,7 @@ namespace EOAE_Code.Agents;
 public class SummonerAgentComponent : AgentComponent
 {
     private readonly List<Agent> summonedAgents = new();
+    public float LastSummonTime { get; private set; }
 
     public SummonerAgentComponent(Agent agent)
         : base(agent) { }
@@ -24,6 +26,8 @@ public class SummonerAgentComponent : AgentComponent
         {
             SummonAgent(caster, position, data);
         }
+
+        LastSummonTime = Mission.Current.CurrentTime;
     }
 
     private void SummonAgent(Agent caster, Vec3 position, SummonSpellData data)
@@ -68,5 +72,12 @@ public class SummonerAgentComponent : AgentComponent
         }
 
         summonedAgents.Clear();
+    }
+
+
+
+    public bool HasAnyActiveSummons()
+    {
+        return summonedAgents.Any(agent => agent.State == AgentState.Active);
     }
 }

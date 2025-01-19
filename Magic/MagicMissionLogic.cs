@@ -20,10 +20,24 @@ namespace EOAE_Code.Magic
         public override void OnAgentBuild(Agent agent, Banner banner)
         {
             base.OnAgentBuild(agent, banner);
-            CurrentMana.Add(agent, 100);
 
-            // If is caster
-            agent.AddComponent(new AICastingComponent(agent));
+            // No spellcasting horses for now
+            if (!agent.IsHuman)
+            {
+                return;
+            }
+
+            if (agent.IsMainAgent)
+            {
+                CurrentMana.Add(agent, 100);
+                return;
+            }
+
+            if (!agent.IsHero && TroopSpellBookManager.GetSpellBooxForTroop(agent.Character.StringId) != null)
+            {
+                agent.AddComponent(new AICastingComponent(agent));
+                CurrentMana.Add(agent, 100);
+            }
         }
 
         public override void OnAgentDeleted(Agent affectedAgent)

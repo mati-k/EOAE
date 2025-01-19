@@ -51,6 +51,8 @@ namespace EOAE_Code.Magic.Spells
 
         public abstract void Cast(Agent caster);
 
+        public abstract bool IsAICastValid(Agent caster);
+
         protected MatrixFrame GetAimedFrame(Agent caster)
         {
             if (AreaAim && caster.IsPlayerControlled)
