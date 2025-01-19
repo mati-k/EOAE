@@ -1,0 +1,18 @@
+<prefabs>
+	<game_entity name="casting_circle_prefab" old_prefab_name="">
+		<flags>
+			<flag name="not_affected_by_season" value="true"/>
+			<flag name="align_to_terrain" value="true"/>
+		</flags>
+		<visibility_masks>
+			<visibility_mask name="no_shadow" value="true"/>
+		</visibility_masks>
+		<transform position="0.000, 0.000, 0.000" rotation_euler="0.000, 0.000, 0.000" scale="0.001, 0.001, 0.015"/>
+		<components>
+			<meta_mesh_component name="casting_circle" position="0.000, 0.000, 25.000" rotation="0.000, 0.000, 0.000" scale="1.000, 1.000, 1.000">
+				<mesh name="casting_circle" material="bluelightningbolt1" factor="4285916415"/>
+			</meta_mesh_component>
+		</components>
+	</game_entity>
+</prefabs>
+
