@@ -44,7 +44,7 @@ public class SummonSpell : Spell
             return true;
         }
 
-        else if (summonerComponent.HasAnyActiveSummons() && Mission.Current.CurrentTime - summonerComponent.LastSummonTime > SPAWNED_TIME_LEFT_TO_DISMISS)
+        if (summonerComponent.HasAnyActiveSummons() && Mission.Current.CurrentTime - summonerComponent.LastSummonTime > SPAWNED_TIME_LEFT_TO_DISMISS)
         {
             return false;
         }
