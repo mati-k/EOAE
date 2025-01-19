@@ -1,5 +1,4 @@
 ﻿using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Agents;
@@ -23,10 +22,6 @@ public class SummonedAgentComponent : AgentComponent
         lifespan -= dt;
         if (lifespan <= 0)
         {
-            InformationManager.DisplayMessage(
-                new InformationMessage("Summoned agent expired", Color.FromUint(0xBF40BF))
-            );
-
             Die();
         }
     }
