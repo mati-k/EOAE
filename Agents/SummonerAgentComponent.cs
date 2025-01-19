@@ -62,10 +62,6 @@ public class SummonerAgentComponent : AgentComponent
         {
             if (summonedAgent.State == AgentState.Active)
             {
-                InformationManager.DisplayMessage(
-                    new InformationMessage("Removing active summon", Color.FromUint(0xBF40BF))
-                );
-
                 var summonedAgentComponent = summonedAgent.GetComponent<SummonedAgentComponent>();
                 summonedAgentComponent.Die();
             }
@@ -73,8 +69,6 @@ public class SummonerAgentComponent : AgentComponent
 
         summonedAgents.Clear();
     }
-
-
 
     public bool HasAnyActiveSummons()
     {
