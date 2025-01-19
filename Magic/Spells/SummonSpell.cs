@@ -7,6 +7,8 @@ namespace EOAE_Code.Magic.Spells;
 
 public class SummonSpell : Spell
 {
+    private const float SPAWNED_TIME_LEFT_TO_DISMISS = 3;
+
     public override bool IsThrown => false;
 
     private readonly SummonSpellData data;
@@ -32,5 +34,21 @@ public class SummonSpell : Spell
         }
 
         summonerComponent.Summon(caster, GetAimedPosition(caster), data);
+    }
+
+    public override bool IsAICastValid(Agent caster)
+    {
+        var summonerComponent = caster.GetComponent<SummonerAgentComponent>();
+        if (summonerComponent == null)
+        {
+            return true;
+        }
+
+        else if (summonerComponent.HasAnyActiveSummons() && Mission.Current.CurrentTime - summonerComponent.LastSummonTime > SPAWNED_TIME_LEFT_TO_DISMISS)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -45,6 +45,12 @@ public class BombardSpell : Spell
         missileSpawner.GameEntity.Remove(80);
     }
 
+    public override bool IsAICastValid(Agent caster)
+    {
+        // ToDo: along with the AI cast position
+        return true;
+    }
+
     private static MissileSpawner CreateMissileSpawner(MatrixFrame castFrame, Agent caster)
     {
         var spawnerEntity = GameEntity.Instantiate(Mission.Current.Scene, "__empty_object", false);

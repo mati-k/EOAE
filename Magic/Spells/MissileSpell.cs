@@ -11,5 +11,11 @@ namespace EOAE_Code.Magic.Spells
             : base(data) { }
 
         public override void Cast(Agent caster) { }
+
+        // No restriction needed for regular thrown spells
+        public override bool IsAICastValid(Agent caster)
+        {
+            return true;
+        }
     }
 }

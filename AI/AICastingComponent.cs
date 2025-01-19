@@ -70,7 +70,7 @@ namespace EOAE_Code.AI
 
             Spell spell = spellBook.GetRandomSpell();
             MagicMissionLogic.CurrentMana.TryGetValue(Agent, out var currentMana);
-            if (spell != null && currentMana >= spell.Cost)
+            if (spell != null && currentMana >= spell.Cost && spell.IsAICastValid(Agent))
             {
                 if (
                     Agent.Equipment[equipmentIndex].Item == null
