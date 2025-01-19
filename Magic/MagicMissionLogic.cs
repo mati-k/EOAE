@@ -27,7 +27,7 @@ namespace EOAE_Code.Magic
                 return;
             }
 
-            if (agent.IsPlayerControlled)
+            if (agent.IsMainAgent)
             {
                 CurrentMana.Add(agent, 100);
                 return;
