@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Managers;
+using EOAE_Code.Data.Xml;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
@@ -15,13 +16,15 @@ namespace EOAE_Code.AI
         private EquipmentIndex equipmentIndex = EquipmentIndex.ExtraWeaponSlot;
         private bool isSlotSetupDone = false;
 
-        private Spell spell;
+        private TroopSpellBookData spellBook;
 
         public AICastingComponent(Agent agent)
             : base(agent)
         {
-            // ToDo: proper setup of spells and stuff
-            spell = SpellManager.GetSpellFromItem("fireball");
+            if (!agent.IsHero)
+            {
+                spellBook = TroopSpellBookManager.GetSpellBooxForTroop(agent.Character.StringId);
+            }
         }
 
         public override void OnTickAsAI(float dt)
@@ -65,8 +68,9 @@ namespace EOAE_Code.AI
                 return;
             }
 
+            Spell spell = spellBook.GetRandomSpell();
             MagicMissionLogic.CurrentMana.TryGetValue(Agent, out var currentMana);
-            if (currentMana >= spell.Cost)
+            if (spell != null && currentMana >= spell.Cost)
             {
                 if (
                     Agent.Equipment[equipmentIndex].Item == null

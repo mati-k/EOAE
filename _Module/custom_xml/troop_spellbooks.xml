@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfTroopSpellBookData>
+  <TroopSpellBookData TroopId="looter" >
+    <Spells>
+      <TroopSpellData Spell="fireball" Weight="10"/>
+      <TroopSpellData Spell="arcanesparks" Weight="50"/>
+    </Spells>
+  </TroopSpellBookData>
+  <TroopSpellBookData TroopId="sword_sisters_sister_infantry_t5" >
+    <Spells>
+      <TroopSpellData Spell="fireball" Weight="10"/>
+    </Spells>
+    </TroopSpellBookData>
+</ArrayOfTroopSpellBookData>
