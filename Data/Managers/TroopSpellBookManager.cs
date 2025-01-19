@@ -25,7 +25,7 @@ namespace EOAE_Code.Data.Managers
             }
         }
 
-        public static TroopSpellBookData? GetSpellBooxForTroop(string troopId)
+        public static TroopSpellBookData? GetSpellBookForTroop(string troopId)
         {
             if (troopSpellBooks.ContainsKey(troopId))
             {
