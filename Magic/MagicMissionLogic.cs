@@ -67,7 +67,7 @@ namespace EOAE_Code.Magic
 
                         if (
                             nextMana >= manaCost
-                            && agent.Formation.FiringOrder == FiringOrder.FiringOrderFireAtWill
+                            && agent.Formation?.FiringOrder == FiringOrder.FiringOrderFireAtWill
                         )
                         {
                             agent.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.FireAtWill);

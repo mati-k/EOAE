@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using EOAE_Code.Data.Managers;
+using EOAE_Code.Agents;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -51,24 +51,13 @@ public class SpellAimView : MissionView
             equippedSpell = null;
         }
 
-        if (Agent.Main == null)
+        var newSpell = Agent.Main?.GetEquippedSpell();
+        if (newSpell is not { AreaAim: true })
             return;
 
-        var itemName = Agent.Main.WieldedWeapon.Item?.StringId;
-        if (itemName == null || !SpellManager.IsSpell(itemName))
-            return;
-
-        var newSpell = SpellManager.GetSpellFromItem(itemName);
-        if (newSpell.AreaAim)
-        {
-            aimEntity = GameEntity.Instantiate(
-                Mission.Current.Scene,
-                newSpell.AreaAimPrefab,
-                false
-            );
-            aimEntity.SetMobility(GameEntity.Mobility.dynamic);
-            equippedSpell = newSpell;
-        }
+        aimEntity = GameEntity.Instantiate(Mission.Scene, newSpell.AreaAimPrefab, false);
+        aimEntity.SetMobility(GameEntity.Mobility.dynamic);
+        equippedSpell = newSpell;
     }
 
     private void AimTick()

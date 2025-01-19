@@ -154,7 +154,20 @@ namespace EOAE_Code.Magic
 
                             if (!spell.IsThrown)
                             {
-                                spell.Cast(shooterAgent);
+                                try
+                                {
+                                    spell.Cast(shooterAgent);
+                                }
+                                catch (Exception e)
+                                {
+                                    InformationManager.DisplayMessage(
+                                        new InformationMessage(
+                                            $"ERROR: {shooterAgent.Name} failed to cast {spell.Name} spell: {e.Message}",
+                                            Color.FromUint(0xFF0000)
+                                        )
+                                    );
+                                    MagicMissionLogic.CurrentMana[shooterAgent] += spell.Cost;
+                                }
 
                                 return false;
                             }
