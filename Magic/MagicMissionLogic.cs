@@ -10,11 +10,13 @@ namespace EOAE_Code.Magic
     public class MagicMissionLogic : MissionLogic
     {
         public static Dictionary<Agent, float> CurrentMana = new();
+        public static List<AgentAnimationTimer> AgentAnimationTimers = new();
 
         public override void AfterStart()
         {
             base.AfterStart();
             CurrentMana.Clear();
+            AgentAnimationTimers.Clear();
         }
 
         public override void OnAgentBuild(Agent agent, Banner banner)
@@ -56,6 +58,7 @@ namespace EOAE_Code.Magic
         public override void OnMissionTick(float dt)
         {
             base.OnMissionTick(dt);
+            TickAgentAnimationTimers(dt);
 
             foreach (Agent agent in this.Mission.Agents)
             {
@@ -90,6 +93,21 @@ namespace EOAE_Code.Magic
                             agent.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.FireAtWill);
                         }
                     }
+                }
+            }
+        }
+
+        private void TickAgentAnimationTimers(float dt)
+        {
+            for (int i = AgentAnimationTimers.Count - 1; i >= 0; i--) 
+            {
+                var agentAnimationTimer = AgentAnimationTimers[i];
+                agentAnimationTimer.DurationLeft -= dt;
+
+                if (agentAnimationTimer.DurationLeft <= 0)
+                {
+                    agentAnimationTimer.OnComplete();
+                    AgentAnimationTimers.RemoveAt(i);
                 }
             }
         }

@@ -3,6 +3,7 @@ using EOAE_Code.Data.Xml;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
@@ -89,10 +90,26 @@ namespace EOAE_Code.AI
                 if (!spell.IsThrown || equipmentIndex == EquipmentIndex.ExtraWeaponSlot)
                 {
                     Agent.TryToWieldWeaponInSlot(
-                        EquipmentIndex.ExtraWeaponSlot,
+                        equipmentIndex,
                         Agent.WeaponWieldActionType.Instant,
                         false
                     );
+
+                    if (!spell.IsThrown)
+                    {
+                        Agent.SetActionChannel(1, ActionIndexCache.Create("act_fire_magic"));
+
+                        MagicMissionLogic.AgentAnimationTimers.Add(new AgentAnimationTimer(
+                            1.1f,
+                            () =>
+                            {
+                                if (Agent.IsActive())
+                                {
+                                    spell.Cast(Agent);
+                                    Agent.SetWeaponAmountInSlot(equipmentIndex, 0, false);
+                                }
+                            }));
+                    }
                 }
             }
         }
