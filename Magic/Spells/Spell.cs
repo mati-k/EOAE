@@ -1,5 +1,4 @@
-﻿using EOAE_Code.Character;
-using EOAE_Code.Data.Xml;
+﻿using EOAE_Code.Data.Xml;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -32,23 +31,8 @@ namespace EOAE_Code.Magic.Spells
             AreaAim = data.AreaAim;
             AreaAimPrefab = data.AreaAimPrefab;
             Icon = data.Icon;
+            School = data.School;
             Animation = data.Animation;
-
-            switch (data.SchoolName)
-            {
-                case "Destruction":
-                    School = CustomSkills.Instance.Destruction;
-                    break;
-                case "Restoration":
-                    School = CustomSkills.Instance.Restoration;
-                    break;
-                case "Conjuration":
-                    School = CustomSkills.Instance.Conjuration;
-                    break;
-                default:
-                    School = CustomSkills.Instance.Destruction;
-                    break;
-            }
         }
 
         public abstract void Cast(Agent caster);

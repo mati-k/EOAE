@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfBookDataXml>
+  <BookDataXml ItemName="book_for_me" ReadTime="10">
+    <ReadEffects>
+      <UnlockSpell Spell="fireball"/>
+      <UnlockSpell Spell="whiteFlame"/>
+      <IncreaseSkill Skill="Restoration"/>
+    </ReadEffects>
+  </BookDataXml>
+</ArrayOfBookDataXml>

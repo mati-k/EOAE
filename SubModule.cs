@@ -2,6 +2,8 @@
 using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Book;
+using EOAE_Code.Literature;
 using EOAE_Code.Magic;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
@@ -23,8 +25,13 @@ namespace EOAE_Code
                 SettlementUniqueMilitiaManager
             >("custom_militia.xml");
             XmlDataLoader.LoadXmlData<SpellDataXml, SpellManager>("spells.xml");
-            XmlDataLoader.LoadXmlData<TroopSpellBookData, TroopSpellBookManager>("troop_spellbooks.xml");
-            XmlDataLoader.LoadXmlData<AnimationDurationData, AnimationDurationManager>("animation_durations.xml");
+            XmlDataLoader.LoadXmlData<TroopSpellBookData, TroopSpellBookManager>(
+                "troop_spellbooks.xml"
+            );
+            XmlDataLoader.LoadXmlData<AnimationDurationData, AnimationDurationManager>(
+                "animation_durations.xml"
+            );
+            XmlDataLoader.LoadXmlData<BookDataXml, BookManager>("books.xml");
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
@@ -42,10 +49,10 @@ namespace EOAE_Code
 
         protected override void InitializeGameStarter(Game game, IGameStarter starterObject)
         {
-            if (Game.Current.GameType is Campaign && starterObject is CampaignGameStarter)
+            if (Game.Current.GameType is Campaign && starterObject is CampaignGameStarter starter)
             {
-                var starter = starterObject as CampaignGameStarter;
                 starter.AddBehavior(new SavePatch());
+                starter.AddBehavior(new BookCampaignBehavior());
             }
         }
 
