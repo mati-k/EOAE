@@ -26,6 +26,7 @@ public class SummonSpell : Spell
 
     public override void Cast(Agent caster)
     {
+        // Can not summon agents from AI tick, will crash the game (modifying agents while iterating over them)
         var summonerComponent = caster.GetComponent<SummonerAgentComponent>();
         if (summonerComponent == null)
         {
@@ -44,7 +45,7 @@ public class SummonSpell : Spell
             return true;
         }
 
-        if (summonerComponent.HasAnyActiveSummons() && Mission.Current.CurrentTime - summonerComponent.LastSummonTime > SPAWNED_TIME_LEFT_TO_DISMISS)
+        if (summonerComponent.HasAnyActiveSummons() && summonerComponent.SummonDespawnTime - Mission.Current.CurrentTime > SPAWNED_TIME_LEFT_TO_DISMISS)
         {
             return false;
         }

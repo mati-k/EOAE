@@ -7,6 +7,7 @@
     Cost="25"
     Effect="Throw"
     Icon="Stone"
+    Animation="act_fire_magic"
   />
   <SpellDataXml
     Name="Rain of Fire"
@@ -20,6 +21,7 @@
     AreaAim="true"
     AreaAimPrefab="casting_circle_prefab"
     Icon="Stone"
+    Animation="act_fire_magic"
   >
     <BombardSpellData
       MissileName="firestorm"
@@ -41,6 +43,7 @@
     AreaAim="true"
     AreaAimPrefab="casting_circle_prefab"
     Icon="Stone"
+    Animation="act_fire_magic"
   >
     <BombardSpellData
       MissileName="volley_arrows"
@@ -58,6 +61,7 @@
     Effect="HealSelf"
     EffecValue="50"
     Icon="Shield"
+    Animation="act_fire_magic"
   />
   <SpellDataXml
     Name="Group Heal"
@@ -68,6 +72,7 @@
     Range="15"
     EffecValue="25"
     Icon="Shield"
+    Animation="act_fire_magic"
   />
   <SpellDataXml
     Name="Summon"
@@ -80,6 +85,7 @@
     AreaAim="true"
     AreaAimPrefab="casting_circle_prefab"
     Icon="Banner"
+    Animation="act_fire_magic"
   >
     <SummonSpellData
       AgentName="sword_sisters_sister_infantry_t5"

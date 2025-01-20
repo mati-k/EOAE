@@ -24,6 +24,7 @@ namespace EOAE_Code
             >("custom_militia.xml");
             XmlDataLoader.LoadXmlData<SpellDataXml, SpellManager>("spells.xml");
             XmlDataLoader.LoadXmlData<TroopSpellBookData, TroopSpellBookManager>("troop_spellbooks.xml");
+            XmlDataLoader.LoadXmlData<AnimationDurationData, AnimationDurationManager>("animation_durations.xml");
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
