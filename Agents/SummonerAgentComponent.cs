@@ -13,7 +13,7 @@ namespace EOAE_Code.Agents;
 public class SummonerAgentComponent : AgentComponent
 {
     private readonly List<Agent> summonedAgents = new();
-    public float LastSummonTime { get; private set; }
+    public float SummonDespawnTime { get; private set; }
 
     public SummonerAgentComponent(Agent agent)
         : base(agent) { }
@@ -27,7 +27,7 @@ public class SummonerAgentComponent : AgentComponent
             SummonAgent(caster, position, data);
         }
 
-        LastSummonTime = Mission.Current.CurrentTime;
+        SummonDespawnTime = Mission.Current.CurrentTime + data.Duration;
     }
 
     private void SummonAgent(Agent caster, Vec3 position, SummonSpellData data)
