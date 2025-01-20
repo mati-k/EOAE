@@ -97,10 +97,10 @@ namespace EOAE_Code.AI
 
                     if (!spell.IsThrown)
                     {
-                        Agent.SetActionChannel(1, ActionIndexCache.Create("act_fire_magic"));
+                        Agent.SetActionChannel(1, AnimationDurationManager.GetCacheIndex(spell));
 
                         MagicMissionLogic.AgentAnimationTimers.Add(new AgentAnimationTimer(
-                            1.1f,
+                            AnimationDurationManager.GetDuration(spell),
                             () =>
                             {
                                 if (Agent.IsActive())

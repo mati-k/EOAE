@@ -41,6 +41,9 @@ namespace EOAE_Code.Data.Xml
         [XmlAttribute]
         public string Icon = "";
 
+        [XmlAttribute]
+        public string Animation = "";
+
         [XmlElement]
         public SummonSpellData? SummonSpellData = null;
 
