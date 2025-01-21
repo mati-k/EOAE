@@ -19,13 +19,11 @@ public class Book
     public string ItemName { get; }
 
     private readonly List<BookReadEffect> bookReadEffects = new();
-    private readonly ItemObject bookItem;
 
     public Book(BookDataXml bookData)
     {
         ReadTime = bookData.ReadTime;
         ItemName = bookData.ItemName;
-        bookItem = MBObjectManager.Instance.GetObject<ItemObject>(ItemName);
 
         foreach (var readEffect in bookData.ReadEffects)
         {
@@ -38,6 +36,7 @@ public class Book
 
     public void FinishReading()
     {
+        var bookItem = MBObjectManager.Instance.GetObject<ItemObject>(ItemName);
         InformationManager.DisplayMessage(
             new InformationMessage($"Finished reading {bookItem.Name}!", UIColors.PositiveIndicator)
         );

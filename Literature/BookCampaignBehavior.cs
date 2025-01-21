@@ -3,16 +3,17 @@ using EOAE_Code.Data.Managers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.SaveSystem;
 
 namespace EOAE_Code.Literature;
 
 public class BookCampaignBehavior : CampaignBehaviorBase
 {
-    private static readonly Dictionary<string, float> BookReadingProgress = new();
+    private static Dictionary<string, float> bookReadingProgress = new();
 
     public BookCampaignBehavior()
     {
-        BookReadingProgress.Clear();
+        bookReadingProgress.Clear();
     }
 
     public override void RegisterEvents()
@@ -22,18 +23,18 @@ public class BookCampaignBehavior : CampaignBehaviorBase
 
     public override void SyncData(IDataStore dataStore)
     {
-        // Save the reading progress of each book
+        dataStore.SyncData("BookReadingProgress", ref bookReadingProgress);
     }
 
     public static float GetProgress(string bookName)
     {
-        return BookReadingProgress.ContainsKey(bookName) ? BookReadingProgress[bookName] : 0;
+        return bookReadingProgress.ContainsKey(bookName) ? bookReadingProgress[bookName] : 0;
     }
 
     public static bool IsBookFinished(string itemName)
     {
-        return BookReadingProgress.ContainsKey(itemName)
-            && BookReadingProgress[itemName] >= BookManager.GetBook(itemName).ReadTime;
+        return bookReadingProgress.ContainsKey(itemName)
+            && bookReadingProgress[itemName] >= BookManager.GetBook(itemName).ReadTime;
     }
 
     private static void OnHourTick()
@@ -45,10 +46,10 @@ public class BookCampaignBehavior : CampaignBehaviorBase
         if (book == null)
             return;
 
-        BookReadingProgress.TryGetValue(book.ItemName, out var currentProgress);
-        BookReadingProgress[book.ItemName] = currentProgress + CalculateReadingProgress();
+        bookReadingProgress.TryGetValue(book.ItemName, out var currentProgress);
+        bookReadingProgress[book.ItemName] = currentProgress + CalculateReadingProgress();
 
-        if (BookReadingProgress[book.ItemName] >= book.ReadTime)
+        if (bookReadingProgress[book.ItemName] >= book.ReadTime)
         {
             book.FinishReading();
         }
@@ -82,5 +83,17 @@ public class BookCampaignBehavior : CampaignBehaviorBase
         // We can add more modifiers here, like hero's intelligence, what type of settlement they're in, etc.
 
         return progress;
+    }
+}
+
+public class BookProgressSaveDefiner : SaveableTypeDefiner
+{
+    // use a big number and ensure that no other mod is using a close range
+    public BookProgressSaveDefiner()
+        : base(5_275_032) { }
+
+    protected override void DefineContainerDefinitions()
+    {
+        ConstructContainerDefinition(typeof(Dictionary<string, float>));
     }
 }
