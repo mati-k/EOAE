@@ -79,7 +79,7 @@ public class SpellAimView : MissionView
         var distance = MissionScreen.CombatCamera.Position.AsVec2 - closestPoint.AsVec2;
         if (equippedSpell.Range > distance.Length)
         {
-            closestPoint.z = GetHeightAtPoint(closestPoint.AsVec2);
+            closestPoint.z = MagicAgentUtils.GetHeightAtPoint(closestPoint.AsVec2, equippedSpell);
             aimFrame.origin = closestPoint;
         }
         else
@@ -91,7 +91,7 @@ public class SpellAimView : MissionView
             // 3 is a magic number that fixes aim point snapping in third-person view
             var furthestPosition =
                 playerFrame.origin + playerLookDirection * (equippedSpell.Range - 3);
-            furthestPosition.z = GetHeightAtPoint(furthestPosition.AsVec2);
+            furthestPosition.z = MagicAgentUtils.GetHeightAtPoint(furthestPosition.AsVec2, equippedSpell);
 
             aimFrame.origin = furthestPosition;
         }
@@ -103,19 +103,5 @@ public class SpellAimView : MissionView
 
         aimEntity.SetGlobalFrame(aimFrame);
         LastAimFrame = aimFrame;
-    }
-
-    private float GetHeightAtPoint(Vec2 point)
-    {
-        float height = 0;
-        Mission.Scene.GetHeightAtPoint(
-            point,
-            BodyFlags.CommonCollisionExcludeFlagsForCombat,
-            ref height
-        );
-
-        // Bigger the area, higher the height for better visibility
-        height += 0.1f * equippedSpell.AreaRange;
-        return height;
     }
 }

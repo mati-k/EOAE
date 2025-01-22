@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EOAE_Code.Data.Xml;
+using EOAE_Code.Magic.Spells.BombardTargeting;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -25,10 +27,24 @@ public class BombardSpell : Spell
         _data = data.BombardSpellData;
     }
 
+    private BombardTargetingBase GetTargeting()
+    {
+        // With lot of agents sampling might be faster
+        if (Mission.Current.Agents.Count > 1000)
+        {
+            return BombardSamplingTargeting.Instance;
+        }
+
+        return BombardAgentTargeting.Instance;
+    }
+
     public override void Cast(Agent caster)
     {
-        // TODO: What's a good way to determine cast position for AI?
-        var playerCastFrame = GetAimedFrame(caster);
+        var playerCastFrame = caster.IsPlayerControlled ? GetAimedFrame(caster) : GetTargeting().GetBestFrame(caster, this);
+        if (playerCastFrame == MatrixFrame.Zero)
+        {
+            return;
+        }
 
         var missileSpawner = CreateMissileSpawner(playerCastFrame, caster);
 
@@ -47,8 +63,7 @@ public class BombardSpell : Spell
 
     public override bool IsAICastValid(Agent caster)
     {
-        // ToDo: along with the AI cast position
-        return true;
+        return GetTargeting().QuickValidate(caster, this);
     }
 
     private static MissileSpawner CreateMissileSpawner(MatrixFrame castFrame, Agent caster)

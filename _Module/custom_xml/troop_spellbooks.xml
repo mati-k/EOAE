@@ -10,5 +10,10 @@
     <Spells>
       <TroopSpellData Spell="fireball" Weight="10"/>
     </Spells>
-    </TroopSpellBookData>
+  </TroopSpellBookData>
+  <TroopSpellBookData TroopId="battanian_volunteer" >
+    <Spells>
+      <TroopSpellData Spell="whiteFlame" Weight="10"/>
+    </Spells>
+  </TroopSpellBookData>
 </ArrayOfTroopSpellBookData>
