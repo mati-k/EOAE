@@ -11,7 +11,7 @@ namespace EOAE_Code.AI
 {
     public class AICastingComponent : HumanAIComponent
     {
-        private const float SPELLCASTING_DELAY = 2.5f;
+        private const float SPELLCASTING_DELAY = 3.5f;
         private float timeSinceLastCast = 0;
 
         private EquipmentIndex equipmentIndex = EquipmentIndex.ExtraWeaponSlot;
