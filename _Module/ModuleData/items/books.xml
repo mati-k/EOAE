@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Items>
+  <Item
+    id="book_for_me"
+    name="Book for test"
+    mesh="lib_book_closed_a"
+    weight="1"
+    Type="Book">
+    <!--    <Flags/>-->
+  </Item>
+
+</Items>
