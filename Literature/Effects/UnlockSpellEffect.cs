@@ -22,7 +22,7 @@ public class UnlockSpellEffect : BookReadEffect
     {
         InformationManager.DisplayMessage(
             new InformationMessage(
-                $"You have unlocked new spell: {spell.Name}!",
+                $"{hero.Name} has unlocked new spell: {spell.Name}!",
                 UIColors.PositiveIndicator.AddFactorInHSB(0, -0.3f, 0)
             )
         );

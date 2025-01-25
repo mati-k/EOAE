@@ -6,7 +6,19 @@
     mesh="lib_book_closed_a"
     weight="1"
     Type="Book">
-    <!--    <Flags/>-->
   </Item>
-
+  <Item
+    id="book_for_fireball"
+    name="Book of fire"
+    mesh="lib_book_closed_a"
+    weight="1"
+    Type="Book">
+  </Item>
+  <Item
+    id="book_for_heal"
+    name="Book of life"
+    mesh="lib_book_closed_a"
+    weight="1"
+    Type="Book">
+  </Item>
 </Items>

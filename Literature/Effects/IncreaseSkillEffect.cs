@@ -55,7 +55,7 @@ public class IncreaseSkillEffect : BookReadEffect
     {
         InformationManager.DisplayMessage(
             new InformationMessage(
-                $"You're now more experienced in {Skill.Name!}",
+                $"{hero.Name} is now more experienced in {Skill.Name}!",
                 UIColors.PositiveIndicator.AddFactorInHSB(0, -0.3f, 0)
             )
         );

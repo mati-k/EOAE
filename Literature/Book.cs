@@ -34,35 +34,53 @@ public class Book
         }
     }
 
-    public void FinishReading()
+    public void FinishReading(Hero hero)
     {
         var bookItem = MBObjectManager.Instance.GetObject<ItemObject>(ItemName);
         InformationManager.DisplayMessage(
-            new InformationMessage($"Finished reading {bookItem.Name}!", UIColors.PositiveIndicator)
+            new InformationMessage(
+                $"{hero.Name} has finished reading {bookItem.Name}!",
+                UIColors.PositiveIndicator
+            )
         );
         SoundEvent.PlaySound2D("event:/ui/notification/unlock");
 
-        foreach (var readEffect in bookReadEffects)
-        {
-            readEffect.Apply(Campaign.Current.MainParty.LeaderHero);
-        }
+        bookReadEffects.ForEach(effect => effect.Apply(hero));
     }
 
-    public void AddTooltips(ItemMenuVM itemMenu, SPItemVM item)
+    public void AddTooltips(ItemMenuVM itemMenu)
     {
-        var progress = BookCampaignBehavior.GetProgress(item.StringId);
-        var isFinished = BookCampaignBehavior.IsBookFinished(item.StringId);
+        AddCurrentReaderTooltip(itemMenu);
+        bookReadEffects.ForEach(effect => effect.AddTooltips(itemMenu));
+        AddPlayerReadStatus(itemMenu);
+    }
+
+    private void AddCurrentReaderTooltip(ItemMenuVM itemMenu)
+    {
+        var literature = Campaign.Current.GetCampaignBehavior<LiteratureCampaignBehavior>();
+        var reader = literature.GetBookReader(ItemName);
+        if (reader == null)
+            return;
+
+        var progress = literature.GetProgress(reader, ItemName);
+        var isFinished = literature.HasReadBook(reader, ItemName);
         var progressText = isFinished ? "Read" : $"{progress / ReadTime:0%}";
 
+        itemMenu.AddTooltip("Used by: ", reader.Name.ToString(), Color.Black);
         itemMenu.AddTooltip(
             "Progress: ",
             progressText,
             isFinished ? UIColors.PositiveIndicator : Color.Black
         );
+    }
 
-        foreach (var readEffect in bookReadEffects)
-        {
-            readEffect.AddTooltips(itemMenu);
-        }
+    private void AddPlayerReadStatus(ItemMenuVM itemMenu)
+    {
+        var literature = Campaign.Current.GetCampaignBehavior<LiteratureCampaignBehavior>();
+
+        if (literature.HasReadBook(Hero.MainHero, ItemName))
+            itemMenu.AddTooltip(" ", "Read", Color.FromUint(0xFFBF40BF), 1);
+        else
+            itemMenu.AddTooltip(" ", "Not read", Color.FromUint(0xFF702963), 1);
     }
 }

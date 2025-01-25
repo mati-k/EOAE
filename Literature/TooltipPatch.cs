@@ -22,6 +22,6 @@ public class TooltipPatch
         if (!BookManager.IsBook(item.StringId))
             return;
 
-        BookManager.GetBook(item.StringId).AddTooltips(__instance, item);
+        BookManager.GetBook(item.StringId).AddTooltips(__instance);
     }
 }
