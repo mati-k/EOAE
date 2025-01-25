@@ -7,4 +7,14 @@
       <IncreaseSkill Skill="Restoration"/>
     </ReadEffects>
   </BookDataXml>
+  <BookDataXml ItemName="book_for_fireball" ReadTime="10">
+    <ReadEffects>
+      <UnlockSpell Spell="fireball"/>
+    </ReadEffects>
+  </BookDataXml>
+  <BookDataXml ItemName="book_for_heal" ReadTime="10">
+    <ReadEffects>
+      <UnlockSpell Spell="blueFlame"/>
+    </ReadEffects>
+  </BookDataXml>
 </ArrayOfBookDataXml>

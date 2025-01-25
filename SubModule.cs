@@ -52,7 +52,7 @@ namespace EOAE_Code
             if (Game.Current.GameType is Campaign && starterObject is CampaignGameStarter starter)
             {
                 starter.AddBehavior(new SavePatch());
-                starter.AddBehavior(new BookCampaignBehavior());
+                starter.AddBehavior(new LiteratureCampaignBehavior());
             }
         }
 

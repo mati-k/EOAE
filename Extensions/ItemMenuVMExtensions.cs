@@ -7,7 +7,13 @@ namespace EOAE_Code.Extensions;
 
 public static class ItemMenuVMExtensions
 {
-    public static void AddTooltip(this ItemMenuVM instance, string label, string value, Color color)
+    public static void AddTooltip(
+        this ItemMenuVM instance,
+        string label,
+        string value,
+        Color color,
+        int textHeight = 0
+    )
     {
         AccessTools
             .Method(typeof(ItemMenuVM), "CreateColoredProperty")
@@ -19,7 +25,7 @@ public static class ItemMenuVMExtensions
                     label,
                     value,
                     color,
-                    0,
+                    textHeight,
                     null,
                     TooltipProperty.TooltipPropertyFlags.None
                 }
