@@ -3,6 +3,7 @@ using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
 using EOAE_Code.Data.Xml.Book;
+using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Literature;
 using EOAE_Code.Magic;
 using HarmonyLib;
@@ -20,18 +21,18 @@ namespace EOAE_Code
         {
             base.OnSubModuleLoad();
 
-            XmlDataLoader.LoadXmlData<
+            XmlDataLoader.LoadXmlDataList<
                 SettlementUniqueMilitiaDataXml,
                 SettlementUniqueMilitiaManager
             >("custom_militia.xml");
-            XmlDataLoader.LoadXmlData<SpellDataXml, SpellManager>("spells.xml");
-            XmlDataLoader.LoadXmlData<TroopSpellBookData, TroopSpellBookManager>(
+            XmlDataLoader.LoadXmlDataCustomRoot<SpellData, SpellManager, SpellListData>("spells.xml");
+            XmlDataLoader.LoadXmlDataList<TroopSpellBookData, TroopSpellBookManager>(
                 "troop_spellbooks.xml"
             );
-            XmlDataLoader.LoadXmlData<AnimationDurationData, AnimationDurationManager>(
+            XmlDataLoader.LoadXmlDataList<AnimationDurationData, AnimationDurationManager>(
                 "animation_durations.xml"
             );
-            XmlDataLoader.LoadXmlData<BookDataXml, BookManager>("books.xml");
+            XmlDataLoader.LoadXmlDataList<BookDataXml, BookManager>("books.xml");
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();

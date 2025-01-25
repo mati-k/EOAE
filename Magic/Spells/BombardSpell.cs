@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells.BombardTargeting;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -11,20 +13,26 @@ using TaleWorlds.TwoDimension;
 
 namespace EOAE_Code.Magic.Spells;
 
-public class BombardSpell : Spell
+public class BombardSpell : Spell, IUseAreaAim
 {
     public override bool IsThrown => false;
-    private readonly BombardSpellData _data;
+    private readonly BombardMissileData _data;
 
-    public BombardSpell(SpellDataXml data)
+    public float Range { get; private set; }
+    public float Radius { get; private set; }
+    public string AreaAimPrefab { get; private set; }
+
+
+    public BombardSpell(SpellData data)
         : base(data)
     {
-        if (data.BombardSpellData == null)
-        {
-            throw new Exception("Bombard spell data is missing");
-        }
+        BombardSpellData bombardSpellData = data as BombardSpellData;
 
-        _data = data.BombardSpellData;
+        Range = bombardSpellData.Range;
+        Radius = bombardSpellData.Radius;
+        AreaAimPrefab = bombardSpellData.AreaAimPrefab;
+
+        _data = bombardSpellData.BombardMissile;
     }
 
     private BombardTargetingBase GetTargeting()
@@ -48,7 +56,7 @@ public class BombardSpell : Spell
 
         var missileSpawner = CreateMissileSpawner(playerCastFrame, caster);
 
-        GenerateOffsetsWithinCircle(_data.MissileCount, AreaRange, _data.MinHeight, _data.MaxHeight)
+        GenerateOffsetsWithinCircle(_data.MissileCount, Radius, _data.MinHeight, _data.MaxHeight)
             .ForEach(pos =>
                 missileSpawner.SpawnMissile(
                     _data.MissileName,

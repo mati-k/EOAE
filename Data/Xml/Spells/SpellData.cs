@@ -3,10 +3,15 @@ using System.Xml.Serialization;
 using EOAE_Code.Character;
 using TaleWorlds.Core;
 
-namespace EOAE_Code.Data.Xml
+namespace EOAE_Code.Data.Xml.Spells
 {
     [Serializable]
-    public class SpellDataXml
+    [XmlInclude(typeof(MissileSpellData))]
+    [XmlInclude(typeof(HealSelfSpellData))]
+    [XmlInclude(typeof(HealGroupSpellData))]
+    [XmlInclude(typeof(SummonSpellData))]
+    [XmlInclude(typeof(BombardSpellData))]
+    public class SpellData
     {
         [XmlAttribute]
         public string Name = "";
@@ -21,34 +26,10 @@ namespace EOAE_Code.Data.Xml
         public int Cost = 0;
 
         [XmlAttribute]
-        public string Effect = "";
-
-        [XmlAttribute]
-        public float EffecValue = 0;
-
-        [XmlAttribute]
-        public float Range = 0;
-
-        [XmlAttribute]
-        public float AreaRange = 0;
-
-        [XmlAttribute]
-        public bool AreaAim = false;
-
-        [XmlAttribute]
-        public string AreaAimPrefab = "";
-
-        [XmlAttribute]
         public string Icon = "";
 
         [XmlAttribute]
         public string Animation = "";
-
-        [XmlElement]
-        public SummonSpellData? SummonSpellData = null;
-
-        [XmlElement]
-        public BombardSpellData? BombardSpellData = null;
 
         [XmlIgnore]
         public SkillObject School

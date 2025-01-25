@@ -17,7 +17,7 @@ namespace EOAE_Code.Magic.Spells.BombardTargeting
 
         protected static float GetScoreAtPosition(Vec2 position, Agent caster, List<Agent> agents, BombardSpell spell)
         {
-            var spellRadiusSquared = Math.Pow(spell.AreaRange, 2);
+            var spellRadiusSquared = Math.Pow(spell.Radius, 2);
             float score = 0f;
 
             foreach (var agent in agents)
@@ -33,7 +33,7 @@ namespace EOAE_Code.Magic.Spells.BombardTargeting
 
         protected static List<Agent> GetAgentsWithinVision(Agent caster, BombardSpell spell)
         {
-            var spellDistanceSquared = Math.Pow(spell.Range + spell.AreaRange, 2);
+            var spellDistanceSquared = Math.Pow(spell.Range + spell.Radius, 2);
            
             var humanAgents = Mission.Current.Agents.Where(agent => agent.IsHuman).ToList();
             return humanAgents.Where(agent => agent.Position.DistanceSquared(caster.Position) <= spellDistanceSquared)

@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace EOAE_Code.Data.Xml
 {
     [Serializable]
-    public class BombardSpellData
+    public class BombardMissileData
     {
         [XmlAttribute]
         public string MissileName = "";

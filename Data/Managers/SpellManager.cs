@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
+using TaleWorlds.CampaignSystem.Extensions;
 using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Managers
 {
-    public class SpellManager : IDataManager<SpellDataXml>
+    public class SpellManager : IDataManager<SpellData>
     {
         private static Dictionary<string, Spell> spells = new();
         private static Dictionary<WeaponComponentData, ItemObject> spellWeapons = new();
@@ -58,32 +59,28 @@ namespace EOAE_Code.Data.Managers
             return spells.Values.ToList();
         }
 
-        public void Add(SpellDataXml item)
+        public void Add(SpellData item)
         {
-            Spell spell;
-            switch (item.Effect)
+            if (item is MissileSpellData)
             {
-                case "Throw":
-                    spell = new MissileSpell(item);
-                    break;
-                case "HealSelf":
-                    spell = new HealSelfSpell(item);
-                    break;
-                case "HealGroup":
-                    spell = new HealGroupSpell(item);
-                    break;
-                case "Summon":
-                    spell = new SummonSpell(item);
-                    break;
-                case "Bombard":
-                    spell = new BombardSpell(item);
-                    break;
-                default:
-                    spell = new MissileSpell(item);
-                    break;
+                spells.Add(item.ItemName, new MissileSpell(item));
             }
-
-            spells.Add(item.ItemName, spell);
+            else if (item is HealSelfSpellData)
+            {
+                spells.Add(item.ItemName, new HealSelfSpell(item));
+            }
+            else if (item is HealGroupSpellData)
+            {
+                spells.Add(item.ItemName, new HealGroupSpell(item));
+            }
+            else if (item is SummonSpellData)
+            {
+                spells.Add(item.ItemName, new SummonSpell(item));
+            }
+            else if (item is BombardSpellData)
+            {
+                spells.Add(item.ItemName, new BombardSpell(item));
+            }
         }
 
         public static void Clear()

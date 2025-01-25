@@ -1,4 +1,4 @@
-﻿using EOAE_Code.Data.Xml;
+﻿using EOAE_Code.Data.Xml.Spells;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.Spells
@@ -7,7 +7,7 @@ namespace EOAE_Code.Magic.Spells
     {
         public override bool IsThrown => true;
 
-        public MissileSpell(SpellDataXml data)
+        public MissileSpell(SpellData data)
             : base(data) { }
 
         public override void Cast(Agent caster) { }

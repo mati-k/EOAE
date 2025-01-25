@@ -1,5 +1,5 @@
 ﻿using System;
-using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Spells;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.Spells
@@ -11,12 +11,18 @@ namespace EOAE_Code.Magic.Spells
 
         public override bool IsThrown => false;
 
-        public HealSelfSpell(SpellDataXml data)
-            : base(data) { }
+        public float HealValue { get; private set; }
+
+        public HealSelfSpell(SpellData data)
+            : base(data) 
+        {
+            HealSelfSpellData healSelfSpellData = data as HealSelfSpellData;
+            HealValue = healSelfSpellData.HealValue;
+        }
 
         public override void Cast(Agent caster)
         {
-            caster.Health = Math.Min(caster.Health + EffectValue, caster.HealthLimit);
+            caster.Health = Math.Min(caster.Health + HealValue, caster.HealthLimit);
         }
 
         // Cast only if either has enough surplus mana or the heal is effective enough
@@ -29,7 +35,7 @@ namespace EOAE_Code.Magic.Spells
                 return false;
             }
 
-            bool isAboveMinimumEffectiveHeal = caster.HealthLimit - caster.Health >= EffectValue * MIN_HEALED_SPELL_PERCENTAGE;
+            bool isAboveMinimumEffectiveHeal = caster.HealthLimit - caster.Health >= HealValue * MIN_HEALED_SPELL_PERCENTAGE;
             if (currentMana < UNRESTRICTED_HEAL_MANA && !isAboveMinimumEffectiveHeal)
             {
                 return false;
