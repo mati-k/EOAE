@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SpellList>
+  <Spells>
+    <!-- Simple throwable type of spell -->
+    <Missile
+      Name="Fireball | Display name"
+      ItemName="fireball | Id of item in hand"
+      School="Destruction | Which school to use"
+      Cost="25 | Mana cost"
+      Icon="Stone | Icon in the radial selection"
+      Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
+    />
+    <!-- Spells falling from above within marked circle -->
+    <Bombard
+      Name="Rain of Fire | Display name"
+      ItemName="whiteFlame | Id of item in hand"
+      School="Destruction | Which school to use"
+      Cost="70 | Mana cost"
+      Range="50 | How far you can cast it"
+      Radius="6 | How wide will the area of spell be"
+      AreaAimPrefab="casting_circle_prefab | What to use for the aiming circle"
+      Icon="Stone | Icon in the radial selection"
+      Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
+    >
+      <Missile
+        MissileName="firestorm | Id of the falling missile"
+        MissileCount="30 | How many missiles will be shoot"
+        MissileSpeed="10 | How fast it goes down"
+        MinHeight="20 | Lowest point of missile spawn"
+        MaxHeight="100 | Heighest point of missile spawn"
+      />
+    </Bombard>
+    <!-- Healing caster only -->
+    <HealSelf
+      Name="Heal | Display name"
+      ItemName="blueFlame | Id of item in hand"
+      School="Restoration | Which school to use"
+      Cost="25 | Mana cost"
+      HealValue="50 | How much to heal"
+      Icon="Shield | Icon in the radial selection"
+      Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
+    />
+    <!-- Healing caster and allies within range -->
+    <HealGroup
+      Name="Group Heal | Display name"
+      ItemName="bloodFlame | Id of item in hand"
+      School="Restoration | Which school to use"
+      Cost="25 | Mana cost"
+      HealRange="15 | Range of healing effect around caster"
+      HealValue="25 | How much to heal"
+      Icon="Shield | Icon in the radial selection"
+      Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
+    />
+    <!-- Summoning troops for set time -->
+    <Summon
+      Name="Summon | Display name"
+      ItemName="arcanesparks | Id of item in hand"
+      School="Conjuration | Which school to use"
+      Cost="25 | Mana cost"
+      Range="15 | How far you can cast"
+      Radius="3 | Area within which troops will be spawned"
+      AreaAimPrefab="casting_circle_prefab | What to use for the aiming circle"
+      Icon="Banne | Icon in the radial selectionr"
+      Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
+    >
+      <!-- List of entities to summon, each will be spawned -->
+      <SummonEntities>
+        <SummonEntity
+          AgentName="sword_sisters_sister_infantry_t5 | Troop id"
+          Duration="15 | How long it will remain (in seconds)"
+          Amount="3 | How many will be spawned"
+        />
+      </SummonEntities>
+    </Summon>
+  </Spells>
+</SpellList>
