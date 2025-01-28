@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SpellList>
+<SpellList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
   <Spells>
     <Missile
       Name="Fireball"
@@ -9,6 +9,21 @@
       Icon="Stone"
       Animation="act_fire_magic"
     />
+    <Missile
+      Name="Snowball"
+      ItemName="lightningsparks"
+      School="Destruction"
+      Cost="25"
+      Icon="Stone"
+      Animation="act_fire_magic"
+    >
+      <StatusEffect
+        xsi:type="MovementSpeedEffectData"
+        key="freeze"
+        Value="-0.8"
+        Duration="15"
+        />
+    </Missile>
     <Bombard
       Name="Rain of Fire"
       ItemName="whiteFlame"
