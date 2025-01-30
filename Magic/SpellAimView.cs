@@ -62,7 +62,7 @@ public class SpellAimView : MissionView
 
     private void AimTick()
     {
-        if (aimEntity == null || equippedSpell == null || Mission.MainAgent == null || equippedSpell is not IUseAreaAim areaAimable)
+        if (aimEntity == null || Mission.MainAgent == null || equippedSpell is not IUseAreaAim areaAimable)
             return;
 
         var playerAgent = Mission.MainAgent;
