@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using EOAE_Code.Agents;
+using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -51,17 +52,17 @@ public class SpellAimView : MissionView
         }
 
         var newSpell = Agent.Main?.GetEquippedSpell();
-        if (newSpell is not { AreaAim: true })
+        if (newSpell is not IUseAreaAim useAreaAim)
             return;
 
-        aimEntity = GameEntity.Instantiate(Mission.Scene, newSpell.AreaAimPrefab, false);
+        aimEntity = GameEntity.Instantiate(Mission.Scene, useAreaAim.AreaAimPrefab, false);
         aimEntity.SetMobility(GameEntity.Mobility.dynamic);
         equippedSpell = newSpell;
     }
 
     private void AimTick()
     {
-        if (aimEntity == null || equippedSpell == null || Mission.MainAgent == null)
+        if (aimEntity == null || Mission.MainAgent == null || equippedSpell is not IUseAreaAim areaAimable)
             return;
 
         var playerAgent = Mission.MainAgent;
@@ -77,9 +78,9 @@ public class SpellAimView : MissionView
         );
 
         var distance = MissionScreen.CombatCamera.Position.AsVec2 - closestPoint.AsVec2;
-        if (equippedSpell.Range > distance.Length)
+        if (areaAimable.Range > distance.Length)
         {
-            closestPoint.z = MagicAgentUtils.GetHeightAtPoint(closestPoint.AsVec2, equippedSpell);
+            closestPoint.z = MagicAgentUtils.GetHeightAtPoint(closestPoint.AsVec2, areaAimable);
             aimFrame.origin = closestPoint;
         }
         else
@@ -90,8 +91,8 @@ public class SpellAimView : MissionView
 
             // 3 is a magic number that fixes aim point snapping in third-person view
             var furthestPosition =
-                playerFrame.origin + playerLookDirection * (equippedSpell.Range - 3);
-            furthestPosition.z = MagicAgentUtils.GetHeightAtPoint(furthestPosition.AsVec2, equippedSpell);
+                playerFrame.origin + playerLookDirection * (areaAimable.Range - 3);
+            furthestPosition.z = MagicAgentUtils.GetHeightAtPoint(furthestPosition.AsVec2, areaAimable);
 
             aimFrame.origin = furthestPosition;
         }
@@ -99,7 +100,7 @@ public class SpellAimView : MissionView
         var aimRotation = playerFrame.rotation;
         aimRotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
         aimFrame.rotation = aimRotation;
-        aimFrame.Scale(Vec3.One * 0.0002f * equippedSpell.AreaRange);
+        aimFrame.Scale(Vec3.One * 0.0002f * areaAimable.Radius);
 
         aimEntity.SetGlobalFrame(aimFrame);
         LastAimFrame = aimFrame;

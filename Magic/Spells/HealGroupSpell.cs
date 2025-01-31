@@ -1,5 +1,5 @@
 ﻿using System;
-using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Spells;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -12,22 +12,30 @@ namespace EOAE_Code.Magic.Spells
 
         public override bool IsThrown => false;
 
-        public HealGroupSpell(SpellDataXml data)
-            : base(data) { }
+        public float HealValue { get; private set; }
+        public float HealRange { get; private set; }
+
+        public HealGroupSpell(SpellData data)
+            : base(data) 
+        {
+            HealGroupSpellData healGroupSpellData = data as HealGroupSpellData;
+            HealValue = healGroupSpellData.HealValue;
+            HealRange = healGroupSpellData.HealRange;
+        }
 
         public override void Cast(Agent caster)
         {
             var agents = new MBList<Agent>(Mission.Current.Agents);
             Mission.Current.GetNearbyAllyAgents(
                 caster.Position.AsVec2,
-                AreaRange,
+                HealRange,
                 caster.Team,
                 agents
             );
 
             foreach (var agent in agents)
             {
-                agent.Health = Math.Min(agent.Health + EffectValue, agent.HealthLimit);
+                agent.Health = Math.Min(agent.Health + HealValue, agent.HealthLimit);
             }
         }
 
@@ -39,7 +47,7 @@ namespace EOAE_Code.Magic.Spells
             var agents = new MBList<Agent>(Mission.Current.Agents);
             Mission.Current.GetNearbyAllyAgents(
                 caster.Position.AsVec2,
-                AreaRange,
+                HealRange,
                 caster.Team,
                 agents
             );
@@ -47,7 +55,7 @@ namespace EOAE_Code.Magic.Spells
             float healedAmount = 0;
             foreach (var agent in agents)
             {
-                healedAmount += Math.Min(agent.HealthLimit - agent.Health, EffectValue);
+                healedAmount += Math.Min(agent.HealthLimit - agent.Health, HealValue);
             }
 
             if (healedAmount == 0)
@@ -55,7 +63,7 @@ namespace EOAE_Code.Magic.Spells
                 return false;
             }
 
-            bool isAboveMinimumEffectiveHeal = healedAmount >= EffectValue * MIN_HEALED_SPELL_PERCENTAGE;
+            bool isAboveMinimumEffectiveHeal = healedAmount >= HealValue * MIN_HEALED_SPELL_PERCENTAGE;
             if (currentMana < UNRESTRICTED_HEAL_MANA && !isAboveMinimumEffectiveHeal)
             {
                 return false;

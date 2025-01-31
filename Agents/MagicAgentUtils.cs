@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Managers;
+using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -32,7 +33,7 @@ public static class MagicAgentUtils
         return SpellManager.GetSpellFromItem(itemName);
     }
 
-    public static float GetHeightAtPoint(Vec2 point, Spell? spell)
+    public static float GetHeightAtPoint(Vec2 point, IUseAreaAim? spell)
     {
         float height = 0;
         Mission.Current.Scene.GetHeightAtPoint(
@@ -42,7 +43,7 @@ public static class MagicAgentUtils
         );
 
         // Bigger the area, higher the height for better visibility
-        height += 0.1f * spell.AreaRange;
+        height += 0.1f * spell.Radius;
         return height;
     }
 }

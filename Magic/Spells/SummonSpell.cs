@@ -1,27 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using EOAE_Code.Agents;
 using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Interfaces;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.Spells;
 
-public class SummonSpell : Spell
+public class SummonSpell : Spell, IUseAreaAim
 {
     private const float SPAWNED_TIME_LEFT_TO_DISMISS = 3;
 
     public override bool IsThrown => false;
 
-    private readonly SummonSpellData data;
+    public float Range { get; private set; }
+    public float Radius { get; private set; }
+    public List<SummonEntityData> SummonEntities { get; private set; }
+    public string AreaAimPrefab { get; private set; }
 
-    public SummonSpell(SpellDataXml data)
+    public SummonSpell(SpellData data)
         : base(data)
     {
-        if (data.SummonSpellData == null)
+        SummonSpellData summonSpellData = data as SummonSpellData;
+
+        if (summonSpellData.SummonEntities.Count == 0)
         {
-            throw new Exception("Summon data is null");
+            throw new Exception("Summon spell must have at least one entity to summon");
         }
 
-        this.data = data.SummonSpellData;
+        Radius = summonSpellData.Radius;
+        Radius = summonSpellData.Radius;
+        SummonEntities = summonSpellData.SummonEntities;
+        AreaAimPrefab = summonSpellData.AreaAimPrefab;
     }
 
     public override void Cast(Agent caster)
@@ -34,7 +45,10 @@ public class SummonSpell : Spell
             caster.AddComponent(summonerComponent);
         }
 
-        summonerComponent.Summon(caster, GetAimedPosition(caster), data);
+        foreach (var data in SummonEntities)
+        {
+            summonerComponent.Summon(caster, GetAimedPosition(caster), data);
+        }
     }
 
     public override bool IsAICastValid(Agent caster)

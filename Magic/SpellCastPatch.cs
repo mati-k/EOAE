@@ -3,6 +3,7 @@ using System.Linq;
 using EOAE_Code.Agents;
 using EOAE_Code.Character;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -215,7 +216,7 @@ namespace EOAE_Code.Magic
         public static bool PatchGetShouldCrosshairBeVisible(ref bool __result)
         {
             var spell = Agent.Main?.GetEquippedSpell();
-            if (spell != null && (spell.AreaAim || !spell.IsThrown))
+            if (spell != null && (spell is IUseAreaAim || !spell.IsThrown))
             {
                 __result = false;
                 return false;

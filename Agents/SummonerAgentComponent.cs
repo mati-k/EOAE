@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.Spells;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.Core;
@@ -18,7 +18,7 @@ public class SummonerAgentComponent : AgentComponent
     public SummonerAgentComponent(Agent agent)
         : base(agent) { }
 
-    public void Summon(Agent caster, Vec3 position, SummonSpellData data)
+    public void Summon(Agent caster, Vec3 position, SummonEntityData data)
     {
         ClearSummons();
 
@@ -30,7 +30,7 @@ public class SummonerAgentComponent : AgentComponent
         SummonDespawnTime = Mission.Current.CurrentTime + data.Duration;
     }
 
-    private void SummonAgent(Agent caster, Vec3 position, SummonSpellData data)
+    private void SummonAgent(Agent caster, Vec3 position, SummonEntityData data)
     {
         var character = MBObjectManager.Instance.GetObject<CharacterObject>(data.AgentName);
         var agent = Mission.Current.SpawnTroop(
