@@ -8,7 +8,14 @@
       Cost="25"
       Icon="Stone"
       Animation="act_fire_magic"
+    >
+    <StatusEffect
+      xsi:type="DamageOverTimeEffectData"
+      key="burning"
+      Value="10"
+      Duration="5"
     />
+    </Missile>
     <Missile
       Name="Snowball"
       ItemName="lightningsparks"

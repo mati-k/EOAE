@@ -31,6 +31,11 @@ namespace EOAE_Code.Data.Managers
 
         public static bool IsWeaponSpell(WeaponComponentData weaponComponentData)
         {
+            if (weaponComponentData == null)
+            {
+                return false;
+            }
+
             return spellWeapons.ContainsKey(weaponComponentData);
         }
 

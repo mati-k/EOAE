@@ -5,6 +5,7 @@ using TaleWorlds.MountAndBlade;
 namespace EOAE_Code.Data.Xml.StatusEffects
 {
     [XmlInclude(typeof(MovementSpeedEffectData))]
+    [XmlInclude(typeof(DamageOverTimeEffectData))]
     [Serializable]
     public abstract class StatusEffectBase
     {
@@ -19,5 +20,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
         public float Duration = 0;
 
         public abstract void Apply(float totalValue, AgentDrivenProperties multiplierProperties);
+
+        public abstract void EffectTick(float totalValue, Agent target, Agent caster); 
     }
 }

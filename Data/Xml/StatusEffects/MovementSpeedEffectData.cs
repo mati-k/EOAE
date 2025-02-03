@@ -14,5 +14,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
         {
             multiplierProperties.MaxSpeedMultiplier = totalValue + 1;
         }
+
+        public override void EffectTick(float totalValue, Agent target, Agent caster) { }
     }
 }

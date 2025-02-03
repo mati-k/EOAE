@@ -13,6 +13,9 @@ namespace EOAE_Code.Magic
 {
     public class AgentStatusEffects
     {
+        private const float EFFECT_TICK_RATE = 1;
+        private float tickCounter = EFFECT_TICK_RATE;
+
         public Agent Agent { get; private set; }
         private Dictionary<Type, List<AppliedStatusEffect>> ActiveStatusEffects = new();
 
@@ -36,7 +39,10 @@ namespace EOAE_Code.Magic
             if (appliedStatusEffect.StatusEffect is MovementSpeedEffectData)
             {
                 Agent.AgentVisuals.SetContourColor(Colors.Blue.ToUnsignedInteger(), true);
-                Agent.AgentDrivenProperties.MaxSpeedMultiplier = 1 + appliedStatusEffect.StatusEffect.Value;
+            }
+            else
+            {
+                Agent.AgentVisuals.SetContourColor(Colors.Red.ToUnsignedInteger(), true);
             }
         }
 
@@ -68,6 +74,8 @@ namespace EOAE_Code.Magic
             // Todo: maybe do this every 1s or so to save performance
             RecalculateStats();
             Agent.UpdateAgentProperties();
+
+            FireEffectTick(dt);
         }
 
         private void RecalculateStats()
@@ -90,6 +98,34 @@ namespace EOAE_Code.Magic
                     .Sum();
 
                 statusEffectList.First().StatusEffect.Apply(summedEffectValue, AgentPropertiesMultipliers);
+            }
+        }
+
+        private void FireEffectTick(float dt)
+        {
+            tickCounter -= dt;
+
+            if (tickCounter < 0)
+            {
+                foreach (var statusEffectList in ActiveStatusEffects.Values)
+                {
+                    if (statusEffectList.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    // Find maximum values of each type and sum them to get final effect
+                    // i.e. freeze type slowing and potion type increasing speed, finds max of each and gets final
+                    var summedEffectValue = statusEffectList
+                        .GroupBy(effect => effect.StatusEffect.Key)
+                        .Select(group => group.MaxByCustom(effect => Math.Abs(effect.StatusEffect.Value)))
+                        .Select(effect => effect.StatusEffect.Value)
+                        .Sum();
+
+                    statusEffectList.First().StatusEffect.EffectTick(summedEffectValue, Agent, statusEffectList.First().Caster);
+                }
+
+                tickCounter = EFFECT_TICK_RATE;
             }
         }
     }
