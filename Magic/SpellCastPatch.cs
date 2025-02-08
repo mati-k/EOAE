@@ -5,6 +5,7 @@ using EOAE_Code.Character;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
+using EOAE_Code.Magic.StatusEffect;
 using HarmonyLib;
 using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;

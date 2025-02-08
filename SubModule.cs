@@ -6,6 +6,8 @@ using EOAE_Code.Data.Xml.Book;
 using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Literature;
 using EOAE_Code.Magic;
+using EOAE_Code.Magic.StatusEffect;
+using EOAE_Code.Models;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -65,6 +67,14 @@ namespace EOAE_Code
             mission.AddMissionBehavior(new MagicMissionView());
             mission.AddMissionBehavior(new SpellAimView());
             mission.AddMissionBehavior(new SpellSelectorView());
+            mission.AddMissionBehavior(new StatusEffectLogic());
+        }
+
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        {
+            base.OnGameStart(game, gameStarterObject);
+
+            gameStarterObject.AddModel(new AgentStatusEffectModel());
         }
     }
 }
