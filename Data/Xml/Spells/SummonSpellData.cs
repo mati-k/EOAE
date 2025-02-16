@@ -18,6 +18,7 @@ namespace EOAE_Code.Data.Xml.Spells
         [XmlArrayItem("SummonEntity")]
         public List<SummonEntityData> SummonEntities = new();
 
+        [XmlAttribute]
         public string AreaAimPrefab = "";
     }
 }

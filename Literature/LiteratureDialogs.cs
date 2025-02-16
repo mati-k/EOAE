@@ -17,7 +17,7 @@ public static class LiteratureDialogs
     public static void AddBookDialogs(CampaignGameStarter starter)
     {
         if (BookManager.GetBookNames().Count == 0)
-            XmlDataLoader.LoadXmlData<BookDataXml, BookManager>("books.xml");
+            XmlDataLoader.LoadXmlDataList<BookDataXml, BookManager>("books.xml");
 
         starter.AddPlayerLine(
             "companion_start_book",
