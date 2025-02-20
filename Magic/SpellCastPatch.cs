@@ -5,7 +5,6 @@ using EOAE_Code.Character;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
-using EOAE_Code.Magic.StatusEffect;
 using HarmonyLib;
 using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
@@ -178,7 +177,9 @@ namespace EOAE_Code.Magic
                         else if (shooterAgent.IsPlayerControlled)
                         {
                             InformationManager.DisplayMessage(
-                                new InformationMessage("Not enough mana.")
+                                new InformationMessage(
+                                    new TextObject("{=mbNhD53v}Not enough mana.").ToString()
+                                )
                             );
                             shooterAgent.SetWeaponAmountInSlot(weaponIndex, 1 + 1, true);
 

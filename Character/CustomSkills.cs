@@ -37,22 +37,22 @@ namespace EOAE_Code.Character
             );
             Destruction
                 .Initialize(
-                    new TextObject("{=!}Destruction", null),
-                    new TextObject("{=!}Destruction, break shit!.", null),
+                    new TextObject("{=5o7F9ZFA}Destruction"),
+                    new TextObject("{=P7SIPHVb}Destruction, break shit!"),
                     SkillObject.SkillTypeEnum.Personal
                 )
                 .SetAttribute(Attributes.Instance.Magic);
             Restoration
                 .Initialize(
-                    new TextObject("{=!}Restoration", null),
-                    new TextObject("{=!}Restoration, fix shit!.", null),
+                    new TextObject("{=NCf2MEdC}Restoration"),
+                    new TextObject("{=9a1GPLFY}Restoration, fix shit!"),
                     SkillObject.SkillTypeEnum.Personal
                 )
                 .SetAttribute(Attributes.Instance.Magic);
             Conjuration
                 .Initialize(
-                    new TextObject("{=!}Conjuration", null),
-                    new TextObject("{=!}Conjuration, summon shit!.", null),
+                    new TextObject("{=5C8nzLIQ}Conjuration"),
+                    new TextObject("{=XQ4epc7d}Conjuration, summon shit!"),
                     SkillObject.SkillTypeEnum.Personal
                 )
                 .SetAttribute(Attributes.Instance.Magic);

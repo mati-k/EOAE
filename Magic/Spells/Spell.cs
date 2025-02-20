@@ -2,6 +2,7 @@
 using EOAE_Code.Interfaces;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.Spells
@@ -18,7 +19,7 @@ namespace EOAE_Code.Magic.Spells
 
         public Spell(SpellData data)
         {
-            Name = data.Name;
+            Name = new TextObject(data.Name).ToString();
             ItemName = data.ItemName;
             Cost = data.Cost;
             Icon = data.Icon;
