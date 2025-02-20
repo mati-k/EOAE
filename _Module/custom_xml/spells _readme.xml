@@ -30,6 +30,25 @@
         MaxHeight="100 | Heighest point of missile spawn"
       />
     </Bombard>
+    <!-- Spells dealing damage over time within the marked area -->
+    <Bombard
+      Name="Lightning Storm | Display name"
+      ItemName="fireSkull | Id of item in hand"
+      School="Destruction | Which school to use"
+      Cost="40 | Mana cost"
+      Range="30 | How far you can cast it"
+      Radius="5 | How wide will the area of spell be"
+      AreaAimPrefab="casting_circle_prefab | What to use for the aiming circle"
+      Icon="Stone | Icon in the radial selection"
+      Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
+    >
+      <Effect
+        Prefab="casting_circle_prefab | Object to use as base at the height (Could be things like cloud, or empty for some with just particle stuff)"
+        Height="100 | Height of the prefab"
+        DamagePerSecond="15 | Damage dealt to agents within the radius every second"
+        Duration="5 | How long spell will last"
+      />
+    </Bombard>
     <!-- Healing caster only -->
     <HealSelf
       Name="Heal | Display name"

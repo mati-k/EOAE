@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace EOAE_Code.Data.Xml.Spells
 {
     [Serializable]
-    public class BombardSpellData : SpellData
+    public class AreaSpellData : SpellData
     {
         [XmlAttribute]
         public float Range = 0;
@@ -12,8 +12,8 @@ namespace EOAE_Code.Data.Xml.Spells
         [XmlAttribute]
         public float Radius = 0;
 
-        [XmlElement("Missile")]
-        public BombardMissileData BombardMissile = new();
+        [XmlElement("Effect")]
+        public AreaEffectData Effect = new();
 
         [XmlAttribute]
         public string AreaAimPrefab = "";

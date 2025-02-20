@@ -1,6 +1,6 @@
-﻿using System;
+﻿using EOAE_Code.Character;
+using System;
 using System.Xml.Serialization;
-using EOAE_Code.Character;
 using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Xml.Spells
@@ -11,6 +11,7 @@ namespace EOAE_Code.Data.Xml.Spells
     [XmlInclude(typeof(HealGroupSpellData))]
     [XmlInclude(typeof(SummonSpellData))]
     [XmlInclude(typeof(BombardSpellData))]
+    [XmlInclude(typeof(AreaSpellData))]
     public class SpellData
     {
         [XmlAttribute]
