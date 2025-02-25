@@ -1,5 +1,5 @@
 ﻿using EOAE_Code.Agents;
-using System.Linq;
+using EOAE_Code.Interfaces;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -21,7 +21,7 @@ namespace EOAE_Code.Magic.Spells.BombardTargeting
             }
         }
 
-        public override MatrixFrame GetBestFrame(Agent caster, BombardSpell spell)
+        public override MatrixFrame GetBestFrame(Agent caster, IUseAreaAim spell)
         {
             var validAgents = GetAgentsWithinVision(caster, spell);
 
@@ -33,7 +33,7 @@ namespace EOAE_Code.Magic.Spells.BombardTargeting
             {
                 var spellCenter = sourceAgent.Position.AsVec2;
                 var score = GetScoreAtPosition(spellCenter, caster, validAgents, spell);
-               
+
                 if (score > bestScore)
                 {
                     bestScore = score;
@@ -46,7 +46,10 @@ namespace EOAE_Code.Magic.Spells.BombardTargeting
                 return MatrixFrame.Zero;
             }
 
-            return new MatrixFrame(Mat3.Identity, new Vec3(bestFrame, MagicAgentUtils.GetHeightAtPoint(bestFrame, spell)));
+            return new MatrixFrame(
+                Mat3.Identity,
+                new Vec3(bestFrame, MagicAgentUtils.GetHeightAtPoint(bestFrame, spell))
+            );
         }
     }
 }

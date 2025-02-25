@@ -14,6 +14,7 @@ namespace EOAE_Code.Data.Xml.Spells
         [XmlArrayItem("HealGroup", typeof(HealGroupSpellData))]
         [XmlArrayItem("Summon", typeof(SummonSpellData))]
         [XmlArrayItem("Bombard", typeof(BombardSpellData))]
+        [XmlArrayItem("Area", typeof(AreaSpellData))]
         public List<SpellData> Spells = new List<SpellData>();
 
         public List<SpellData> GetDataList()

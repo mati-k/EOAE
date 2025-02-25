@@ -69,6 +69,24 @@
         MaxHeight="150"
       />
     </Bombard>
+    <Area
+      Name="Lightning Storm"
+      ItemName="fireSkull"
+      School="Destruction"
+      Cost="40"
+      Range="30"
+      Radius="5"
+      AreaAimPrefab="casting_circle_prefab"
+      Icon="Stone"
+      Animation="act_fire_magic"
+      >
+      <Effect
+        Prefab="casting_circle_prefab"
+        DamagePerSecond="15"
+        Duration="5"
+        Height="50"
+        />
+    </Area>
     <HealSelf
       Name="Heal"
       ItemName="blueFlame"

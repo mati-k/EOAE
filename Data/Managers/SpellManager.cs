@@ -3,7 +3,6 @@ using System.Linq;
 using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
-using TaleWorlds.CampaignSystem.Extensions;
 using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Managers
@@ -85,6 +84,10 @@ namespace EOAE_Code.Data.Managers
             else if (item is BombardSpellData)
             {
                 spells.Add(item.ItemName, new BombardSpell(item));
+            }
+            else if (item is AreaSpellData)
+            {
+                spells.Add(item.ItemName, new AreaSpell(item));
             }
         }
 
