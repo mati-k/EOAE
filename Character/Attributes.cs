@@ -29,7 +29,9 @@ namespace EOAE_Code.Character
             );
             Magic.Initialize(
                 new TextObject("{=1XUiDuRD}Magic"),
-                new TextObject("{=ssYqIdga}Magic is cool thing allowing you to do cool things."),
+                new TextObject(
+                    "{=ssYqIdga}Magic is cool thing allowing you to do cool things.\n\nEach level gives +5 max Mana and +1 mana/s"
+                ),
                 new TextObject("{=4ZAQ8Q7P}MAG")
             );
         }

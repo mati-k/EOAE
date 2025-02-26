@@ -135,19 +135,20 @@ namespace EOAE_Code.Magic
                 MissionWeapon missionWeapon = shooterAgent.Equipment[weaponIndex];
                 if (SpellManager.IsWeaponSpell(missionWeapon.CurrentUsageItem))
                 {
-                    if (MagicMissionLogic.CurrentMana.ContainsKey(shooterAgent))
+                    if (MagicMissionLogic.AgentsMana.ContainsKey(shooterAgent))
                     {
+                        var agentMana = MagicMissionLogic.AgentsMana[shooterAgent];
                         Spell spell = SpellManager.GetSpellFromWeapon(
                             missionWeapon.CurrentUsageItem
                         );
 
-                        if (MagicMissionLogic.CurrentMana[shooterAgent] >= spell.Cost)
+                        if (agentMana.CurrentMana >= spell.Cost)
                         {
-                            MagicMissionLogic.CurrentMana[shooterAgent] -= spell.Cost;
+                            agentMana.Consume(spell.Cost);
 
                             if (
                                 shooterAgent.IsPlayerControlled
-                                || MagicMissionLogic.CurrentMana[shooterAgent] >= spell.Cost
+                                || agentMana.CurrentMana >= spell.Cost
                             )
                             {
                                 // Restock for player or AI with enough mana to keep firing without interruption
@@ -168,7 +169,7 @@ namespace EOAE_Code.Magic
                                             Color.FromUint(0xFF0000)
                                         )
                                     );
-                                    MagicMissionLogic.CurrentMana[shooterAgent] += spell.Cost;
+                                    agentMana.Consume(-spell.Cost);
                                 }
 
                                 return false;

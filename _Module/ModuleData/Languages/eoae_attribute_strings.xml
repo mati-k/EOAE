@@ -5,7 +5,7 @@
   </tags>
   <strings>
     <string id="1XUiDuRD" text="Magic" />
-    <string id="ssYqIdga" text="Magic is cool thing allowing you to do cool things." />
+    <string id="ssYqIdga" text="Magic is cool thing allowing you to do cool things.\n\nEach level gives +5 max Mana and +1 mana/s" />
     <string id="4ZAQ8Q7P" text="MAG" />
 
     <string id="5o7F9ZFA" text="Destruction" />
