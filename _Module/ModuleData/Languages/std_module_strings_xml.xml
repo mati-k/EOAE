@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--To make translation: new folder in Languages named with language prefix, copy all folders down there-->
-<!--https://www.random.org/strings/-->
+<!--https://www.random.org/strings/?num=25&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=html&rnd=new-->
 <!--Make sure key is not already in mod / base game-->
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
   <tags>
