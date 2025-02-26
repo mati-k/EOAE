@@ -28,9 +28,9 @@ namespace EOAE_Code.Character
                 new CharacterAttribute("magic")
             );
             Magic.Initialize(
-                new TextObject("{=!}Magic", null),
-                new TextObject("{=!}Magic is cool thing allowing you to do cool things.", null),
-                new TextObject("{=!}MAG", null)
+                new TextObject("{=1XUiDuRD}Magic"),
+                new TextObject("{=ssYqIdga}Magic is cool thing allowing you to do cool things."),
+                new TextObject("{=4ZAQ8Q7P}MAG")
             );
         }
     }

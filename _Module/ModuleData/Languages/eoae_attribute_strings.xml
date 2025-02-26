@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="English" />
+  </tags>
+  <strings>
+    <string id="1XUiDuRD" text="Magic" />
+    <string id="ssYqIdga" text="Magic is cool thing allowing you to do cool things." />
+    <string id="4ZAQ8Q7P" text="MAG" />
+
+    <string id="5o7F9ZFA" text="Destruction" />
+    <string id="P7SIPHVb" text="Destruction, break shit!" />
+    <string id="NCf2MEdC" text="Restoration" />
+    <string id="9a1GPLFY" text="Restoration, fix shit!" />
+    <string id="5C8nzLIQ" text="Conjuration" />
+    <string id="XQ4epc7d" text="Conjuration, summon shit!" />
+
+    <string id="mbLBp63f" text="Apprentice Destruction" />
+    <string id="xSw48XXU" text="Can learn apprentice spells" />
+    <string id="gyabOx0V" text="Adept Destruction" />
+    <string id="HE1SUCpQ" text="Can learn adept spells" />
+    <string id="ykH7O1SM" text="Expert Destruction" />
+    <string id="oiH5Nuyg" text="Can learn expert spells" />
+    <string id="dba7Epiv" text="Master Destruction" />
+    <string id="jFT76UZ1" text="Can learn master spells" />
+
+    <string id="LdfxEivW" text="Apprentice Conjuration" />
+    <string id="gQIVgPsS" text="Can learn apprentice spells" />
+    <string id="zXkCQuUo" text="Adept Conjuration" />
+    <string id="92T2ds8C" text="Can learn adept spells" />
+    <string id="Z0qjpU9J" text="Expert Conjuration" />
+    <string id="AmbRtiOh" text="Can learn expert spells" />
+    <string id="7gEDv0CF" text="Master Conjuration" />
+    <string id="wSI1xsQl" text="Can learn master spells" />
+
+    <string id="vDTOOCD3" text="Apprentice Restoration" />
+    <string id="VRbtelpk" text="Can learn apprentice spells" />
+    <string id="VXCQathC" text="Adept Restoration" />
+    <string id="6NhHrkLF" text="Can learn adept spells" />
+    <string id="kSztGC4X" text="Expert Restoration" />
+    <string id="NuagJ5IG" text="Can learn expert spells" />
+    <string id="EDkjmSOY" text="Master Restoration" />
+    <string id="6XeZ0kxn" text="Can learn master spells" />
+  </strings>
+</base>

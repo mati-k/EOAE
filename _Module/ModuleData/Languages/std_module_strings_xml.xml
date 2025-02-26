@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--To make translation: new folder in Languages named with language prefix, copy all folders down there-->
+<!--https://www.random.org/strings/?num=25&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=html&rnd=new-->
+<!--Make sure key is not already in mod / base game-->
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="English" />
+  </tags>
+  <strings>
+    <string id="dZh6ZLIr" text="Cancel" />
+    <string id="mbNhD53v" text="Not enough mana." />
+
+
+    <string id="3fY2LWVv" text="Fireball" />
+    <string id="i2b32j8F" text="Snowball" />
+    <string id="JduiaSRZ" text="Rain of Fire" />
+    <string id="xAhvfsnc" text="Arrow Volley" />
+    <string id="BlcTFN2S" text="Heal" />
+    <string id="MNL67CIp" text="Group Heal" />
+    <string id="pbsK81br" text="Summon" />
+  </strings>
+</base>

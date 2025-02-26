@@ -2,6 +2,7 @@
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
 
@@ -42,7 +43,14 @@ namespace EOAE_Code.Magic
             if (open)
             {
                 hoveredItem = null;
-                Spells.Add(new EquipmentActionItemVM("Cancel", "None", null, OnItemHovered));
+                Spells.Add(
+                    new EquipmentActionItemVM(
+                        new TextObject("{=dZh6ZLIr}Cancel").ToString(),
+                        "None",
+                        null,
+                        OnItemHovered
+                    )
+                );
                 SpellManager
                     .GetAllSpell()
                     .ForEach(spell =>

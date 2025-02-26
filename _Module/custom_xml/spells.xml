@@ -2,7 +2,7 @@
 <SpellList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
   <Spells>
     <Missile
-      Name="Fireball"
+      Name="{=3fY2LWVv}Fireball"
       ItemName="fireball"
       School="Destruction"
       Cost="25"
@@ -17,7 +17,7 @@
     />
     </Missile>
     <Missile
-      Name="Snowball"
+      Name="{=i2b32j8F}Snowball"
       ItemName="lightningsparks"
       School="Destruction"
       Cost="25"
@@ -32,7 +32,7 @@
         />
     </Missile>
     <Bombard
-      Name="Rain of Fire"
+      Name="{=JduiaSRZ}Rain of Fire"
       ItemName="whiteFlame"
       School="Destruction"
       Cost="70"
@@ -51,7 +51,7 @@
       />
     </Bombard>
     <Bombard
-      Name="Arrow Volley"
+      Name="{=xAhvfsnc}Arrow Volley"
       ItemName="deathbite"
       School="Destruction"
       Cost="10"
@@ -88,7 +88,7 @@
         />
     </Area>
     <HealSelf
-      Name="Heal"
+      Name="{=BlcTFN2S}Heal"
       ItemName="blueFlame"
       School="Restoration"
       Cost="25"
@@ -97,7 +97,7 @@
       Animation="act_fire_magic"
     />
     <HealGroup
-      Name="Group Heal"
+      Name="{=MNL67CIp}Group Heal"
       ItemName="bloodFlame"
       School="Restoration"
       Cost="25"
@@ -107,7 +107,7 @@
       Animation="act_fire_magic"
     />
     <Summon
-      Name="Summon"
+      Name="{=pbsK81br}Summon"
       ItemName="arcanesparks"
       School="Conjuration"
       Cost="25"

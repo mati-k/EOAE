@@ -87,123 +87,123 @@ namespace EOAE_Code.Character
         private void InitializePerks()
         {
             ApprenticeDestruction.Initialize(
-                "Apprentice Destruction",
+                "{=mbLBp63f}Apprentice Destruction",
                 CustomSkills.Instance.Destruction,
                 25,
                 null,
-                "Can learn apprentice spells",
+                "{=xSw48XXU}Can learn apprentice spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             AdeptDestruction.Initialize(
-                "Adept Destruction",
+                "{=gyabOx0V}Adept Destruction",
                 CustomSkills.Instance.Destruction,
                 100,
                 null,
-                "Can learn adept spells",
+                "{=HE1SUCpQ}Can learn adept spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             ExpertDestruction.Initialize(
-                "Expert Destruction",
+                "{=ykH7O1SM}Expert Destruction",
                 CustomSkills.Instance.Destruction,
                 175,
                 null,
-                "Can learn expert spells",
+                "{=oiH5Nuyg}Can learn expert spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             MasterDestruction.Initialize(
-                "Master Destruction",
+                "{=dba7Epiv}Master Destruction",
                 CustomSkills.Instance.Destruction,
                 250,
                 null,
-                "Can learn master spells",
+                "{=jFT76UZ1}Can learn master spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
 
             ApprenticeConjuration.Initialize(
-                "Apprentice Conjuration",
+                "{=LdfxEivW}Apprentice Conjuration",
                 CustomSkills.Instance.Conjuration,
                 25,
                 null,
-                "Can learn apprentice spells",
+                "{=gQIVgPsS}Can learn apprentice spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             AdeptConjuration.Initialize(
-                "Adept Conjuration",
+                "{=zXkCQuUo}Adept Conjuration",
                 CustomSkills.Instance.Conjuration,
                 100,
                 null,
-                "Can learn adept spells",
+                "{=92T2ds8C}Can learn adept spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             ExpertConjuration.Initialize(
-                "Expert Conjuration",
+                "{=Z0qjpU9J}Expert Conjuration",
                 CustomSkills.Instance.Conjuration,
                 175,
                 null,
-                "Can learn expert spells",
+                "{=AmbRtiOh}Can learn expert spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             MasterConjuration.Initialize(
-                "Master Conjuration",
+                "{=7gEDv0CF}Master Conjuration",
                 CustomSkills.Instance.Conjuration,
                 250,
                 null,
-                "Can learn master spells",
+                "{=wSI1xsQl}Can learn master spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
 
             ApprenticeRestoration.Initialize(
-                "Apprentice Restoration",
+                "{=vDTOOCD3}Apprentice Restoration",
                 CustomSkills.Instance.Restoration,
                 25,
                 null,
-                "Can learn apprentice spells",
+                "{=VRbtelpk}Can learn apprentice spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             AdeptRestoration.Initialize(
-                "Adept Restoration",
+                "{=VXCQathC}Adept Restoration",
                 CustomSkills.Instance.Restoration,
                 100,
                 null,
-                "Can learn adept spells",
+                "{=6NhHrkLF}Can learn adept spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             ExpertRestoration.Initialize(
-                "Expert Restoration",
+                "{=kSztGC4X}Expert Restoration",
                 CustomSkills.Instance.Restoration,
                 175,
                 null,
-                "Can learn expert spells",
+                "{=NuagJ5IG}Can learn expert spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
             );
             MasterRestoration.Initialize(
-                "Master Restoration",
+                "{=EDkjmSOY}Master Restoration",
                 CustomSkills.Instance.Restoration,
                 250,
                 null,
-                "Can learn master spells",
+                "{=6XeZ0kxn}Can learn master spells",
                 SkillEffect.PerkRole.Personal,
                 0,
                 SkillEffect.EffectIncrementType.Invalid
