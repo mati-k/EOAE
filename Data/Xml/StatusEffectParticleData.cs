@@ -4,12 +4,12 @@ using System.Xml.Serialization;
 namespace EOAE_Code.Data.Xml
 {
     [Serializable]
-    public class TroopSpellData
+    public class StatusEffectParticleData
     {
         [XmlAttribute]
-        public string Spell = "";
+        public string StatusEffectKey = "";
 
         [XmlAttribute]
-        public float Weight = 0;
+        public string ParticlePrefab = "";
     }
 }
