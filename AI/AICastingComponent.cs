@@ -69,11 +69,9 @@ namespace EOAE_Code.AI
             }
 
             Spell spell = spellBook.GetRandomSpell();
-            MagicMissionLogic.AgentsMana.TryGetValue(Agent, out var agentMana);
             if (
                 spell != null
-                && agentMana != null
-                && agentMana.CurrentMana >= spell.Cost
+                && MagicMissionLogic.GetAgentCurrentMana(Agent) >= spell.Cost
                 && spell.IsAICastValid(Agent)
             )
             {

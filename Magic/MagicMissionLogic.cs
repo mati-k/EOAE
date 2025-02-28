@@ -82,5 +82,35 @@ namespace EOAE_Code.Magic
                 }
             }
         }
+
+        public static AgentMana? GetAgentMana(Agent agent)
+        {
+            if (AgentsMana.ContainsKey(agent))
+            {
+                return AgentsMana[agent];
+            }
+
+            return null;
+        }
+
+        public static float GetAgentCurrentMana(Agent agent)
+        {
+            if (AgentsMana.ContainsKey(agent))
+            {
+                return AgentsMana[agent].CurrentMana;
+            }
+
+            return 0;
+        }
+
+        public static float GetAgentMaxMana(Agent agent)
+        {
+            if (AgentsMana.ContainsKey(agent))
+            {
+                return AgentsMana[agent].MaxMana;
+            }
+
+            return 0;
+        }
     }
 }

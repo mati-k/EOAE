@@ -82,9 +82,14 @@ namespace EOAE_Code.Magic
 
         public void Tick()
         {
-            if (Agent.Main != null && MagicMissionLogic.AgentsMana.ContainsKey(Agent.Main))
+            if (Agent.Main != null)
             {
-                var agentMana = MagicMissionLogic.AgentsMana[Agent.Main];
+                var agentMana = MagicMissionLogic.GetAgentMana(Agent.Main);
+
+                if (agentMana == null)
+                {
+                    return;
+                }
 
                 AgentMagic = (int)agentMana.CurrentMana;
                 AgentMagicMax = (int)agentMana.MaxMana;
