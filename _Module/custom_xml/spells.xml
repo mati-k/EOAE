@@ -11,7 +11,7 @@
     >
     <StatusEffect
       xsi:type="DamageOverTimeEffectData"
-      key="burning"
+      Key="burning"
       Value="10"
       Duration="5"
     />
@@ -26,7 +26,7 @@
     >
       <StatusEffect
         xsi:type="MovementSpeedEffectData"
-        key="freeze"
+        Key="freeze"
         Value="-0.8"
         Duration="15"
         />

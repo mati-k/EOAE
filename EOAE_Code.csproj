@@ -72,6 +72,7 @@
   <ItemGroup>
     <Folder Include="Data\Parsed\" />
     <Folder Include="Patches\" />
+    <Folder Include="_Module\Assets\" />
   </ItemGroup>
 
 </Project>

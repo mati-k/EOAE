@@ -1,11 +1,10 @@
-﻿using EOAE_Code.Data.Xml.StatusEffects;
-using EOAE_Code.Extensions;
-using EOAE_Code.Magic.StatusEffect;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using TaleWorlds.Core;
+using EOAE_Code.Data.Managers;
+using EOAE_Code.Extensions;
+using EOAE_Code.Magic.StatusEffect;
+using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -18,6 +17,7 @@ namespace EOAE_Code.Magic
 
         public Agent Agent { get; private set; }
         private Dictionary<Type, List<AppliedStatusEffect>> ActiveStatusEffects = new();
+        private Dictionary<string, GameEntity> ParticleEffects = new();
 
         public AgentDrivenProperties AgentPropertiesMultipliers { get; private set; } = new();
 
@@ -30,19 +30,23 @@ namespace EOAE_Code.Magic
         {
             if (!ActiveStatusEffects.ContainsKey(appliedStatusEffect.StatusEffect.GetType()))
             {
-                ActiveStatusEffects.Add(appliedStatusEffect.StatusEffect.GetType(), new List<AppliedStatusEffect>());
+                ActiveStatusEffects.Add(
+                    appliedStatusEffect.StatusEffect.GetType(),
+                    new List<AppliedStatusEffect>()
+                );
             }
 
-            ActiveStatusEffects[appliedStatusEffect.StatusEffect.GetType()].Add(appliedStatusEffect);
+            ActiveStatusEffects[appliedStatusEffect.StatusEffect.GetType()]
+                .Add(appliedStatusEffect);
 
-            // todo: Temporary test thing, statuses will have optional field for partice effects?
-            if (appliedStatusEffect.StatusEffect is MovementSpeedEffectData)
+            string key = appliedStatusEffect.StatusEffect.Key;
+            if (StatusEffectParticleManager.StatusEffectPrefabs.ContainsKey(key))
             {
-                Agent.AgentVisuals.SetContourColor(Colors.Blue.ToUnsignedInteger(), true);
-            }
-            else
-            {
-                Agent.AgentVisuals.SetContourColor(Colors.Red.ToUnsignedInteger(), true);
+                string particlePrefab = StatusEffectParticleManager.StatusEffectPrefabs[key];
+                if (!ParticleEffects.ContainsKey(particlePrefab))
+                {
+                    AddParticleEffect(particlePrefab);
+                }
             }
         }
 
@@ -55,27 +59,43 @@ namespace EOAE_Code.Magic
 
             foreach (var statusEffectsList in ActiveStatusEffects.Values)
             {
+                HashSet<string> removedEffects = new();
                 for (int i = statusEffectsList.Count - 1; i >= 0; i--)
                 {
                     statusEffectsList[i].Tick(dt);
                     if (statusEffectsList[i].DurationLeft <= 0)
                     {
+                        removedEffects.Add(statusEffectsList[i].StatusEffect.Key);
                         statusEffectsList.RemoveAt(i);
                     }
                 }
 
-                // Todo: checking for end of individual key (like freeze) and removing particle effects
-                if (statusEffectsList.Count == 0)
+                foreach (var effectKey in removedEffects)
                 {
-                    Agent.AgentVisuals.SetContourColor(null, true);
+                    if (!StatusEffectParticleManager.StatusEffectPrefabs.ContainsKey(effectKey))
+                    {
+                        continue;
+                    }
+
+                    string particlePrefab = StatusEffectParticleManager.StatusEffectPrefabs[
+                        effectKey
+                    ];
+                    if (
+                        ParticleEffects.ContainsKey(particlePrefab)
+                        && !statusEffectsList.Any(effect => effect.StatusEffect.Key == effectKey)
+                    )
+                    {
+                        ParticleEffects[particlePrefab].FadeOut(0, true);
+                        ParticleEffects.Remove(particlePrefab);
+                    }
                 }
             }
 
             // Todo: maybe do this every 1s or so to save performance
             RecalculateStats();
             Agent.UpdateAgentProperties();
-
             FireEffectTick(dt);
+            UpdateEffectPositions();
         }
 
         private void RecalculateStats()
@@ -93,11 +113,15 @@ namespace EOAE_Code.Magic
                 // i.e. freeze type slowing and potion type increasing speed, finds max of each and gets final
                 var summedEffectValue = statusEffectList
                     .GroupBy(effect => effect.StatusEffect.Key)
-                    .Select(group => group.MaxByCustom(effect => Math.Abs(effect.StatusEffect.Value)))
+                    .Select(group =>
+                        group.MaxByCustom(effect => Math.Abs(effect.StatusEffect.Value))
+                    )
                     .Select(effect => effect.StatusEffect.Value)
                     .Sum();
 
-                statusEffectList.First().StatusEffect.Apply(summedEffectValue, AgentPropertiesMultipliers);
+                statusEffectList
+                    .First()
+                    .StatusEffect.Apply(summedEffectValue, AgentPropertiesMultipliers);
             }
         }
 
@@ -118,14 +142,46 @@ namespace EOAE_Code.Magic
                     // i.e. freeze type slowing and potion type increasing speed, finds max of each and gets final
                     var summedEffectValue = statusEffectList
                         .GroupBy(effect => effect.StatusEffect.Key)
-                        .Select(group => group.MaxByCustom(effect => Math.Abs(effect.StatusEffect.Value)))
+                        .Select(group =>
+                            group.MaxByCustom(effect => Math.Abs(effect.StatusEffect.Value))
+                        )
                         .Select(effect => effect.StatusEffect.Value)
                         .Sum();
 
-                    statusEffectList.First().StatusEffect.EffectTick(summedEffectValue, Agent, statusEffectList.First().Caster);
+                    statusEffectList
+                        .First()
+                        .StatusEffect.EffectTick(
+                            summedEffectValue,
+                            Agent,
+                            statusEffectList.First().Caster
+                        );
                 }
 
                 tickCounter = EFFECT_TICK_RATE;
+            }
+        }
+
+        private void AddParticleEffect(string prefab)
+        {
+            var effectEntity = GameEntity.CreateEmpty(Mission.Current.Scene);
+            MatrixFrame frame = MatrixFrame.Identity;
+            var particle = ParticleSystem.CreateParticleSystemAttachedToEntity(
+                prefab,
+                effectEntity,
+                ref frame
+            );
+            var globalFrame = new MatrixFrame(Mat3.Identity, Agent.Position);
+            effectEntity.SetGlobalFrame(globalFrame);
+
+            ParticleEffects.Add(prefab, effectEntity);
+        }
+
+        private void UpdateEffectPositions()
+        {
+            var globalFrame = new MatrixFrame(Mat3.Identity, Agent.Position);
+            foreach (var particleEffect in ParticleEffects)
+            {
+                particleEffect.Value.SetGlobalFrame(globalFrame);
             }
         }
     }

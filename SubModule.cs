@@ -27,7 +27,9 @@ namespace EOAE_Code
                 SettlementUniqueMilitiaDataXml,
                 SettlementUniqueMilitiaManager
             >("custom_militia.xml");
-            XmlDataLoader.LoadXmlDataCustomRoot<SpellData, SpellManager, SpellListData>("spells.xml");
+            XmlDataLoader.LoadXmlDataCustomRoot<SpellData, SpellManager, SpellListData>(
+                "spells.xml"
+            );
             XmlDataLoader.LoadXmlDataList<TroopSpellBookData, TroopSpellBookManager>(
                 "troop_spellbooks.xml"
             );
@@ -35,6 +37,9 @@ namespace EOAE_Code
                 "animation_durations.xml"
             );
             XmlDataLoader.LoadXmlDataList<BookDataXml, BookManager>("books.xml");
+            XmlDataLoader.LoadXmlDataList<StatusEffectParticleData, StatusEffectParticleManager>(
+                "effect_particles.xml"
+            );
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
