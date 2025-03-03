@@ -3,7 +3,6 @@ using EOAE_Code.Data.Xml;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
@@ -70,8 +69,11 @@ namespace EOAE_Code.AI
             }
 
             Spell spell = spellBook.GetRandomSpell();
-            MagicMissionLogic.CurrentMana.TryGetValue(Agent, out var currentMana);
-            if (spell != null && currentMana >= spell.Cost && spell.IsAICastValid(Agent))
+            if (
+                spell != null
+                && MagicMissionLogic.GetAgentCurrentMana(Agent) >= spell.Cost
+                && spell.IsAICastValid(Agent)
+            )
             {
                 if (
                     Agent.Equipment[equipmentIndex].Item == null
@@ -99,16 +101,19 @@ namespace EOAE_Code.AI
                     {
                         Agent.SetActionChannel(1, AnimationDurationManager.GetCacheIndex(spell));
 
-                        MagicMissionLogic.AgentAnimationTimers.Add(new AgentAnimationTimer(
-                            AnimationDurationManager.GetDuration(spell),
-                            () =>
-                            {
-                                if (Agent.IsActive())
+                        MagicMissionLogic.AgentAnimationTimers.Add(
+                            new AgentAnimationTimer(
+                                AnimationDurationManager.GetDuration(spell),
+                                () =>
                                 {
-                                    spell.Cast(Agent);
-                                    Agent.SetWeaponAmountInSlot(equipmentIndex, 0, false);
+                                    if (Agent.IsActive())
+                                    {
+                                        spell.Cast(Agent);
+                                        Agent.SetWeaponAmountInSlot(equipmentIndex, 0, false);
+                                    }
                                 }
-                            }));
+                            )
+                        );
                     }
                 }
             }

@@ -14,7 +14,7 @@ namespace EOAE_Code.Magic.Spells
         public float HealValue { get; private set; }
 
         public HealSelfSpell(SpellData data)
-            : base(data) 
+            : base(data)
         {
             HealSelfSpellData healSelfSpellData = data as HealSelfSpellData;
             HealValue = healSelfSpellData.HealValue;
@@ -28,14 +28,15 @@ namespace EOAE_Code.Magic.Spells
         // Cast only if either has enough surplus mana or the heal is effective enough
         public override bool IsAICastValid(Agent caster)
         {
-            float currentMana = MagicMissionLogic.CurrentMana[caster];
-          
+            float currentMana = MagicMissionLogic.AgentsMana[caster].CurrentMana;
+
             if (caster.Health >= caster.HealthLimit)
             {
                 return false;
             }
 
-            bool isAboveMinimumEffectiveHeal = caster.HealthLimit - caster.Health >= HealValue * MIN_HEALED_SPELL_PERCENTAGE;
+            bool isAboveMinimumEffectiveHeal =
+                caster.HealthLimit - caster.Health >= HealValue * MIN_HEALED_SPELL_PERCENTAGE;
             if (currentMana < UNRESTRICTED_HEAL_MANA && !isAboveMinimumEffectiveHeal)
             {
                 return false;

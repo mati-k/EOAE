@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EOAE_Code.AI;
 using EOAE_Code.Data.Managers;
 using TaleWorlds.Core;
@@ -9,13 +8,13 @@ namespace EOAE_Code.Magic
 {
     public class MagicMissionLogic : MissionLogic
     {
-        public static Dictionary<Agent, float> CurrentMana = new();
+        public static Dictionary<Agent, AgentMana> AgentsMana = new();
         public static List<AgentAnimationTimer> AgentAnimationTimers = new();
 
         public override void AfterStart()
         {
             base.AfterStart();
-            CurrentMana.Clear();
+            AgentsMana.Clear();
             AgentAnimationTimers.Clear();
         }
 
@@ -31,7 +30,7 @@ namespace EOAE_Code.Magic
 
             if (agent.IsMainAgent)
             {
-                CurrentMana.Add(agent, 100);
+                AgentsMana.Add(agent, new AgentMana(agent));
                 return;
             }
 
@@ -41,7 +40,7 @@ namespace EOAE_Code.Magic
             )
             {
                 agent.AddComponent(new AICastingComponent(agent));
-                CurrentMana.Add(agent, 100);
+                AgentsMana.Add(agent, new AgentMana(agent));
             }
         }
 
@@ -49,9 +48,9 @@ namespace EOAE_Code.Magic
         {
             base.OnAgentDeleted(affectedAgent);
 
-            if (CurrentMana.ContainsKey(affectedAgent))
+            if (AgentsMana.ContainsKey(affectedAgent))
             {
-                CurrentMana.Remove(affectedAgent);
+                AgentsMana.Remove(affectedAgent);
             }
         }
 
@@ -62,44 +61,16 @@ namespace EOAE_Code.Magic
 
             foreach (Agent agent in this.Mission.Agents)
             {
-                if (CurrentMana.ContainsKey(agent) && CurrentMana[agent] != 100f)
+                if (AgentsMana.ContainsKey(agent))
                 {
-                    float nextMana = Math.Min(CurrentMana[agent] + dt, 100f);
-                    CurrentMana[agent] = nextMana;
-
-                    if (!agent.IsPlayerControlled)
-                    {
-                        int manaCost = 0;
-                        for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
-                        {
-                            if (agent.Equipment[i].Item == null)
-                            {
-                                continue;
-                            }
-
-                            string itemId = agent.Equipment[i].Item.StringId;
-                            if (SpellManager.IsSpell(itemId))
-                            {
-                                manaCost = SpellManager.GetSpellFromItem(itemId).Cost;
-                                break;
-                            }
-                        }
-
-                        if (
-                            nextMana >= manaCost
-                            && agent.Formation?.FiringOrder == FiringOrder.FiringOrderFireAtWill
-                        )
-                        {
-                            agent.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.FireAtWill);
-                        }
-                    }
+                    AgentsMana[agent].ManaRegenTick(dt);
                 }
             }
         }
 
         private void TickAgentAnimationTimers(float dt)
         {
-            for (int i = AgentAnimationTimers.Count - 1; i >= 0; i--) 
+            for (int i = AgentAnimationTimers.Count - 1; i >= 0; i--)
             {
                 var agentAnimationTimer = AgentAnimationTimers[i];
                 agentAnimationTimer.DurationLeft -= dt;
@@ -110,6 +81,36 @@ namespace EOAE_Code.Magic
                     AgentAnimationTimers.RemoveAt(i);
                 }
             }
+        }
+
+        public static AgentMana? GetAgentMana(Agent agent)
+        {
+            if (AgentsMana.ContainsKey(agent))
+            {
+                return AgentsMana[agent];
+            }
+
+            return null;
+        }
+
+        public static float GetAgentCurrentMana(Agent agent)
+        {
+            if (AgentsMana.ContainsKey(agent))
+            {
+                return AgentsMana[agent].CurrentMana;
+            }
+
+            return 0;
+        }
+
+        public static float GetAgentMaxMana(Agent agent)
+        {
+            if (AgentsMana.ContainsKey(agent))
+            {
+                return AgentsMana[agent].MaxMana;
+            }
+
+            return 0;
         }
     }
 }

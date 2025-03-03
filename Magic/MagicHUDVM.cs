@@ -23,6 +23,22 @@ namespace EOAE_Code.Magic
             }
         }
 
+        private int _agentMagicMax = 100;
+
+        [DataSourceProperty]
+        public int AgentMagicMax
+        {
+            get => _agentMagicMax;
+            set
+            {
+                if (_agentMagicMax != value)
+                {
+                    _agentMagicMax = value;
+                    OnPropertyChangedWithValue(value);
+                }
+            }
+        }
+
         private string _spellInfo;
 
         [DataSourceProperty]
@@ -38,9 +54,6 @@ namespace EOAE_Code.Magic
                 }
             }
         }
-
-        [DataSourceProperty]
-        public int AgentMagicMax => 100;
 
         [DataSourceProperty]
         public bool ShowMagicHealthBar => true;
@@ -69,9 +82,17 @@ namespace EOAE_Code.Magic
 
         public void Tick()
         {
-            if (Agent.Main != null && MagicMissionLogic.CurrentMana.ContainsKey(Agent.Main))
+            if (Agent.Main != null)
             {
-                AgentMagic = (int)MagicMissionLogic.CurrentMana[Agent.Main];
+                var agentMana = MagicMissionLogic.GetAgentMana(Agent.Main);
+
+                if (agentMana == null)
+                {
+                    return;
+                }
+
+                AgentMagic = (int)agentMana.CurrentMana;
+                AgentMagicMax = (int)agentMana.MaxMana;
             }
         }
     }

@@ -16,7 +16,7 @@ namespace EOAE_Code.Magic.Spells
         public float HealRange { get; private set; }
 
         public HealGroupSpell(SpellData data)
-            : base(data) 
+            : base(data)
         {
             HealGroupSpellData healGroupSpellData = data as HealGroupSpellData;
             HealValue = healGroupSpellData.HealValue;
@@ -42,8 +42,8 @@ namespace EOAE_Code.Magic.Spells
         // Cast only if either has enough surplus mana or the heal is effective enough over surrounding troops
         public override bool IsAICastValid(Agent caster)
         {
-            float currentMana = MagicMissionLogic.CurrentMana[caster];
-       
+            float currentMana = MagicMissionLogic.AgentsMana[caster].CurrentMana;
+
             var agents = new MBList<Agent>(Mission.Current.Agents);
             Mission.Current.GetNearbyAllyAgents(
                 caster.Position.AsVec2,
@@ -63,7 +63,8 @@ namespace EOAE_Code.Magic.Spells
                 return false;
             }
 
-            bool isAboveMinimumEffectiveHeal = healedAmount >= HealValue * MIN_HEALED_SPELL_PERCENTAGE;
+            bool isAboveMinimumEffectiveHeal =
+                healedAmount >= HealValue * MIN_HEALED_SPELL_PERCENTAGE;
             if (currentMana < UNRESTRICTED_HEAL_MANA && !isAboveMinimumEffectiveHeal)
             {
                 return false;
