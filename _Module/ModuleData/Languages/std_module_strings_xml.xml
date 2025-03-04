@@ -18,5 +18,17 @@
     <string id="BlcTFN2S" text="Heal" />
     <string id="MNL67CIp" text="Group Heal" />
     <string id="pbsK81br" text="Summon" />
+
+    <string id="ylSw2pTT" text="your curiosity for the arcane." />
+    <string id="WF0vZxnh" text="As a child, you were always fascinated by the arcane. You would spend hours watching the court mages at work, your eyes wide with wonder as they summoned fire and ice with a flick of their wrists. You would often sneak into the library to read their spellbooks, even though you couldn't understand a word of what was written." />
+    
+    <string id="VTlTiMBJ" text="studied at a mage’s guild." />
+    <string id="VG1uaMla" text="Accepted into a mage’s guild at a young age, you spent your days poring over scrolls and learning the intricacies of the arcane arts. Though your practical experience was limited, your theoretical knowledge was vast." />
+
+    <string id="8y02G4T8" text="aided in a great healing." />
+    <string id="kiJgeq0w" text="A terrible plague swept through your home, and while others fled, you stayed to help. Whether through alchemy or magic, you saved lives, earning the gratitude of many." />
+
+    <string id="oQJlcPEa" text="you mastered an element." />
+    <string id="iPyMP3tN" text="Through rigorous study and practice, you became an expert in a single element—fire, frost, or lightning. Your spells in this domain are potent and feared." />
   </strings>
 </base>
