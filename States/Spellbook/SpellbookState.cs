@@ -1,6 +1,6 @@
 ﻿using TaleWorlds.Core;
 
-namespace EOAE_Code.States
+namespace EOAE_Code.States.Spellbook
 {
     public class SpellbookState : GameState
     {

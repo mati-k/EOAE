@@ -1,0 +1,46 @@
+﻿<Prefab>
+  <Constants>
+  </Constants>
+  <VisualDefinitions>
+    <VisualDefinition Name="BottomMenu" EaseIn="true" TransitionDuration="0.45">
+      <VisualState PositionYOffset="6" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="TopPanel" EaseIn="true" TransitionDuration="0.45">
+      <VisualState PositionYOffset="-6" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="TopPanelExtension" EaseIn="true" DelayOnBegin="0.7" TransitionDuration="0.3">
+      <VisualState PositionYOffset="0" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="LeftPanel" EaseIn="true" TransitionDuration="0.4">
+      <VisualState PositionXOffset="0" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="RightPanel" EaseIn="true" TransitionDuration="0.4">
+      <VisualState PositionXOffset="0" State="Default" />
+    </VisualDefinition>
+  </VisualDefinitions>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+      <Children>
+        <Standard.Background />
+
+        <Widget HeightSizePolicy ="StretchToParent" WidthSizePolicy="StretchToParent" MarginLeft="24" MarginTop="31" MarginRight="24" MarginBottom="24">
+          <Children>
+            <ListPanel Id="KnownSpellInnerPanel" WidthSizePolicy = "StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod = "VerticalBottomToTop" MarginTop="2" MarginLeft="16">
+              <Children>
+                <NavigationScopeTargeter ScopeID="RecruitmentLeftPanelScope" ScopeParent="..\KnownSpellList" IsDefaultNavigationScope="true" ScopeMovements="Horizontal" AlternateScopeMovements="Vertical" AlternateMovementStepSize="7" HasCircularMovement="false" DoNotAutoNavigateAfterSort="true" />
+                <NavigatableListPanel Id="KnownSpellList" DataSource = "{KnownSpellList}" WidthSizePolicy = "StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod = "HorizontalLeftToRight" MarginTop="2" MarginLeft="16" MinIndex="0" StepSize="1000" UseDelayedIndexing="true">
+                  <ItemTemplate>
+                    <KnownSpell/>
+                  </ItemTemplate>
+                </NavigatableListPanel>
+              </Children>
+            </ListPanel>
+          </Children>
+        </Widget>
+
+        <!--Close Screen Button-->
+        <Standard.DialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="100" Parameter.DoneButtonAction="ExecuteClose" Parameter.DoneButtonText="@DoneText" Parameter.ShowCancel="false" />
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

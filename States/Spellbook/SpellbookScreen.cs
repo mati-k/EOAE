@@ -1,5 +1,4 @@
-﻿using EOAE_Code.Magic;
-using TaleWorlds.Core;
+﻿using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
@@ -7,7 +6,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 
-namespace EOAE_Code.States
+namespace EOAE_Code.States.Spellbook
 {
     [GameStateScreen(typeof(SpellbookState))]
     public class SpellbookScreen : ScreenBase, IGameStateListener
@@ -16,7 +15,7 @@ namespace EOAE_Code.States
 
         private GauntletLayer gauntletLayer;
         private SpellbookState state;
-        private MagicHudVM vm;
+        private SpellbookVM vm;
 
         public SpellbookScreen(SpellbookState state)
         {
@@ -41,26 +40,32 @@ namespace EOAE_Code.States
         {
             base.OnActivate();
 
-            vm = new MagicHudVM();
+            vm = new SpellbookVM();
             gauntletLayer = new GauntletLayer(1, "GauntletLayer", true);
             gauntletLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
             gauntletLayer.Input.RegisterHotKeyCategory(
                 HotKeyManager.GetCategory("GenericCampaignPanelsGameKeyCategory")
             );
-            gauntletLayer.LoadMovie("MagicHUD", vm);
+            gauntletLayer.LoadMovie("Spellbook", vm);
             gauntletLayer.IsFocusLayer = true;
-            base.AddLayer(gauntletLayer);
+            AddLayer(gauntletLayer);
             ScreenManager.TrySetFocus(gauntletLayer);
         }
 
         void IGameStateListener.OnDeactivate()
         {
             base.OnDeactivate();
+            RemoveLayer(gauntletLayer);
+            gauntletLayer.IsFocusLayer = false;
+            ScreenManager.TryLoseFocus(gauntletLayer);
         }
 
         void IGameStateListener.OnFinalize()
         {
             base.OnFinalize();
+
+            gauntletLayer = null;
+            vm = null;
         }
 
         void IGameStateListener.OnInitialize()
