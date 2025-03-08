@@ -11,8 +11,6 @@ namespace EOAE_Code.States.Spellbook
     [GameStateScreen(typeof(SpellbookState))]
     public class SpellbookScreen : ScreenBase, IGameStateListener
     {
-        private const int SPELL_SLOTS = 5;
-
         private GauntletLayer gauntletLayer;
         private SpellbookState state;
         private SpellbookVM vm;

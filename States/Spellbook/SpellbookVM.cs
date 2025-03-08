@@ -1,4 +1,5 @@
 ﻿using EOAE_Code.Data.Managers;
+using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
@@ -6,6 +7,8 @@ namespace EOAE_Code.States.Spellbook
 {
     public class SpellbookVM : ViewModel
     {
+        private const int SPELL_SLOTS = 5;
+
         private string doneText = GameTexts.FindText("str_done").ToString();
 
         [DataSourceProperty]
@@ -22,10 +25,10 @@ namespace EOAE_Code.States.Spellbook
             }
         }
 
-        private MBBindingList<KnownSpellVM> _knownSpellList = new();
+        private MBBindingList<SpellSlotVM> _knownSpellList = new();
 
         [DataSourceProperty]
-        public MBBindingList<KnownSpellVM> KnownSpellList
+        public MBBindingList<SpellSlotVM> KnownSpellList
         {
             get { return _knownSpellList; }
             set
@@ -34,6 +37,22 @@ namespace EOAE_Code.States.Spellbook
                 {
                     _knownSpellList = value;
                     OnPropertyChangedWithValue(value, "KnownSpellList");
+                }
+            }
+        }
+
+        private MBBindingList<SpellSlotVM> _pickedSpellList = new();
+
+        [DataSourceProperty]
+        public MBBindingList<SpellSlotVM> PickedSpellList
+        {
+            get { return _pickedSpellList; }
+            set
+            {
+                if (value != _pickedSpellList)
+                {
+                    _pickedSpellList = value;
+                    OnPropertyChangedWithValue(value, "PickedSpellList");
                 }
             }
         }
@@ -57,11 +76,42 @@ namespace EOAE_Code.States.Spellbook
         private void Refresh()
         {
             KnownSpellList.Clear();
+            PickedSpellList.Clear();
 
             foreach (var spell in SpellManager.GetAllSpell())
             {
-                KnownSpellVM item = new KnownSpellVM(spell);
+                SpellSlotVM item = new SpellSlotVM(DropOnKnownSpell, false, spell);
                 KnownSpellList.Add(item);
+            }
+
+            for (int i = 0; i < SPELL_SLOTS; i++)
+            {
+                PickedSpellList.Add(new SpellSlotVM(DropOnPickedSpell, true));
+            }
+        }
+
+        private void DropOnKnownSpell(SpellSlotVM source, SpellSlotVM target)
+        {
+            if (!source.IsPickedList)
+            {
+                return;
+            }
+
+            source.ChangeSpell(null);
+        }
+
+        private void DropOnPickedSpell(SpellSlotVM source, SpellSlotVM target)
+        {
+            if (source.IsPickedList)
+            {
+                Spell? swap = target.Spell;
+
+                target.ChangeSpell(source.Spell);
+                source.ChangeSpell(swap);
+            }
+            else
+            {
+                target.ChangeSpell(source.Spell);
             }
         }
     }

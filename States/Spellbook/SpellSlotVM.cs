@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
@@ -8,9 +9,12 @@ using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.States.Spellbook
 {
-    public class KnownSpellVM : ViewModel
+    public class SpellSlotVM : ViewModel
     {
-        private Spell spell;
+        public Spell? Spell { get; private set; }
+        public bool IsPickedList { get; private set; }
+
+        private Action<SpellSlotVM, SpellSlotVM> onDrop;
 
         private ImageIdentifierVM _imageIdentifier;
 
@@ -28,22 +32,43 @@ namespace EOAE_Code.States.Spellbook
             }
         }
 
-        public KnownSpellVM(Spell spell)
+        public SpellSlotVM(
+            Action<SpellSlotVM, SpellSlotVM> onDrop,
+            bool isPickedList,
+            Spell? spell = null
+        )
         {
-            this.spell = spell;
+            this.onDrop = onDrop;
+            IsPickedList = isPickedList;
+            Spell = spell;
 
-            ImageIdentifier = new ImageIdentifierVM(
-                MBObjectManager.Instance.GetObject<ItemObject>(spell.ItemName)
-            );
+            UpdateImageIdentifier();
+        }
+
+        private void UpdateImageIdentifier()
+        {
+            if (Spell != null)
+            {
+                ImageIdentifier = new ImageIdentifierVM(
+                    MBObjectManager.Instance.GetObject<ItemObject>(Spell.ItemName)
+                );
+            }
+            else
+            {
+                ImageIdentifier = new ImageIdentifierVM();
+            }
         }
 
         public void ExecuteBeginHint()
         {
+            if (Spell == null)
+                return;
+
             List<TooltipProperty> tooltips = new();
 
             tooltips.Add(
                 new TooltipProperty(
-                    spell.Name,
+                    Spell.Name,
                     "",
                     0,
                     false,
@@ -53,14 +78,14 @@ namespace EOAE_Code.States.Spellbook
             tooltips.Add(
                 new TooltipProperty(
                     new TextObject("{=b4rm2mLd}Cost").ToString(),
-                    spell.Cost.ToString(),
+                    Spell.Cost.ToString(),
                     0
                 )
             );
             tooltips.Add(
                 new TooltipProperty(
                     new TextObject("{=ZyJ3GWMi}School").ToString(),
-                    spell.School.Name.ToString(),
+                    Spell.School.Name.ToString(),
                     0
                 )
             );
@@ -71,6 +96,17 @@ namespace EOAE_Code.States.Spellbook
         public void ExecuteEndHint()
         {
             MBInformationManager.HideInformations();
+        }
+
+        public void ExecuteTransferWithParameters(SpellSlotVM draggedSpellVM, int index)
+        {
+            onDrop(draggedSpellVM, this);
+        }
+
+        public void ChangeSpell(Spell? spell)
+        {
+            Spell = spell;
+            this.UpdateImageIdentifier();
         }
     }
 }

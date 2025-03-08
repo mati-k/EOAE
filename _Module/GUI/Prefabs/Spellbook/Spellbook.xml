@@ -23,14 +23,29 @@
       <Children>
         <Standard.Background />
 
-        <Widget HeightSizePolicy ="StretchToParent" WidthSizePolicy="StretchToParent" MarginLeft="24" MarginTop="31" MarginRight="24" MarginBottom="24">
+        <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" MarginLeft="24" MarginTop="31" MarginRight="24" MarginBottom="104">
           <Children>
-            <ListPanel Id="KnownSpellInnerPanel" WidthSizePolicy = "StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod = "VerticalBottomToTop" MarginTop="2" MarginLeft="16">
+            <ListPanel Id="KnownSpellInnerPanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" MarginTop="2" MarginLeft="16">
               <Children>
-                <NavigationScopeTargeter ScopeID="RecruitmentLeftPanelScope" ScopeParent="..\KnownSpellList" IsDefaultNavigationScope="true" ScopeMovements="Horizontal" AlternateScopeMovements="Vertical" AlternateMovementStepSize="7" HasCircularMovement="false" DoNotAutoNavigateAfterSort="true" />
-                <NavigatableListPanel Id="KnownSpellList" DataSource = "{KnownSpellList}" WidthSizePolicy = "StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod = "HorizontalLeftToRight" MarginTop="2" MarginLeft="16" MinIndex="0" StepSize="1000" UseDelayedIndexing="true">
+                <NavigationScopeTargeter ScopeID="KnownSpellInnerPanelScope" ScopeParent="..\KnownSpellList" IsDefaultNavigationScope="true" ScopeMovements="Horizontal" AlternateScopeMovements="Vertical" AlternateMovementStepSize="7" HasCircularMovement="false" DoNotAutoNavigateAfterSort="true" />
+                <NavigatableListPanel Id="KnownSpellList" DataSource="{KnownSpellList}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" MarginTop="2" MarginLeft="16" MinIndex="0" StepSize="1000" UseDelayedIndexing="true">
                   <ItemTemplate>
-                    <KnownSpell/>
+                    <SpellSlot/>
+                  </ItemTemplate>
+                </NavigatableListPanel>
+              </Children>
+            </ListPanel>
+          </Children>
+        </Widget>
+
+        <Widget HeightSizePolicy="Fixed" WidthSizePolicy="StretchToParent" SuggestedHeight="80" MarginLeft="24" MarginRight="24" MarginBottom="24" VerticalAlignment="Bottom">
+          <Children>
+            <ListPanel Id="PickedSpellInnerPanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" MarginTop="2" MarginLeft="16">
+              <Children>
+                <NavigationScopeTargeter ScopeID="PickedSpellInnerPanelScope" ScopeParent="..\PickedSpellList" IsDefaultNavigationScope="true" ScopeMovements="Horizontal" AlternateScopeMovements="Vertical" AlternateMovementStepSize="7" HasCircularMovement="false" DoNotAutoNavigateAfterSort="true" />
+                <NavigatableListPanel Id="PickedSpellList" DataSource="{PickedSpellList}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" MarginTop="2" MarginLeft="16" MinIndex="0" StepSize="1000" UseDelayedIndexing="true">
+                  <ItemTemplate>
+                    <SpellSlot/>
                   </ItemTemplate>
                 </NavigatableListPanel>
               </Children>
