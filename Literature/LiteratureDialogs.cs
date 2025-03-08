@@ -48,11 +48,16 @@ public static class LiteratureDialogs
                 100,
                 (out TextObject explanation) =>
                 {
-                    if (Literature.HasReadBook(Hero.OneToOneConversationHero, bookName))
+                    var hero = Hero.OneToOneConversationHero;
+                    if (Literature.HasReadBook(hero, bookName))
                     {
-                        explanation = new TextObject(
-                            $"{Hero.OneToOneConversationHero.Name} has already read this book."
-                        );
+                        explanation = new TextObject($"{hero.Name} has already read this book.");
+                        return false;
+                    }
+
+                    if (!Literature.CanReadBook(hero, bookName, out var reqExplanation))
+                    {
+                        explanation = new TextObject(reqExplanation);
                         return false;
                     }
 

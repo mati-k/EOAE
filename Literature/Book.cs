@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using EOAE_Code.Data.Xml.Book;
 using EOAE_Code.Extensions;
 using EOAE_Code.Literature.Effects;
+using EOAE_Code.Literature.Requirements;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
@@ -19,6 +21,7 @@ public class Book
     public string ItemName { get; }
 
     private readonly List<BookReadEffect> bookReadEffects = new();
+    private readonly List<BookReadRequirement> bookReadRequirements = new();
 
     public Book(BookDataXml bookData)
     {
@@ -31,7 +34,49 @@ public class Book
                 bookReadEffects.Add(new UnlockSpellEffect(unlockSpellData));
             else if (readEffect is IncreaseSkillData increaseSkillData)
                 bookReadEffects.Add(new IncreaseSkillEffect(increaseSkillData));
+            else
+                InformationManager.DisplayMessage(
+                    new InformationMessage(
+                        "Invalid read effect for book: " + ItemName,
+                        UIColors.NegativeIndicator
+                    )
+                );
         }
+
+        foreach (var readRequirement in bookData.ReadRequirements)
+        {
+            if (readRequirement is PerkRequirementData perkRequirementData)
+                bookReadRequirements.Add(new PerkRequirement(perkRequirementData));
+            else if (readRequirement is SkillRequirementData skillRequirementData)
+                bookReadRequirements.Add(new SkillRequirement(skillRequirementData));
+            else
+                InformationManager.DisplayMessage(
+                    new InformationMessage(
+                        "Invalid read requirement for book: " + ItemName,
+                        UIColors.NegativeIndicator
+                    )
+                );
+        }
+    }
+
+    public bool CanBeReadBy(Hero hero)
+    {
+        return bookReadRequirements.All(requirement => requirement.Satisfies(hero));
+    }
+
+    public bool CanBeReadBy(Hero hero, out string explanation)
+    {
+        explanation = string.Empty;
+        foreach (var requirement in bookReadRequirements)
+        {
+            if (requirement.Satisfies(hero))
+                continue;
+
+            explanation = requirement.GetExplanation(hero);
+            return false;
+        }
+
+        return true;
     }
 
     public void FinishReading(Hero hero)
@@ -52,6 +97,7 @@ public class Book
     {
         AddCurrentReaderTooltip(itemMenu);
         bookReadEffects.ForEach(effect => effect.AddTooltips(itemMenu));
+        bookReadRequirements.ForEach(effect => effect.AddTooltips(itemMenu, Hero.MainHero));
         AddPlayerReadStatus(itemMenu);
     }
 
