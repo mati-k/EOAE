@@ -9,7 +9,9 @@
   <strings>
     <string id="dZh6ZLIr" text="Cancel" />
     <string id="mbNhD53v" text="Not enough mana." />
-
+    <string id="A0UyM0DS" text="Requires: " />
+    <string id="KvmhAaaS" text="Requires: {Requirement}" />
+    <string id="rfFMrQ7v" text="{HeroName} has already read this book." />
 
     <string id="3fY2LWVv" text="Fireball" />
     <string id="i2b32j8F" text="Snowball" />

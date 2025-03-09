@@ -79,20 +79,30 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
     public Book? GetReadableBookForPlayer()
     {
         var inventory = Hero.MainHero.PartyBelongedTo.ItemRoster;
-        var bookIdx = inventory.FindIndex(item =>
-            item.Type == ItemObject.ItemTypeEnum.Book
-            && !HasReadBook(Hero.MainHero, item.StringId)
-            && !bookReaders.ContainsValue(item.StringId)
-        );
+        foreach (var rosterElement in inventory)
+        {
+            var item = rosterElement.EquipmentElement.Item;
 
-        if (bookIdx == -1)
-            return null;
+            if (item.Type != ItemObject.ItemTypeEnum.Book)
+                continue;
 
-        var bookItem = inventory.GetItemAtIndex(bookIdx);
-        if (!BookManager.IsBook(bookItem.StringId))
-            return null;
+            if (HasReadBook(Hero.MainHero, item.StringId))
+                continue;
 
-        return BookManager.GetBook(bookItem.StringId);
+            if (bookReaders.ContainsValue(item.StringId))
+                continue;
+
+            if (!BookManager.IsBook(item.StringId))
+                continue;
+
+            var book = BookManager.GetBook(item.StringId);
+            if (!book.CanBeReadBy(Hero.MainHero))
+                continue;
+
+            return book;
+        }
+
+        return null;
     }
 
     public string? GetCurrentBook(Hero hero)
@@ -140,6 +150,11 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
         var currentProgress = bookReadingProgress[hero.StringId][itemName];
         return currentProgress >= BookManager.GetBook(itemName).ReadTime;
+    }
+
+    public bool CanReadBook(Hero hero, string itemName, out string explanation)
+    {
+        return BookManager.GetBook(itemName).CanBeReadBy(hero, out explanation);
     }
 
     public float GetProgress(Hero hero, string bookName)

@@ -6,6 +6,10 @@
       <UnlockSpell Spell="whiteFlame"/>
       <IncreaseSkill Skill="Restoration"/>
     </ReadEffects>
+    <ReadRequirements>
+      <PerkRequirement Perk="MasterDestruction"/>
+      <SkillRequirement Skill="Restoration" Level="50"/>
+    </ReadRequirements>
   </BookDataXml>
   <BookDataXml ItemName="book_for_fireball" ReadTime="10">
     <ReadEffects>
