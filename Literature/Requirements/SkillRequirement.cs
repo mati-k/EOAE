@@ -4,6 +4,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
+using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Literature.Requirements;
@@ -28,7 +29,7 @@ public class SkillRequirement : BookReadRequirement
     public override void AddTooltips(ItemMenuVM instance, Hero hero)
     {
         instance.AddTooltip(
-            "Requires: ",
+            new TextObject("{=A0UyM0DS}Requires: ").ToString(),
             $"{Skill.Name} {Level}",
             Satisfies(hero) ? UIColors.PositiveIndicator : UIColors.NegativeIndicator
         );
@@ -36,6 +37,8 @@ public class SkillRequirement : BookReadRequirement
 
     public override string GetExplanation(Hero hero)
     {
-        return $"Requires: {Skill.Name} {Level}";
+        return new TextObject("{=KvmhAaaS}Requires: {Requirement}")
+            .SetTextVariable("Requirement", $"{Skill.Name} {Level}")
+            .ToString();
     }
 }

@@ -51,7 +51,9 @@ public static class LiteratureDialogs
                     var hero = Hero.OneToOneConversationHero;
                     if (Literature.HasReadBook(hero, bookName))
                     {
-                        explanation = new TextObject($"{hero.Name} has already read this book.");
+                        explanation = new TextObject(
+                            "{=rfFMrQ7v}{HeroName} has already read this book."
+                        ).SetTextVariable("HeroName", hero.Name);
                         return false;
                     }
 

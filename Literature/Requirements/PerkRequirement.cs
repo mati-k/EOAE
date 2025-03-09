@@ -4,6 +4,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
+using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Literature.Requirements;
@@ -26,7 +27,7 @@ public class PerkRequirement : BookReadRequirement
     public override void AddTooltips(ItemMenuVM instance, Hero hero)
     {
         instance.AddTooltip(
-            "Requires: ",
+            new TextObject("{=A0UyM0DS}Requires: ").ToString(),
             Perk.Name.ToString(),
             Satisfies(hero) ? UIColors.PositiveIndicator : UIColors.NegativeIndicator
         );
@@ -34,6 +35,8 @@ public class PerkRequirement : BookReadRequirement
 
     public override string GetExplanation(Hero hero)
     {
-        return $"Requires: {Perk.Name}";
+        return new TextObject("{=KvmhAaaS}Requires: {Requirement}")
+            .SetTextVariable("Requirement", Perk.Name)
+            .ToString();
     }
 }
