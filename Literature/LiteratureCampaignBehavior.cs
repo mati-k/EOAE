@@ -37,7 +37,7 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
         starter.AddGameMenuOption(
             "town",
             "select_book",
-            "Select a book to read",
+            new TextObject("{=C1UWK15y}Select a book to read").ToString(),
             ShouldShowBookMenu,
             OnBookMenuClick
         );
@@ -68,7 +68,10 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
             if (bookId != null)
             {
                 var book = MBObjectManager.Instance.GetObject<ItemObject>(bookId);
-                title += $" (reading \"{book.Name}\")";
+                var readingStatus = new TextObject(
+                    "{=BCbTTNX0}reading \"{BookName}\""
+                ).SetTextVariable("BookName", book.Name);
+                title += $" ({readingStatus})";
             }
 
             heroElements.Add(
@@ -82,14 +85,14 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
         MBInformationManager.ShowMultiSelectionInquiry(
             new MultiSelectionInquiryData(
-                new TextObject("Select a character:").ToString(),
+                new TextObject("{=8dpGVTJq}Select a character:").ToString(),
                 "",
                 heroElements,
                 true,
                 1,
                 1,
-                new TextObject("Select").ToString(),
-                new TextObject("Leave").ToString(),
+                new TextObject("{=XAWlKdPO}Select").ToString(),
+                new TextObject("{=8gbHUrZb}Leave").ToString(),
                 selected =>
                 {
                     if (selected.Count == 0)
@@ -117,7 +120,7 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
             var reader = GetBookReader(bookObject.StringId);
             if (reader != null)
             {
-                title += $" (being read by {reader.Name})";
+                title += $" ({reader.Name})";
             }
 
             var bookOption = new InquiryElement(
@@ -133,7 +136,9 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
                     title,
                     new ImageIdentifier(bookObject),
                     false,
-                    "You have already read this book"
+                    new TextObject("{=rfFMrQ7v}{HeroName} has already read this book.")
+                        .SetTextVariable("HeroName", hero.Name)
+                        .ToString()
                 );
             }
             else if (!book.CanBeReadBy(hero, out var explanation))
@@ -152,7 +157,13 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
         if (GetCurrentBook(hero) != null)
         {
-            bookOptions.Add(new InquiryElement("STOP", "Stop reading", null));
+            bookOptions.Add(
+                new InquiryElement(
+                    "STOP",
+                    new TextObject("{=9aHdCKXF}Stop reading").ToString(),
+                    null
+                )
+            );
         }
 
         MBInformationManager.ShowMultiSelectionInquiry(
@@ -163,8 +174,8 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
                 true,
                 1,
                 1,
-                "Select",
-                "Cancel",
+                new TextObject("{=XAWlKdPO}Select").ToString(),
+                new TextObject("{=dZh6ZLIr}Cancel").ToString(),
                 selected =>
                 {
                     if (selected.Count == 0)
