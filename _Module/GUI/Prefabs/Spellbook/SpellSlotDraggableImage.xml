@@ -1,0 +1,15 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="Image.Padding" Value="4"/>
+
+    <Constant Name="Recruitment.Troop.Panel.Width" BrushName="Recruitment.Troop.Brush" BrushLayer="Available" BrushValueType="Width"/>
+    <Constant Name="Recruitment.Troop.Panel.Height" BrushName="Recruitment.Troop.Brush" BrushLayer="Available" BrushValueType="Height"/>
+  </Constants>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrag="true">
+      <Children>
+        <ImageIdentifierWidget Id="SpellImage" DataSource="{ImageIdentifier}" ImageId="@Id" AdditionalArgs="@AdditionalArgs" ImageTypeCode="@ImageTypeCode" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsDisabled="true" MarginBottom="!Image.Padding" MarginTop="!Image.Padding" MarginLeft="!Image.Padding" MarginRight="!Image.Padding" />      
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

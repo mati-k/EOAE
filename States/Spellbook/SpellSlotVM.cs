@@ -5,7 +5,6 @@ using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.States.Spellbook
 {
@@ -16,18 +15,21 @@ namespace EOAE_Code.States.Spellbook
 
         private Action<SpellSlotVM, SpellSlotVM> onDrop;
 
-        private ImageIdentifierVM _imageIdentifier;
+        private SpellSlotDraggableImageVM _spellSlotDraggableImage;
 
         [DataSourceProperty]
-        public ImageIdentifierVM ImageIdentifier
+        public SpellSlotDraggableImageVM SpellSlotDraggableImage
         {
-            get { return this._imageIdentifier; }
+            get { return this._spellSlotDraggableImage; }
             set
             {
-                if (value != this._imageIdentifier)
+                if (value != this._spellSlotDraggableImage)
                 {
-                    this._imageIdentifier = value;
-                    base.OnPropertyChangedWithValue<ImageIdentifierVM>(value, "ImageIdentifier");
+                    this._spellSlotDraggableImage = value;
+                    base.OnPropertyChangedWithValue<SpellSlotDraggableImageVM>(
+                        value,
+                        "SpellSlotDraggableImage"
+                    );
                 }
             }
         }
@@ -42,21 +44,7 @@ namespace EOAE_Code.States.Spellbook
             IsPickedList = isPickedList;
             Spell = spell;
 
-            UpdateImageIdentifier();
-        }
-
-        private void UpdateImageIdentifier()
-        {
-            if (Spell != null)
-            {
-                ImageIdentifier = new ImageIdentifierVM(
-                    MBObjectManager.Instance.GetObject<ItemObject>(Spell.ItemName)
-                );
-            }
-            else
-            {
-                ImageIdentifier = new ImageIdentifierVM();
-            }
+            SpellSlotDraggableImage = new SpellSlotDraggableImageVM(this);
         }
 
         public void ExecuteBeginHint()
@@ -98,15 +86,18 @@ namespace EOAE_Code.States.Spellbook
             MBInformationManager.HideInformations();
         }
 
-        public void ExecuteTransferWithParameters(SpellSlotVM draggedSpellVM, int index)
+        public void ExecuteTransferWithParameters(
+            SpellSlotDraggableImageVM draggedSpellVM,
+            int index
+        )
         {
-            onDrop(draggedSpellVM, this);
+            onDrop(draggedSpellVM.Parent, this);
         }
 
         public void ChangeSpell(Spell? spell)
         {
             Spell = spell;
-            this.UpdateImageIdentifier();
+            SpellSlotDraggableImage.UpdateImageIdentifier();
         }
     }
 }

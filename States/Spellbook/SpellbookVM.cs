@@ -65,6 +65,8 @@ namespace EOAE_Code.States.Spellbook
         public void ExecuteClose()
         {
             Game.Current.GameStateManager.PopState();
+
+            // todo: Save
         }
 
         public override void RefreshValues()
