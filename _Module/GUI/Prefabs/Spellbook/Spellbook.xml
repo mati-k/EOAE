@@ -25,7 +25,7 @@
       <Children>
         <Standard.Background />
 
-        <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" MarginLeft="24" MarginTop="31" MarginRight="24" MarginBottom="140">
+        <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" MarginLeft="24" MarginTop="31" MarginRight="24" MarginBottom="140" AcceptDrop="true" Command.Drop="ExecuteDropOnGrid">
           <Children>
             <ScrollablePanel Id="ScrollablePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AutoHideScrollBars="true" ClipRect="ClipRect" InnerPanel="ClipRect\KnownSpellList" VerticalScrollbar="..\VerticalScrollbar">
               <Children>

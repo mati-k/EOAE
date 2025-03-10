@@ -86,10 +86,7 @@ namespace EOAE_Code.States.Spellbook
             MBInformationManager.HideInformations();
         }
 
-        public void ExecuteTransferWithParameters(
-            SpellSlotDraggableImageVM draggedSpellVM,
-            int index
-        )
+        public void ExecuteDropOnSlot(SpellSlotDraggableImageVM draggedSpellVM, int index)
         {
             onDrop(draggedSpellVM.Parent, this);
         }

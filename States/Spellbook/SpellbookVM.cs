@@ -92,18 +92,29 @@ namespace EOAE_Code.States.Spellbook
             }
         }
 
+        public void ExecuteDropOnGrid(SpellSlotDraggableImageVM source, int index)
+        {
+            if (!source.Parent.IsPickedList)
+            {
+                source.Parent.ChangeSpell(null);
+            }
+        }
+
         private void DropOnKnownSpell(SpellSlotVM source, SpellSlotVM target)
         {
-            if (!source.IsPickedList)
+            if (source.IsPickedList)
             {
-                return;
+                source.ChangeSpell(null);
             }
-
-            source.ChangeSpell(null);
         }
 
         private void DropOnPickedSpell(SpellSlotVM source, SpellSlotVM target)
         {
+            if (source.Spell == null)
+            {
+                return;
+            }
+
             if (source.IsPickedList)
             {
                 Spell? swap = target.Spell;
