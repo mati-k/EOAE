@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using EOAE_Code.Data.Managers;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.Localization;
+using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
 namespace EOAE_Code.Literature;
@@ -23,25 +26,185 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
     public override void RegisterEvents()
     {
-        CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, AddDialogs);
+        CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, Initialize);
         CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, OnHourTick);
     }
 
-    private void AddDialogs(CampaignGameStarter starter)
+    private void Initialize(CampaignGameStarter starter)
     {
         LiteratureDialogs.AddBookDialogs(starter);
+
+        starter.AddGameMenuOption(
+            "town",
+            "select_book",
+            new TextObject("{=C1UWK15y}Select a book to read").ToString(),
+            ShouldShowBookMenu,
+            OnBookMenuClick
+        );
+    }
+
+    private bool ShouldShowBookMenu(MenuCallbackArgs args)
+    {
+        args.optionLeaveType = GameMenuOption.LeaveType.OpenStash;
+
+        return GetBooksInInventory().Count > 0;
+    }
+
+    private void OnBookMenuClick(MenuCallbackArgs args)
+    {
+        var heroElements = new List<InquiryElement>();
+
+        for (var i = 0; i < Hero.MainHero.PartyBelongedTo.MemberRoster.Count; i++)
+        {
+            var character = Hero.MainHero.PartyBelongedTo.MemberRoster.GetCharacterAtIndex(i);
+
+            var hero = character.HeroObject;
+            if (hero == null)
+                continue;
+
+            var title = hero.Name.ToString();
+
+            var bookId = GetCurrentBook(hero);
+            if (bookId != null)
+            {
+                var book = MBObjectManager.Instance.GetObject<ItemObject>(bookId);
+                var readingStatus = new TextObject(
+                    "{=BCbTTNX0}reading \"{BookName}\""
+                ).SetTextVariable("BookName", book.Name);
+                title += $" ({readingStatus})";
+            }
+
+            heroElements.Add(
+                new InquiryElement(
+                    hero,
+                    title,
+                    new ImageIdentifier(CharacterCode.CreateFrom(character))
+                )
+            );
+        }
+
+        MBInformationManager.ShowMultiSelectionInquiry(
+            new MultiSelectionInquiryData(
+                new TextObject("{=8dpGVTJq}Select a character:").ToString(),
+                "",
+                heroElements,
+                true,
+                1,
+                1,
+                new TextObject("{=XAWlKdPO}Select").ToString(),
+                new TextObject("{=8gbHUrZb}Leave").ToString(),
+                selected =>
+                {
+                    if (selected.Count == 0)
+                        return;
+
+                    if (selected[0].Identifier is not Hero hero)
+                        return;
+
+                    DisplayBooksForHero(hero);
+                },
+                _ => { }
+            )
+        );
+    }
+
+    private void DisplayBooksForHero(Hero hero)
+    {
+        var bookOptions = new List<InquiryElement>();
+        foreach (var bookObject in GetBooksInInventory())
+        {
+            var book = BookManager.GetBook(bookObject.StringId);
+            var progress = GetProgress(hero, bookObject.StringId);
+            var title = $"{bookObject.Name} [{progress / book.ReadTime:0%}]";
+
+            var reader = GetBookReader(bookObject.StringId);
+            if (reader != null)
+            {
+                title += $" ({reader.Name})";
+            }
+
+            var bookOption = new InquiryElement(
+                bookObject.StringId,
+                title,
+                new ImageIdentifier(bookObject)
+            );
+
+            if (HasReadBook(hero, bookObject.StringId))
+            {
+                bookOption = new InquiryElement(
+                    bookObject.StringId,
+                    title,
+                    new ImageIdentifier(bookObject),
+                    false,
+                    new TextObject("{=rfFMrQ7v}{HeroName} has already read this book.")
+                        .SetTextVariable("HeroName", hero.Name)
+                        .ToString()
+                );
+            }
+            else if (!book.CanBeReadBy(hero, out var explanation))
+            {
+                bookOption = new InquiryElement(
+                    bookObject.StringId,
+                    title,
+                    new ImageIdentifier(bookObject),
+                    false,
+                    explanation
+                );
+            }
+
+            bookOptions.Add(bookOption);
+        }
+
+        if (GetCurrentBook(hero) != null)
+        {
+            bookOptions.Add(
+                new InquiryElement(
+                    "STOP",
+                    new TextObject("{=9aHdCKXF}Stop reading").ToString(),
+                    null
+                )
+            );
+        }
+
+        MBInformationManager.ShowMultiSelectionInquiry(
+            new MultiSelectionInquiryData(
+                "Select a book to read:",
+                "",
+                bookOptions,
+                true,
+                1,
+                1,
+                new TextObject("{=XAWlKdPO}Select").ToString(),
+                new TextObject("{=dZh6ZLIr}Cancel").ToString(),
+                selected =>
+                {
+                    if (selected.Count == 0)
+                        return;
+
+                    if (selected[0].Identifier is not string bookId)
+                        return;
+
+                    if (bookId == "STOP")
+                    {
+                        StopReading(hero);
+                        return;
+                    }
+
+                    var currentReader = GetBookReader(bookId);
+                    if (currentReader != null)
+                        StopReading(currentReader);
+
+                    StartReading(hero, bookId);
+                },
+                _ => { }
+            )
+        );
     }
 
     private void OnHourTick()
     {
         if (!Campaign.Current.IsMainPartyWaiting)
             return;
-
-        var playerBook = GetReadableBookForPlayer();
-        if (playerBook != null)
-        {
-            ReadTick(Hero.MainHero, playerBook);
-        }
 
         Hero.AllAliveHeroes.ForEach(hero =>
         {
@@ -75,32 +238,12 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
         }
     }
 
-    // Ideally, we would want treat player as any other hero with an ability to select which book to read
-    public Book? GetReadableBookForPlayer()
-    {
-        var inventory = Hero.MainHero.PartyBelongedTo.ItemRoster;
-        var bookIdx = inventory.FindIndex(item =>
-            item.Type == ItemObject.ItemTypeEnum.Book
-            && !HasReadBook(Hero.MainHero, item.StringId)
-            && !bookReaders.ContainsValue(item.StringId)
-        );
-
-        if (bookIdx == -1)
-            return null;
-
-        var bookItem = inventory.GetItemAtIndex(bookIdx);
-        if (!BookManager.IsBook(bookItem.StringId))
-            return null;
-
-        return BookManager.GetBook(bookItem.StringId);
-    }
-
     public string? GetCurrentBook(Hero hero)
     {
-        if (!bookReaders.TryGetValue(hero.StringId, out var bookName))
+        if (!bookReaders.TryGetValue(hero.StringId, out var bookId))
             return null;
 
-        return bookName;
+        return bookId;
     }
 
     public void StartReading(Hero hero, string bookName)
@@ -115,10 +258,6 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
     public Hero? GetBookReader(string bookName)
     {
-        var playerBook = GetReadableBookForPlayer();
-        if (playerBook != null && playerBook.ItemName == bookName)
-            return Hero.MainHero;
-
         foreach (var entry in bookReaders)
         {
             if (entry.Value == bookName)
@@ -140,6 +279,11 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
         var currentProgress = bookReadingProgress[hero.StringId][itemName];
         return currentProgress >= BookManager.GetBook(itemName).ReadTime;
+    }
+
+    public bool CanReadBook(Hero hero, string itemName, out string explanation)
+    {
+        return BookManager.GetBook(itemName).CanBeReadBy(hero, out explanation);
     }
 
     public float GetProgress(Hero hero, string bookName)
@@ -164,6 +308,22 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
         // We can add more modifiers here, like hero's intelligence, what type of settlement they're in, etc.
 
         return progress;
+    }
+
+    private List<ItemObject> GetBooksInInventory()
+    {
+        var inventory = Hero.MainHero.PartyBelongedTo.ItemRoster;
+        var books = new List<ItemObject>();
+        foreach (var rosterElement in inventory)
+        {
+            var item = rosterElement.EquipmentElement.Item;
+            if (item.Type == ItemObject.ItemTypeEnum.Book)
+            {
+                books.Add(item);
+            }
+        }
+
+        return books;
     }
 }
 
