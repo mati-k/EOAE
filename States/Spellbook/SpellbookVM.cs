@@ -1,6 +1,8 @@
 ﻿using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 
 namespace EOAE_Code.States.Spellbook
@@ -10,6 +12,25 @@ namespace EOAE_Code.States.Spellbook
         private const int SPELL_SLOTS = 5;
 
         private string doneText = GameTexts.FindText("str_done").ToString();
+
+        private CharacterSwitcherVM _characterSwitcher;
+        private MBBindingList<SpellSlotVM> _knownSpellList = new();
+        private MBBindingList<SpellSlotVM> _pickedSpellList = new();
+        private InputKeyItemVM _doneInputKey;
+
+        [DataSourceProperty]
+        public CharacterSwitcherVM CharacterSwitcher
+        {
+            get { return _characterSwitcher; }
+            set
+            {
+                if (value != _characterSwitcher)
+                {
+                    _characterSwitcher = value;
+                    OnPropertyChangedWithValue(value, "CharacterSwitcher");
+                }
+            }
+        }
 
         [DataSourceProperty]
         public string DoneText
@@ -25,8 +46,6 @@ namespace EOAE_Code.States.Spellbook
             }
         }
 
-        private MBBindingList<SpellSlotVM> _knownSpellList = new();
-
         [DataSourceProperty]
         public MBBindingList<SpellSlotVM> KnownSpellList
         {
@@ -40,8 +59,6 @@ namespace EOAE_Code.States.Spellbook
                 }
             }
         }
-
-        private MBBindingList<SpellSlotVM> _pickedSpellList = new();
 
         [DataSourceProperty]
         public MBBindingList<SpellSlotVM> PickedSpellList
@@ -57,8 +74,24 @@ namespace EOAE_Code.States.Spellbook
             }
         }
 
+        [DataSourceProperty]
+        public InputKeyItemVM DoneInputKey
+        {
+            get { return this._doneInputKey; }
+            set
+            {
+                if (value != this._doneInputKey)
+                {
+                    this._doneInputKey = value;
+                    base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "DoneInputKey");
+                }
+            }
+        }
+
         public SpellbookVM()
         {
+            CharacterSwitcher = new CharacterSwitcherVM();
+
             Refresh();
         }
 
@@ -67,6 +100,11 @@ namespace EOAE_Code.States.Spellbook
             Game.Current.GameStateManager.PopState();
 
             // todo: Save
+        }
+
+        public void SetDoneInputKey(HotKey hotKey)
+        {
+            this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
         }
 
         public override void RefreshValues()
@@ -80,10 +118,13 @@ namespace EOAE_Code.States.Spellbook
             KnownSpellList.Clear();
             PickedSpellList.Clear();
 
-            foreach (var spell in SpellManager.GetAllSpell())
+            for (int i = 0; i < 30; i++)
             {
-                SpellSlotVM item = new SpellSlotVM(DropOnKnownSpell, false, spell);
-                KnownSpellList.Add(item);
+                foreach (var spell in SpellManager.GetAllSpell())
+                {
+                    SpellSlotVM item = new SpellSlotVM(DropOnKnownSpell, false, spell);
+                    KnownSpellList.Add(item);
+                }
             }
 
             for (int i = 0; i < SPELL_SLOTS; i++)
@@ -126,6 +167,14 @@ namespace EOAE_Code.States.Spellbook
             {
                 target.ChangeSpell(source.Spell);
             }
+        }
+
+        public override void OnFinalize()
+        {
+            base.OnFinalize();
+
+            DoneInputKey.OnFinalize();
+            CharacterSwitcher.OnFinalize();
         }
     }
 }

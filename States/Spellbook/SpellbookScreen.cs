@@ -25,12 +25,14 @@ namespace EOAE_Code.States.Spellbook
         {
             base.OnFrameTick(dt);
             LoadingWindow.DisableGlobalLoadingWindow();
-            if (
-                gauntletLayer.Input.IsHotKeyDownAndReleased("Exit")
-                || gauntletLayer.Input.IsGameKeyDownAndReleased(41)
-            )
+
+            if (gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
             {
-                Close();
+                vm.ExecuteClose();
+            }
+            else
+            {
+                vm.CharacterSwitcher.HandleHotKeyNavigation(gauntletLayer);
             }
         }
 
@@ -39,14 +41,24 @@ namespace EOAE_Code.States.Spellbook
             base.OnActivate();
 
             vm = new SpellbookVM();
+
+            this.vm.SetDoneInputKey(
+                HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit")
+            );
+
+            this.vm.CharacterSwitcher.RegisterHotKeys();
+
             gauntletLayer = new GauntletLayer(1, "GauntletLayer", true);
             gauntletLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
-            gauntletLayer.Input.RegisterHotKeyCategory(
+            this.gauntletLayer.Input.RegisterHotKeyCategory(
+                HotKeyManager.GetCategory("GenericPanelGameKeyCategory")
+            );
+            this.gauntletLayer.Input.RegisterHotKeyCategory(
                 HotKeyManager.GetCategory("GenericCampaignPanelsGameKeyCategory")
             );
             gauntletLayer.LoadMovie("Spellbook", vm);
-            gauntletLayer.IsFocusLayer = true;
             AddLayer(gauntletLayer);
+            gauntletLayer.IsFocusLayer = true;
             ScreenManager.TrySetFocus(gauntletLayer);
         }
 
