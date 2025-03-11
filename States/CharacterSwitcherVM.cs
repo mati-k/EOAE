@@ -21,6 +21,7 @@ namespace EOAE_Code.States
         private List<Hero> heroList = new();
         private int heroIndex = 0;
         private Func<string, TextObject> getKeyTextFromKeyId;
+        private Action<Hero> onHeroSelected;
 
         private SelectorVM<SelectorItemVM> _characterList;
         private string _currentCharacterNameText;
@@ -125,8 +126,9 @@ namespace EOAE_Code.States
             }
         }
 
-        public CharacterSwitcherVM()
+        public CharacterSwitcherVM(Action<Hero> onHeroSelected)
         {
+            this.onHeroSelected = onHeroSelected;
             heroList = GetPartyHeroes();
             CharacterList = new SelectorVM<SelectorItemVM>(
                 heroList.Select(hero => hero.Name.ToString()),
@@ -223,11 +225,23 @@ namespace EOAE_Code.States
 
         private void OnCharacterSelection(SelectorVM<SelectorItemVM> newIndex)
         {
+            if (newIndex.SelectedIndex == heroIndex)
+            {
+                return;
+            }
+
             if (newIndex.SelectedIndex >= 0 && newIndex.SelectedIndex < this.heroList.Count)
             {
+                Hero previousHero = heroList[heroIndex];
                 heroIndex = newIndex.SelectedIndex;
-                CurrentCharacterNameText = heroList[heroIndex].Name.ToString();
+                SelectHero(heroList[heroIndex], previousHero);
             }
+        }
+
+        private void SelectHero(Hero newHero, Hero previousHero)
+        {
+            CurrentCharacterNameText = newHero.Name.ToString();
+            onHeroSelected(previousHero);
         }
 
         public void RegisterHotKeys()
@@ -259,6 +273,11 @@ namespace EOAE_Code.States
             {
                 CharacterList.ExecuteSelectNextItem();
             }
+        }
+
+        public Hero GetCurrentHero()
+        {
+            return heroList[heroIndex];
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using System.Linq;
+using EOAE_Code.Data.Managers;
+using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
@@ -90,16 +93,16 @@ namespace EOAE_Code.States.Spellbook
 
         public SpellbookVM()
         {
-            CharacterSwitcher = new CharacterSwitcherVM();
-
+            CharacterSwitcher = new CharacterSwitcherVM(SwitchHero);
             Refresh();
         }
 
         public void ExecuteClose()
         {
             Game.Current.GameStateManager.PopState();
-
-            // todo: Save
+            CharacterSwitcher
+                .GetCurrentHero()
+                .SetPickedSpells(PickedSpellList.Select(picked => picked.Spell).ToList());
         }
 
         public void SetDoneInputKey(HotKey hotKey)
@@ -115,6 +118,11 @@ namespace EOAE_Code.States.Spellbook
 
         private void Refresh()
         {
+            if (CharacterSwitcher == null)
+            {
+                return;
+            }
+
             KnownSpellList.Clear();
             PickedSpellList.Clear();
 
@@ -127,10 +135,31 @@ namespace EOAE_Code.States.Spellbook
                 }
             }
 
+            SetupPickedSpells();
+        }
+
+        private void SetupPickedSpells()
+        {
+            var savedPickedSpells = CharacterSwitcher.GetCurrentHero().GetPickedSpells();
+
             for (int i = 0; i < SPELL_SLOTS; i++)
             {
                 PickedSpellList.Add(new SpellSlotVM(DropOnPickedSpell, true));
             }
+
+            if (savedPickedSpells != null)
+            {
+                for (int i = 0; i < savedPickedSpells.Count; i++)
+                {
+                    PickedSpellList[i].ChangeSpell(savedPickedSpells[i]);
+                }
+            }
+        }
+
+        public void SwitchHero(Hero previousHero)
+        {
+            previousHero.SetPickedSpells(PickedSpellList.Select(picked => picked.Spell).ToList());
+            Refresh();
         }
 
         public void ExecuteDropOnGrid(SpellSlotDraggableImageVM source, int index)
