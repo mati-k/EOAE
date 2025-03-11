@@ -32,8 +32,6 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
     private void Initialize(CampaignGameStarter starter)
     {
-        LiteratureDialogs.AddBookDialogs(starter);
-
         starter.AddGameMenuOption(
             "town",
             "select_book",
