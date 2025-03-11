@@ -21,6 +21,6 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
         public abstract void Apply(float totalValue, AgentDrivenProperties multiplierProperties);
 
-        public abstract void EffectTick(float totalValue, Agent target, Agent caster); 
+        public abstract void EffectTick(float totalValue, Agent target, Agent caster);
     }
 }
