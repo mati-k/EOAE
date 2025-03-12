@@ -1,4 +1,5 @@
-﻿using EOAE_Code.Data.Xml.Spells;
+﻿using EOAE_Code.Character;
+using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Interfaces;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -12,10 +13,28 @@ namespace EOAE_Code.Magic.Spells
         public string Name { get; private set; }
         public string ItemName { get; private set; }
         public int Cost { get; private set; }
-        public SkillObject School { get; private set; }
+        public string SchoolName { get; private set; }
         public string Icon { get; private set; }
         public string Animation { get; private set; }
         public abstract bool IsThrown { get; }
+
+        public SkillObject School
+        {
+            get
+            {
+                switch (SchoolName)
+                {
+                    case "Destruction":
+                        return CustomSkills.Instance.Destruction;
+                    case "Restoration":
+                        return CustomSkills.Instance.Restoration;
+                    case "Conjuration":
+                        return CustomSkills.Instance.Conjuration;
+                }
+
+                return CustomSkills.Instance.Destruction;
+            }
+        }
 
         public Spell(SpellData data)
         {
@@ -23,7 +42,7 @@ namespace EOAE_Code.Magic.Spells
             ItemName = data.ItemName;
             Cost = data.Cost;
             Icon = data.Icon;
-            School = data.School;
+            SchoolName = data.SchoolName;
             Animation = data.Animation;
         }
 

@@ -1,7 +1,5 @@
-﻿using EOAE_Code.Character;
-using System;
+﻿using System;
 using System.Xml.Serialization;
-using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Xml.Spells
 {
@@ -31,24 +29,5 @@ namespace EOAE_Code.Data.Xml.Spells
 
         [XmlAttribute]
         public string Animation = "";
-
-        [XmlIgnore]
-        public SkillObject School
-        {
-            get
-            {
-                switch (SchoolName)
-                {
-                    case "Destruction":
-                        return CustomSkills.Instance.Destruction;
-                    case "Restoration":
-                        return CustomSkills.Instance.Restoration;
-                    case "Conjuration":
-                        return CustomSkills.Instance.Conjuration;
-                }
-
-                return CustomSkills.Instance.Destruction;
-            }
-        }
     }
 }

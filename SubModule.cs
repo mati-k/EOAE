@@ -1,4 +1,5 @@
-﻿using EOAE_Code.BaseGameFixes;
+﻿using Bannerlord.UIExtenderEx;
+using EOAE_Code.BaseGameFixes;
 using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
@@ -43,6 +44,10 @@ namespace EOAE_Code
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
+
+            var uiExtender = UIExtender.Create("EOAE_Code");
+            uiExtender.Register(typeof(SubModule).Assembly);
+            uiExtender.Enable();
         }
 
         protected override void OnSubModuleUnloaded()

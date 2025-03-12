@@ -1,5 +1,6 @@
 ﻿using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
+using EOAE_Code.Extensions;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
@@ -68,7 +69,7 @@ namespace EOAE_Code.AI
                 return;
             }
 
-            Spell spell = spellBook.GetRandomSpell();
+            Spell spell = GetSpell();
             if (
                 spell != null
                 && MagicMissionLogic.GetAgentCurrentMana(Agent) >= spell.Cost
@@ -117,6 +118,20 @@ namespace EOAE_Code.AI
                     }
                 }
             }
+        }
+
+        private Spell? GetSpell()
+        {
+            if (spellBook != null)
+            {
+                return spellBook.GetRandomSpell();
+            }
+            else if (Agent.IsHero)
+            {
+                return Agent.GetHero().GetPickedSpells().GetRandomElement();
+            }
+
+            return null;
         }
     }
 }

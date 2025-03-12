@@ -1,10 +1,23 @@
-﻿using TaleWorlds.Library;
+﻿using TaleWorlds.CampaignSystem;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Extensions
 {
     public static class AgentExtensions
     {
+        public static Hero? GetHero(this Agent agent)
+        {
+            var character = agent?.Character as CharacterObject;
+
+            if (character == null)
+            {
+                return null;
+            }
+
+            return character.HeroObject;
+        }
+
         public static void DealDamage(this Agent agent, Agent attacker, float value)
         {
             // ToDo: move damage logic into some simpler to use extension
