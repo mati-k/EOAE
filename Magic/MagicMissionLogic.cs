@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EOAE_Code.AI;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Extensions;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
@@ -35,8 +36,9 @@ namespace EOAE_Code.Magic
             }
 
             if (
-                !agent.IsHero
-                && TroopSpellBookManager.GetSpellBookForTroop(agent.Character.StringId) != null
+                // ToDo: check for lords / non player heroes
+                (agent.IsHero && agent.GetHero().GetPickedSpells().Count > 0)
+                || TroopSpellBookManager.GetSpellBookForTroop(agent.Character.StringId) != null
             )
             {
                 agent.AddComponent(new AICastingComponent(agent));
