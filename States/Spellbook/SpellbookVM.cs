@@ -126,13 +126,10 @@ namespace EOAE_Code.States.Spellbook
             KnownSpellList.Clear();
             PickedSpellList.Clear();
 
-            for (int i = 0; i < 30; i++)
+            foreach (var spell in SpellManager.GetAllSpell())
             {
-                foreach (var spell in SpellManager.GetAllSpell())
-                {
-                    SpellSlotVM item = new SpellSlotVM(DropOnKnownSpell, false, spell);
-                    KnownSpellList.Add(item);
-                }
+                SpellSlotVM item = new SpellSlotVM(DropOnKnownSpell, false, spell);
+                KnownSpellList.Add(item);
             }
 
             SetupPickedSpells();
