@@ -140,19 +140,16 @@ namespace EOAE_Code.States.Spellbook
 
         private void SetupPickedSpells()
         {
-            var savedPickedSpells = CharacterSwitcher.GetCurrentHero().GetPickedSpells();
+            var savedPickedSpells = CharacterSwitcher.GetCurrentHero().GetPickedSpellSlots();
 
             for (int i = 0; i < SPELL_SLOTS; i++)
             {
                 PickedSpellList.Add(new SpellSlotVM(DropOnPickedSpell, true));
             }
 
-            if (savedPickedSpells != null)
+            for (int i = 0; i < savedPickedSpells.Count; i++)
             {
-                for (int i = 0; i < savedPickedSpells.Count; i++)
-                {
-                    PickedSpellList[i].ChangeSpell(savedPickedSpells[i]);
-                }
+                PickedSpellList[i].ChangeSpell(savedPickedSpells[i]);
             }
         }
 

@@ -225,12 +225,11 @@ namespace EOAE_Code.States
 
         private void OnCharacterSelection(SelectorVM<SelectorItemVM> newIndex)
         {
-            if (newIndex.SelectedIndex == heroIndex)
-            {
-                return;
-            }
-
-            if (newIndex.SelectedIndex >= 0 && newIndex.SelectedIndex < this.heroList.Count)
+            if (
+                newIndex.SelectedIndex >= 0
+                && newIndex.SelectedIndex < this.heroList.Count
+                && newIndex.SelectedIndex != heroIndex
+            )
             {
                 Hero previousHero = heroList[heroIndex];
                 heroIndex = newIndex.SelectedIndex;
