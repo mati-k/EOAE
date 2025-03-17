@@ -53,10 +53,10 @@ namespace EOAE_Code.Magic
                     )
                 );
 
-                var agent = Agent.Main?.Character as CharacterObject;
-                if (agent != null)
+                var character = Agent.Main?.Character as CharacterObject;
+                if (character != null)
                 {
-                    agent
+                    character
                         .HeroObject.GetPickedSpells()
                         .ForEach(spell =>
                             Spells.Add(

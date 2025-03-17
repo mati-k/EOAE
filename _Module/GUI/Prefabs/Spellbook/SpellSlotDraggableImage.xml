@@ -1,9 +1,6 @@
 ﻿<Prefab>
   <Constants>
     <Constant Name="Image.Padding" Value="4"/>
-
-    <Constant Name="Recruitment.Troop.Panel.Width" BrushName="Recruitment.Troop.Brush" BrushLayer="Available" BrushValueType="Width"/>
-    <Constant Name="Recruitment.Troop.Panel.Height" BrushName="Recruitment.Troop.Brush" BrushLayer="Available" BrushValueType="Height"/>
   </Constants>
   <Window>
     <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrag="true">
