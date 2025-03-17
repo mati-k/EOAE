@@ -1,0 +1,15 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="Slot.Width" BrushName="Recruitment.Troop.Brush" BrushLayer="Available" BrushValueType="Width"/>
+    <Constant Name="Slot.Height" BrushName="Recruitment.Troop.Brush" BrushLayer="Available" BrushValueType="Height"/>
+  </Constants>
+  <Window>
+    <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Slot.Width" SuggestedHeight="!Slot.Height" Brush="Recruitment.Troop.Brush" AcceptDrop="true" Command.Drop="ExecuteDropOnSlot">
+      <Children>
+        <ButtonWidget Id="RemoveFromCartButton" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="4" MarginLeft="4" MarginRight="4" MarginBottom="4" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="GameMenu.Tableau.Background.Character"/>
+        <SpellSlotDraggableImage DataSource="{SpellSlotDraggableImage}"/>
+        <HintWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

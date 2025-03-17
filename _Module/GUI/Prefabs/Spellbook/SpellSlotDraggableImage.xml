@@ -1,0 +1,12 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="Image.Padding" Value="4"/>
+  </Constants>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrag="true">
+      <Children>
+        <ImageIdentifierWidget Id="SpellImage" DataSource="{ImageIdentifier}" ImageId="@Id" AdditionalArgs="@AdditionalArgs" ImageTypeCode="@ImageTypeCode" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsDisabled="true" MarginBottom="!Image.Padding" MarginTop="!Image.Padding" MarginLeft="!Image.Padding" MarginRight="!Image.Padding" />      
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

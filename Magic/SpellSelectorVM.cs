@@ -1,6 +1,7 @@
 ﻿using EOAE_Code.Agents;
-using EOAE_Code.Data.Managers;
+using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -51,13 +52,23 @@ namespace EOAE_Code.Magic
                         OnItemHovered
                     )
                 );
-                SpellManager
-                    .GetAllSpell()
-                    .ForEach(spell =>
-                        Spells.Add(
-                            new EquipmentActionItemVM(spell.Name, spell.Icon, spell, OnItemHovered)
-                        )
-                    );
+
+                var character = Agent.Main?.Character as CharacterObject;
+                if (character != null)
+                {
+                    character
+                        .HeroObject.GetPickedSpells()
+                        .ForEach(spell =>
+                            Spells.Add(
+                                new EquipmentActionItemVM(
+                                    spell.Name,
+                                    spell.Icon,
+                                    spell,
+                                    OnItemHovered
+                                )
+                            )
+                        );
+                }
             }
             else if (hoveredItem is { Identifier: Spell spell })
             {
