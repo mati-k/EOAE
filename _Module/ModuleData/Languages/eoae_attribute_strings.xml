@@ -41,5 +41,9 @@
     <string id="NuagJ5IG" text="Can learn expert spells" />
     <string id="EDkjmSOY" text="Master Restoration" />
     <string id="6XeZ0kxn" text="Can learn master spells" />
+
+    <string id="eaPW4J70" text="Destruction spells damage: + {a0} %" />
+    <string id="SaRDNkCn" text="Restoration spells heal: +{a0} %" />
+    <string id="WJCOjwML" text="Conjuration spells duration: +{a0} %" />
   </strings>
 </base>

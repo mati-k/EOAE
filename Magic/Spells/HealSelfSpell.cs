@@ -1,5 +1,7 @@
 ﻿using System;
+using EOAE_Code.Character;
 using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Extensions;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.Spells
@@ -22,7 +24,13 @@ namespace EOAE_Code.Magic.Spells
 
         public override void Cast(Agent caster)
         {
-            caster.Health = Math.Min(caster.Health + HealValue, caster.HealthLimit);
+            var healValueWithBonus =
+                HealValue
+                * caster.GetMultiplierForSkill(
+                    CustomSkills.Instance.Restoration,
+                    CustomSkillEffects.Instance.RestorationHeal
+                );
+            caster.Health = Math.Min(caster.Health + healValueWithBonus, caster.HealthLimit);
         }
 
         // Cast only if either has enough surplus mana or the heal is effective enough

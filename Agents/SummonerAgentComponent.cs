@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EOAE_Code.Character;
 using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.Core;
@@ -48,7 +50,13 @@ public class SummonerAgentComponent : AgentComponent
             caster.GetMovementDirection()
         );
 
-        agent.AddComponent(new SummonedAgentComponent(agent, caster, data.Duration));
+        var durationWithMultiplier =
+            data.Duration
+            * caster.GetMultiplierForSkill(
+                CustomSkills.Instance.Conjuration,
+                CustomSkillEffects.Instance.ConjurationDuration
+            );
+        agent.AddComponent(new SummonedAgentComponent(agent, caster, durationWithMultiplier));
         agent.SetAgentFlags(
             (agent.GetAgentFlags() | AgentFlag.CanGetAlarmed) & ~AgentFlag.CanRetreat
         );

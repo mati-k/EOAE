@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Linq;
 using EOAE_Code.Agents;
 using EOAE_Code.Character;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Extensions;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
 using HarmonyLib;
 using JetBrains.Annotations;
-using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
+using SandBox.GameComponents;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.GauntletUI.Mission;
-using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
 
 namespace EOAE_Code.Magic
 {
@@ -59,20 +58,7 @@ namespace EOAE_Code.Magic
         {
             if (SpellManager.IsWeaponSpell(__instance))
             {
-                __result = CustomSkills.Instance.Destruction;
-                return false;
-            }
-
-            return true;
-        }
-
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(MissionMainAgentEquipmentControllerVM), "GetItemTypeAsString")]
-        public static bool GetItemTypeAsStringPrefix(ItemObject item, ref string __result)
-        {
-            if (SpellManager.IsSpell(item.StringId))
-            {
-                __result = "Spell";
+                __result = SpellManager.GetSpellFromWeapon(__instance).School;
                 return false;
             }
 
@@ -80,43 +66,23 @@ namespace EOAE_Code.Magic
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(ItemMenuVM), "SetWeaponComponentTooltip")]
-        public static void ChangeWeaponClassText(
-            in EquipmentElement targetWeapon,
-            int targetWeaponUsageIndex,
-            EquipmentElement comparedWeapon,
-            int comparedWeaponUsageIndex,
-            bool isInit,
-            ItemMenuVM __instance,
-            TextObject ____classText
+        [HarmonyPatch(typeof(SandboxAgentStatCalculateModel))]
+        [HarmonyPatch("GetWeaponDamageMultiplier")]
+        public static void GetWeaponDamageMultiplier(
+            Agent agent,
+            WeaponComponentData weapon,
+            ref float __result
         )
         {
-            if (targetWeapon.Item != null && SpellManager.IsSpell(targetWeapon.Item.StringId))
-            {
-                ItemMenuTooltipPropertyVM property = __instance
-                    .TargetItemProperties.Where(property =>
-                        property.DefinitionLabel == ____classText.ToString()
-                    )
-                    .First();
-                property.ValueLabel = "Spell";
-            }
+            // If more logic of model needs to be changed could inherit and override instead
+            var skill = weapon?.RelevantSkill;
 
-            if (comparedWeapon.Item != null && SpellManager.IsSpell(comparedWeapon.Item.StringId))
+            if (skill == CustomSkills.Instance.Destruction && SpellManager.IsWeaponSpell(weapon!))
             {
-                WeaponComponentData weaponWithUsageIndex =
-                    targetWeapon.Item.GetWeaponWithUsageIndex(targetWeaponUsageIndex);
-                ItemMenuTooltipPropertyVM property = __instance
-                    .ComparedItemProperties.Where(property =>
-                        property.ValueLabel
-                        == GameTexts
-                            .FindText(
-                                "str_inventory_weapon",
-                                ((int)weaponWithUsageIndex.WeaponClass).ToString()
-                            )
-                            .ToString()
-                    )
-                    .First();
-                property.ValueLabel = "Spell";
+                __result = agent.GetMultiplierForSkill(
+                    CustomSkills.Instance.Destruction,
+                    CustomSkillEffects.Instance.DestructionDamage
+                );
             }
         }
 

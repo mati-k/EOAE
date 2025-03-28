@@ -1,5 +1,7 @@
 ﻿using System;
+using EOAE_Code.Character;
 using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Extensions;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -33,9 +35,15 @@ namespace EOAE_Code.Magic.Spells
                 agents
             );
 
+            var healValueWithBonus =
+                HealValue
+                * caster.GetMultiplierForSkill(
+                    CustomSkills.Instance.Restoration,
+                    CustomSkillEffects.Instance.RestorationHeal
+                );
             foreach (var agent in agents)
             {
-                agent.Health = Math.Min(agent.Health + HealValue, agent.HealthLimit);
+                agent.Health = Math.Min(agent.Health + healValueWithBonus, agent.HealthLimit);
             }
         }
 

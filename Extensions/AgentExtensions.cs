@@ -1,4 +1,7 @@
-﻿using TaleWorlds.CampaignSystem;
+﻿using System;
+using Helpers;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -67,6 +70,32 @@ namespace EOAE_Code.Extensions
             );
 
             agent.RegisterBlow(blow, collisionData);
+        }
+
+        public static float GetMultiplierForSkill(
+            this Agent agent,
+            SkillObject skill,
+            SkillEffect skillEffect
+        )
+        {
+            ExplainedNumber explainedNumber = new(1f, false, null);
+            var character = agent.Character as CharacterObject;
+
+            if (character != null && skill != null)
+            {
+                int effectiveSkill = character.GetSkillValue(skill);
+                SkillHelper.AddSkillBonusForCharacter(
+                    skill,
+                    skillEffect,
+                    character,
+                    ref explainedNumber,
+                    effectiveSkill,
+                    true,
+                    0
+                );
+            }
+
+            return Math.Max(0, explainedNumber.ResultNumber);
         }
     }
 }
