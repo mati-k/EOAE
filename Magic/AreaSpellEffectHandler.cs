@@ -52,7 +52,12 @@ namespace EOAE_Code.Magic
             {
                 if (agent.IsActive())
                 {
-                    agent.DealDamage(Caster, Data.DamagePerSecond * TICK_INTERVAL);
+                    agent.DealDamage(
+                        Caster,
+                        Data.DamagePerSecond * TICK_INTERVAL,
+                        CustomSkills.Instance.Destruction,
+                        true
+                    );
                 }
             }
         }

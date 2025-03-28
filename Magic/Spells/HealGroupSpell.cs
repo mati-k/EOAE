@@ -41,10 +41,18 @@ namespace EOAE_Code.Magic.Spells
                     CustomSkills.Instance.Restoration,
                     CustomSkillEffects.Instance.RestorationHeal
                 );
+
+            float healedValue = 0;
             foreach (var agent in agents)
             {
+                float originalHealth = agent.Health;
                 agent.Health = Math.Min(agent.Health + healValueWithBonus, agent.HealthLimit);
+                healedValue += agent.Health - originalHealth;
             }
+            caster.AddSkillXp(
+                CustomSkills.Instance.Restoration,
+                healedValue * MagicConstants.RESTORATION_EXP_PER_HEALTHPOINT
+            );
         }
 
         // Cast only if either has enough surplus mana or the heal is effective enough over surrounding troops

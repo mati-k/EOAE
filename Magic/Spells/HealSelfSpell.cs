@@ -30,7 +30,13 @@ namespace EOAE_Code.Magic.Spells
                     CustomSkills.Instance.Restoration,
                     CustomSkillEffects.Instance.RestorationHeal
                 );
+
+            float originalHealth = caster.Health;
             caster.Health = Math.Min(caster.Health + healValueWithBonus, caster.HealthLimit);
+            caster.AddSkillXp(
+                CustomSkills.Instance.Restoration,
+                MagicConstants.RESTORATION_EXP_PER_HEALTHPOINT * (caster.Health - originalHealth)
+            );
         }
 
         // Cast only if either has enough surplus mana or the heal is effective enough
