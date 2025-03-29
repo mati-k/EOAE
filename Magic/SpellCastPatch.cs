@@ -129,7 +129,11 @@ namespace EOAE_Code.Magic
             private static bool Prefix(
                 Agent shooterAgent,
                 EquipmentIndex weaponIndex,
-                bool hasRigidBody
+                bool hasRigidBody,
+                Vec3 position,
+                Vec3 velocity,
+                Mat3 orientation,
+                int forcedMissileIndex
             )
             {
                 MissionWeapon missionWeapon = shooterAgent.Equipment[weaponIndex];
@@ -173,6 +177,38 @@ namespace EOAE_Code.Magic
                                 }
 
                                 return false;
+                            }
+                            else if (spell is MissileSpell missile)
+                            {
+                                float baseSpeed =
+                                    missionWeapon.GetModifiedMissileSpeedForCurrentUsage();
+
+                                for (int i = 0; i < missile.ExtraMissiles; i++)
+                                {
+                                    Vec3 direction = new Vec3(
+                                        velocity.X
+                                            + (MBRandom.RandomFloat - 0.5f) * missile.MissileSpread,
+                                        velocity.Y
+                                            + (MBRandom.RandomFloat - 0.5f) * missile.MissileSpread,
+                                        velocity.Z
+                                            + (MBRandom.RandomFloat - 0.5f) * missile.MissileSpread,
+                                        -1f
+                                    );
+                                    float speed = direction.Normalize();
+
+                                    Mission.Current.AddCustomMissile(
+                                        shooterAgent,
+                                        missionWeapon,
+                                        position,
+                                        direction,
+                                        orientation,
+                                        baseSpeed,
+                                        speed,
+                                        hasRigidBody,
+                                        null,
+                                        forcedMissileIndex
+                                    );
+                                }
                             }
                         }
                         else if (shooterAgent.IsPlayerControlled)

@@ -5,6 +5,8 @@
       Name="{=3fY2LWVv}Fireball"
       ItemName="fireball"
       School="Destruction"
+      ExtraMissiles="4"
+      MissileSpread="10"
       Cost="25"
       Icon="Stone"
       Animation="act_fire_magic"

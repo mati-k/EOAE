@@ -6,13 +6,18 @@ namespace EOAE_Code.Magic.Spells
 {
     public class MissileSpell : Spell
     {
+        public int ExtraMissiles { get; private set; }
+        public float MissileSpread { get; private set; }
         public StatusEffectBase? StatusEffect { get; private set; }
         public override bool IsThrown => true;
 
         public MissileSpell(SpellData data)
-            : base(data) 
+            : base(data)
         {
             MissileSpellData missileSpellData = data as MissileSpellData;
+
+            ExtraMissiles = missileSpellData.ExtraMissiles;
+            MissileSpread = missileSpellData.MissileSpread;
             StatusEffect = missileSpellData.StatusEffect;
         }
 
