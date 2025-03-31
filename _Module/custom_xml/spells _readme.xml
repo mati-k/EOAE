@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SpellList>
+<SpellList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Spells>
     <!-- Simple throwable type of spell -->
     <Missile
@@ -9,7 +9,17 @@
       Cost="25 | Mana cost"
       Icon="Stone | Icon in the radial selection"
       Animation="act_fire_magic | Animation for AI (player used animation should be set on the item usage)"
-    />
+      ExtraMissiles="4 | Optional, additional missiles to fire at same time"
+      MissileSpread="10 | Optional, how much to spread the extra missiles"
+    >
+      <!--Optional part, only if you want spell to apply some effect-->
+      <StatusEffect
+        xsi:type="DamageOverTimeEffectData | Type of effect to apply (at this moment one of: DamageOverTimeEffectData, MovementSpeedEffectData)"
+        Key="burning | Key of effect, used to group effects of similiar origin to avoid stacking"
+        Value="10 | Value of effect, depending on type could be percantage or raw value"
+        Duration="5 | How long it will last"
+      />
+    </Missile>
     <!-- Spells falling from above within marked circle -->
     <Bombard
       Name="Rain of Fire | Display name"
