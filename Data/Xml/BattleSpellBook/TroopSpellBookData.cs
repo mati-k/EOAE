@@ -1,20 +1,19 @@
-﻿using EOAE_Code.Data.Managers;
-using EOAE_Code.Magic.Spells;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+using EOAE_Code.Data.Managers;
+using EOAE_Code.Interfaces;
+using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
 
-namespace EOAE_Code.Data.Xml
+namespace EOAE_Code.Data.Xml.BattleSpellBook
 {
     [Serializable]
-    public class TroopSpellBookData
+    public class TroopSpellBookData : IBattleSpellBook
     {
         [XmlAttribute]
         public string TroopId = "";
+
         [XmlArray]
         public TroopSpellData[] Spells = new TroopSpellData[0];
 

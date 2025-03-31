@@ -3,6 +3,7 @@ using EOAE_Code.BaseGameFixes;
 using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
+using EOAE_Code.Data.Xml.BattleSpellBook;
 using EOAE_Code.Data.Xml.Book;
 using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Literature;
@@ -33,6 +34,9 @@ namespace EOAE_Code
             );
             XmlDataLoader.LoadXmlDataList<TroopSpellBookData, TroopSpellBookManager>(
                 "troop_spellbooks.xml"
+            );
+            XmlDataLoader.LoadXmlDataList<NobleSpellBookData, NobleSpellBookManager>(
+                "noble_spellbooks.xml"
             );
             XmlDataLoader.LoadXmlDataList<AnimationDurationData, AnimationDurationManager>(
                 "animation_durations.xml"

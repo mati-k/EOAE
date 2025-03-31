@@ -1,10 +1,7 @@
-﻿using EOAE_Code.Data.Xml;
-using EOAE_Code.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EOAE_Code.Data.Xml.BattleSpellBook;
+using EOAE_Code.Interfaces;
 
 namespace EOAE_Code.Data.Managers
 {

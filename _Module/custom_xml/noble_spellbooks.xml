@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfNobleSpellBookData>
+  <NobleSpellBookData Culture="Culture.empire" >
+    <Spells>
+      <NobleSpellData Spell="fireball" Weight="10"/>
+      <NobleSpellData Spell="whiteFlame" Weight="10" RequiredPerk="ExpertDestruction"/>
+    </Spells>
+  </NobleSpellBookData>
+</ArrayOfNobleSpellBookData>
