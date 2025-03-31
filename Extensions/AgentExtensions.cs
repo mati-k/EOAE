@@ -40,18 +40,21 @@ namespace EOAE_Code.Extensions
                         CustomSkillEffects.Instance.DestructionDamage
                     );
 
-                    int xpToGive;
-                    Campaign.Current.Models.CombatXpModel.GetXpFromHit(
-                        (CharacterObject)attacker.Character,
-                        (CharacterObject?)attacker.Formation.Captain?.Character,
-                        (CharacterObject)agent.Character,
-                        null,
-                        (int)value,
-                        false,
-                        CombatXpModel.MissionTypeEnum.Battle,
-                        out xpToGive
-                    );
-                    attacker.AddSkillXp(CustomSkills.Instance.Destruction, xpToGive);
+                    if (shouldAddXp)
+                    {
+                        int xpToGive;
+                        Campaign.Current.Models.CombatXpModel.GetXpFromHit(
+                            (CharacterObject)attacker.Character,
+                            (CharacterObject?)attacker.Formation.Captain?.Character,
+                            (CharacterObject)agent.Character,
+                            null,
+                            (int)value,
+                            false,
+                            CombatXpModel.MissionTypeEnum.Battle,
+                            out xpToGive
+                        );
+                        attacker.AddSkillXp(CustomSkills.Instance.Destruction, xpToGive);
+                    }
                 }
             }
 
