@@ -1,6 +1,6 @@
 ﻿using EOAE_Code.Data.Managers;
-using EOAE_Code.Data.Xml;
 using EOAE_Code.Extensions;
+using EOAE_Code.Interfaces;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Core;
@@ -17,7 +17,7 @@ namespace EOAE_Code.AI
         private EquipmentIndex equipmentIndex = EquipmentIndex.ExtraWeaponSlot;
         private bool isSlotSetupDone = false;
 
-        private TroopSpellBookData spellBook;
+        private IBattleSpellBook? spellBook;
 
         public AICastingComponent(Agent agent)
             : base(agent)
@@ -25,6 +25,26 @@ namespace EOAE_Code.AI
             if (!agent.IsHero)
             {
                 spellBook = TroopSpellBookManager.GetSpellBookForTroop(agent.Character.StringId);
+            }
+            else
+            {
+                var hero = Agent.GetHero()!;
+
+                if (hero.IsPlayerCompanion)
+                {
+                    spellBook = hero.GetCompanionSpellBook();
+                }
+                else if (
+                    hero.IsLord
+                    && NobleSpellBookManager.GetSpellBookForCulture(hero.Culture) != null
+                )
+                {
+                    var cultureSpellBook = NobleSpellBookManager.GetSpellBookForCulture(
+                        hero.Culture
+                    );
+
+                    spellBook = cultureSpellBook!.GetSpellBookForBattle(hero);
+                }
             }
         }
 
@@ -56,7 +76,7 @@ namespace EOAE_Code.AI
 
         private void RunSpellcastingLogic()
         {
-            if (Agent.Equipment == null)
+            if (Agent.Equipment == null || spellBook == null)
             {
                 return;
             }
@@ -69,7 +89,7 @@ namespace EOAE_Code.AI
                 return;
             }
 
-            Spell spell = GetSpell();
+            Spell spell = spellBook.GetRandomSpell();
             if (
                 spell != null
                 && MagicMissionLogic.GetAgentCurrentMana(Agent) >= spell.Cost
@@ -84,7 +104,7 @@ namespace EOAE_Code.AI
                     ItemObject spellObject = MBObjectManager.Instance.GetObject<ItemObject>(
                         spell.ItemName
                     );
-                    MissionWeapon spawnedSpell = new MissionWeapon(spellObject, null, null, 1);
+                    MissionWeapon spawnedSpell = new(spellObject, null, null, 1);
 
                     Agent.EquipWeaponWithNewEntity(equipmentIndex, ref spawnedSpell);
                 }
@@ -118,20 +138,6 @@ namespace EOAE_Code.AI
                     }
                 }
             }
-        }
-
-        private Spell? GetSpell()
-        {
-            if (spellBook != null)
-            {
-                return spellBook.GetRandomSpell();
-            }
-            else if (Agent.IsHero)
-            {
-                return Agent.GetHero().GetPickedSpells().GetRandomElement();
-            }
-
-            return null;
         }
     }
 }
