@@ -12,6 +12,7 @@ namespace EOAE_Code.Character
         {
             Attributes.Instance.Initialize();
             CustomSkills.Instance.Initialize();
+            CustomSkillEffects.Instance.Initialize();
             CustomPerks.Instance.Initialize();
         }
     }

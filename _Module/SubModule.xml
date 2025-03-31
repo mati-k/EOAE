@@ -53,5 +53,8 @@
         <GameType value="EditorGame"/>
       </IncludedGameTypes>
     </XmlNode>
+    <XmlNode>
+      <XmlName id="GameText" path="eoae_strings" />
+    </XmlNode>
   </Xmls>
 </Module>

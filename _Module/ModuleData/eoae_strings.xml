@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<strings>
+  <string id="str_how_to_learn_skill.Destruction" text="{=P5hglTmt}Fight with Destruction spells." />
+  <string id="str_how_to_learn_skill.Restoration" text="{=Fwgl14hS}Heal allies with Restoration magic." />
+  <string id="str_how_to_learn_skill.Conjuration" text="{=nDvvliKJ}Summon minions using Conjuration." />
+</strings>

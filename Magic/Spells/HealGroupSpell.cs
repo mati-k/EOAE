@@ -1,5 +1,7 @@
 ﻿using System;
+using EOAE_Code.Character;
 using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Extensions;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -33,10 +35,24 @@ namespace EOAE_Code.Magic.Spells
                 agents
             );
 
+            var healValueWithBonus =
+                HealValue
+                * caster.GetMultiplierForSkill(
+                    CustomSkills.Instance.Restoration,
+                    CustomSkillEffects.Instance.RestorationHeal
+                );
+
+            float healedValue = 0;
             foreach (var agent in agents)
             {
-                agent.Health = Math.Min(agent.Health + HealValue, agent.HealthLimit);
+                float originalHealth = agent.Health;
+                agent.Health = Math.Min(agent.Health + healValueWithBonus, agent.HealthLimit);
+                healedValue += agent.Health - originalHealth;
             }
+            caster.AddSkillXp(
+                CustomSkills.Instance.Restoration,
+                healedValue * MagicConstants.RESTORATION_EXP_PER_HEALTHPOINT
+            );
         }
 
         // Cast only if either has enough surplus mana or the heal is effective enough over surrounding troops

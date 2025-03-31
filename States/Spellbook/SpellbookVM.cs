@@ -158,7 +158,7 @@ namespace EOAE_Code.States.Spellbook
 
         public void ExecuteDropOnGrid(SpellSlotDraggableImageVM source, int index)
         {
-            if (!source.Parent.IsPickedList)
+            if (source.Parent.IsPickedList)
             {
                 source.Parent.ChangeSpell(null);
             }
