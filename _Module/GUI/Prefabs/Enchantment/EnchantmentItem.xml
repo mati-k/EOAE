@@ -1,0 +1,52 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="Image.Padding" Value="4" />
+    <Constant Name="NameText.Width" Value="235" />
+    <Constant Name="NameText.Margin" Value="160" />
+    <Constant Name="NameText.XFixPressed" Value="-4" />
+    <Constant Name="TextYFix" Value="2" />
+    <Constant Name="Inventory.Tuple.ThumbnailMargin" Value="41" />
+    <Constant Name="Inventory.Tuple" Value="Inventory.Tuple.Left" />
+    <Constant Name="Toggle.Height" BrushName="!Inventory.Tuple" BrushLayer="Default" BrushValueType="Height" />
+    <Constant Name="Toggle.Width" BrushName="!Inventory.Tuple" BrushLayer="Default" BrushValueType="Width" />
+    <Constant Name="Toggle.Pressed.Width" BrushName="!Inventory.Tuple" BrushLayer="Default" BrushValueType="Width" Additive="-8" />
+  </Constants>
+  <VisualDefinitions>
+    <VisualDefinition Name="Main" TransitionDuration="0.075">
+      <VisualState State="Default" SuggestedWidth="!Toggle.Width" />
+      <VisualState State="Pressed" SuggestedWidth="!Toggle.Pressed.Width" />
+      <VisualState State="Hovered" SuggestedWidth="!Toggle.Width" />
+      <VisualState State="Disabled" SuggestedWidth="!Toggle.Width" />
+      <VisualState State="Selected" SuggestedWidth="!Toggle.Width" />
+    </VisualDefinition>
+    <VisualDefinition Name="NameTextDefinition" TransitionDuration="0.075">
+      <VisualState State="Default" PositionXOffset="0" PositionYOffset="0" />
+      <VisualState State="Pressed" PositionXOffset="!NameText.XFixPressed" PositionYOffset="0" />
+    </VisualDefinition>
+  </VisualDefinitions>
+  <Window>
+    <ButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center">
+      <Children>
+        <BrushListPanel VisualDefinition="Main" Id="Main" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" SuggestedHeight="!Toggle.Height" DoNotAcceptEvents="true" HorizontalAlignment="Center" Brush="Frame1Brush">
+          <Children>
+            <Widget Id="Body" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren">
+              <Children>
+                <Widget Id="MainControls" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!Toggle.Height">
+                  <Children>
+                    <TextWidget Id="NameText" Text="@Name" VisualDefinition="NameTextDefinition" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!NameText.Width" MarginLeft="!NameText.Margin" HorizontalAlignment="Left" PositionYOffset="!TextYFix" Brush="InventoryDefaultFontBrush" Brush.FontSize="18" Brush.FontColor="#FFFFFFFF" />
+                    <InventoryImageIdentifierWidget Id="ImageIdentifier" DoNotAcceptEvents="true" DataSource="{ImageIdentifier}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="111" SuggestedHeight="51" MarginLeft="!Inventory.Tuple.ThumbnailMargin" MarginTop="2" ImageId="@Id" ImageTypeCode="@ImageTypeCode" AdditionalArgs="@AdditionalArgs" LoadingIconWidget="LoadingIconWidget">
+                      <Children>
+                        <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="Inventory\tuple_shadow" AlphaFactor="0.7" />
+                        <Standard.CircleLoadingWidget HorizontalAlignment="Center" VerticalAlignment="Center" Id="LoadingIconWidget" />
+                      </Children>
+                    </InventoryImageIdentifierWidget>
+                  </Children>
+                </Widget>
+              </Children>
+            </Widget>
+          </Children>
+        </BrushListPanel>
+      </Children>
+    </ButtonWidget>
+  </Window>
+</Prefab>

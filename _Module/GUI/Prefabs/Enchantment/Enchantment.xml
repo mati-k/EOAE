@@ -1,0 +1,83 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="TopBackground.Width" BrushLayer="Default" BrushName="Inventory.TopLeft.Background" BrushValueType="Width" />
+    <Constant Name="TopBackground.Height" BrushLayer="Default" BrushName="Inventory.TopLeft.Background" BrushValueType="Height" />
+    <Constant Name="TransferAllButton.Width" BrushLayer="Default" BrushName="InventoryBuyAllButton" BrushValueType="Width" />
+    <Constant Name="TransferAllButton.Height" BrushLayer="Default" BrushName="InventoryBuyAllButton" BrushValueType="Height" />
+    <Constant Name="SidePanel.List.MarginTop" Value="!TopBackground.Height" />
+    <Constant Name="SidePanel.MarginTop" Value="25" />
+    <Constant Name="SidePanel.MarginBottom" Value="70" />
+    <Constant Name="Toggle.Width" BrushLayer="Default" BrushName="Inventory.Tuple.Right" BrushValueType="Width" />
+    <Constant Name="SidePanel.Width" Additive="24" Value="!Toggle.Width" />
+    <Constant Name="SidePanel.NegativeWidth" MultiplyResult="-1" Value="!SidePanel.Width" />
+    <Constant Name="SidePanel.ScrollablePanel.Width" Value="!Toggle.Width" Additive="20" />
+    <Constant Name="Scrollbar.Margin" Value="2" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginTop" Value="48" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginBottom" Value="1" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginHorizontal" Value="2" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginLeft" Value="0" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginRight" Value="!SidePanel.ScrollablePanel.MarginHorizontal" />
+    <Constant Name="SidePanel.ScrollablePanel.HorizontalAlignment" Value="Right" />
+  </Constants>
+  <VisualDefinitions>
+    <VisualDefinition Name="LeftMenu" EaseIn="true" TransitionDuration="0.45">
+      <VisualState PositionXOffset="0" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="RightMenu" EaseIn="true" TransitionDuration="0.45">
+      <VisualState PositionXOffset="0" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="TopMenu" EaseIn="true" TransitionDuration="0.45">
+      <VisualState PositionYOffset="-6" State="Default" />
+    </VisualDefinition>
+    <VisualDefinition Name="BottomMenu" EaseIn="true" TransitionDuration="0.45">
+      <VisualState PositionYOffset="6" State="Default" />
+    </VisualDefinition>
+  </VisualDefinitions>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+      <Children>
+        <Standard.Background />
+        <ListPanel Id="MainLayout" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+          <Children>
+            <!-- Left Panel -->
+            <BrushWidget Id="LeftPanel" VisualDefinition="LeftMenu" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!SidePanel.Width" PositionXOffset="!SidePanel.NegativeWidth" MarginTop="!SidePanel.MarginTop" MarginBottom="!SidePanel.MarginBottom" Brush="Frame1.Broken.Left" RenderLate="true">
+              <Children>
+                <ListPanel Id="OtherInventoryListWidgetParent" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" MarginTop="!SidePanel.List.MarginTop" StackLayout.LayoutMethod="VerticalBottomToTop">
+                  <Children>
+                    <Widget DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!SidePanel.Width">
+                      <Children>
+                        <ScrollablePanel Id="InventoryListScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" InnerPanel="MyClipRect\InnerPanelParent" ClipRect="MyClipRect" MarginTop="!SidePanel.ScrollablePanel.MarginTop" MarginBottom="!SidePanel.ScrollablePanel.MarginBottom" MarginLeft="!SidePanel.ScrollablePanel.MarginLeft" MarginRight="!SidePanel.ScrollablePanel.MarginRight" HorizontalAlignment="!SidePanel.ScrollablePanel.HorizontalAlignment" VerticalAlignment="Bottom" VerticalScrollbar="..\Scrollbar\Scrollbar" AutoHideScrollBars="true" ClipContents="true">
+                          <Children>
+                            <NavigationScopeTargeter ScopeID="EnchantmentListScope" ScopeParent="..\MyClipRect" ScopeMovements="Vertical" HasCircularMovement="false" ForceGainNavigationBasedOnDirection="true" DoNotAutoNavigateAfterSort="true" NavigateFromScopeEdges="true" DoNotAutoCollectChildScopes="true" />
+                            <Widget Id="MyClipRect" WidthSizePolicy="Fixed" SuggestedWidth="!SidePanel.ScrollablePanel.Width" HeightSizePolicy="StretchToParent" ClipContents="true" HorizontalAlignment="Center">
+                              <Children>
+                                <ListPanel Id="InnerPanelParent" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
+                                  <Children>
+                                    <InventoryListPanel Id="InnerPanel" DataSource="{ItemList}" StackLayout.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StepSize="10" EmptyNavigationWidget="..\..\..\MyClipRect">
+                                      <ItemTemplate>
+                                        <EnchantmentItem />
+                                      </ItemTemplate>
+                                    </InventoryListPanel>
+                                    <!-- Bottom Margin Widget -->
+                                    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="10" />
+                                  </Children>
+                                </ListPanel>
+                              </Children>
+                            </Widget>
+                          </Children>
+                        </ScrollablePanel>
+                        <Standard.VerticalScrollbar Id="Scrollbar" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginRight="!Scrollbar.Margin" HeightSizePolicy="StretchToParent" MarginTop="!SidePanel.ScrollablePanel.MarginTop" MarginBottom="!SidePanel.ScrollablePanel.MarginBottom" />
+                      </Children>
+                    </Widget>
+                  </Children>
+                </ListPanel>
+              </Children>
+            </BrushWidget>
+          </Children>
+        </ListPanel>
+        <!-- Close Screen Button -->
+        <Standard.DialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="100" Parameter.DoneButtonAction="ExecuteClose" Parameter.DoneButtonText="@DoneText" Parameter.ShowCancel="false" Parameter.DoneInputKeyDataSource="{DoneInputKey}" />
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>
