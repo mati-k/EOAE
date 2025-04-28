@@ -1,6 +1,8 @@
 ﻿using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 
@@ -11,6 +13,10 @@ namespace EOAE_Code.States.Enchantment
         private string _doneText = GameTexts.FindText("str_done").ToString();
         private InputKeyItemVM _doneInputKey;
         private MBBindingList<EnchantmentItemVM> _itemList = new();
+        private HintViewModel _hint;
+
+        private SPItemVM _itemSlot;
+        private SPItemVM _enchantmentSlot;
 
         [DataSourceProperty]
         public InputKeyItemVM DoneInputKey
@@ -57,6 +63,48 @@ namespace EOAE_Code.States.Enchantment
             }
         }
 
+        [DataSourceProperty]
+        public HintViewModel Hint
+        {
+            get { return this._hint; }
+            set
+            {
+                if (value != this._hint)
+                {
+                    this._hint = value;
+                    base.OnPropertyChangedWithValue<HintViewModel>(value, "Hint");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public SPItemVM ItemSlot
+        {
+            get { return this._itemSlot; }
+            set
+            {
+                if (value != this._itemSlot)
+                {
+                    this._itemSlot = value;
+                    base.OnPropertyChangedWithValue<SPItemVM>(value, "ItemSlot");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public SPItemVM EnchantmentSlot
+        {
+            get { return this._enchantmentSlot; }
+            set
+            {
+                if (value != this._enchantmentSlot)
+                {
+                    this._enchantmentSlot = value;
+                    base.OnPropertyChangedWithValue<SPItemVM>(value, "EnchantmentSlot");
+                }
+            }
+        }
+
         public EnchantmentVM()
             : base()
         {
@@ -94,6 +142,11 @@ namespace EOAE_Code.States.Enchantment
                 var enchantmentItemVM = new EnchantmentItemVM(item);
                 ItemList.Add(enchantmentItemVM);
             }
+
+            Hint = new HintViewModel(new TaleWorlds.Localization.TextObject("Some hint"));
+
+            ItemSlot = new SPItemVM();
+            EnchantmentSlot = new SPItemVM();
         }
     }
 }

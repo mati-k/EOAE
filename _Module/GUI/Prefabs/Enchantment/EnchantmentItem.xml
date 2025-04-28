@@ -4,6 +4,10 @@
     <Constant Name="NameText.Width" Value="235" />
     <Constant Name="NameText.Margin" Value="160" />
     <Constant Name="NameText.XFixPressed" Value="-4" />
+    <Constant Name="CountText.Width" Value="55" />
+    <Constant Name="CountText.Margin" Value="62" />
+    <Constant Name="ValueText.Width" Value="55" />
+    <Constant Name="ValueText.Margin" Value="0" />
     <Constant Name="TextYFix" Value="2" />
     <Constant Name="Inventory.Tuple.ThumbnailMargin" Value="41" />
     <Constant Name="Inventory.Tuple" Value="Inventory.Tuple.Left" />
@@ -25,15 +29,31 @@
     </VisualDefinition>
   </VisualDefinitions>
   <Window>
-    <ButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center">
+    <ButtonWidget WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" AcceptDrag="true" DragWidget="DragWidget">
       <Children>
-        <BrushListPanel VisualDefinition="Main" Id="Main" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" SuggestedHeight="!Toggle.Height" DoNotAcceptEvents="true" HorizontalAlignment="Center" Brush="Frame1Brush">
+        <Widget Id="DragWidget" IsVisible="false" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="128" SuggestedHeight="60" HorizontalAlignment="Left" VerticalAlignment="Top" Sprite="Inventory\portrait" DoNotPassEventsToChildren="true" IsDisabled="true">
+          <Children>
+            <ImageIdentifierWidget DataSource="{ImageIdentifier}" ImageId="@Id" AdditionalArgs="@AdditionalArgs" ImageTypeCode="@ImageTypeCode" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="!Image.Padding" MarginTop="!Image.Padding" MarginBottom="!Image.Padding" MarginRight="!Image.Padding" />
+          </Children>
+        </Widget>
+        <BrushListPanel VisualDefinition="Main" Id="Main" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" SuggestedHeight="!Toggle.Height" DoNotAcceptEvents="true" HorizontalAlignment="Center" Brush="!Inventory.Tuple">
           <Children>
             <Widget Id="Body" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren">
               <Children>
                 <Widget Id="MainControls" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!Toggle.Height">
                   <Children>
                     <TextWidget Id="NameText" Text="@Name" VisualDefinition="NameTextDefinition" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!NameText.Width" MarginLeft="!NameText.Margin" HorizontalAlignment="Left" PositionYOffset="!TextYFix" Brush="InventoryDefaultFontBrush" Brush.FontSize="18" Brush.FontColor="#FFFFFFFF" />
+                    <Widget Id="CountTextParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!CountText.Width" HorizontalAlignment="Right" PositionYOffset="!TextYFix" MarginRight="!CountText.Margin" DoNotAcceptEvents="true">
+                      <Children>
+                        <TextWidget Id="CountText" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IntText="@ItemCount" DoNotAcceptEvents="true" Brush="InventoryDefaultFontBrush" Brush.FontSize="18" Brush.TextHorizontalAlignment="Center" />
+                      </Children>
+                    </Widget>
+                    <Widget Id="CostTextParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!ValueText.Width" HorizontalAlignment="Right" PositionYOffset="!TextYFix" MarginRight="!ValueText.Margin" DoNotAcceptEvents="true">
+                      <Children>
+                        <!-- Profit type is for color -->
+                        <InventoryItemValueTextWidget Id="CostText" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IntText="@ItemCost" DoNotAcceptEvents="true" Brush="InventoryItemCostFont" Brush.TextHorizontalAlignment="Center" ProfitType="0" />
+                      </Children>
+                    </Widget>
                     <InventoryImageIdentifierWidget Id="ImageIdentifier" DoNotAcceptEvents="true" DataSource="{ImageIdentifier}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="111" SuggestedHeight="51" MarginLeft="!Inventory.Tuple.ThumbnailMargin" MarginTop="2" ImageId="@Id" ImageTypeCode="@ImageTypeCode" AdditionalArgs="@AdditionalArgs" LoadingIconWidget="LoadingIconWidget">
                       <Children>
                         <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="Inventory\tuple_shadow" AlphaFactor="0.7" />

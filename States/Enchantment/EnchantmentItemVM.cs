@@ -33,6 +33,12 @@ namespace EOAE_Code.States.Enchantment
             get { return item.Amount; }
         }
 
+        [DataSourceProperty]
+        public int ItemCost
+        {
+            get { return item.EquipmentElement.ItemValue; }
+        }
+
         public ItemRosterElement item { get; private set; }
 
         public EnchantmentItemVM(ItemRosterElement item)

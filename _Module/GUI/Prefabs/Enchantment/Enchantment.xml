@@ -73,6 +73,23 @@
                 </ListPanel>
               </Children>
             </BrushWidget>
+            <Widget Id="CenterMiddlePanel" DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="150" MarginBottom="70">
+              <Children>
+                <NavigationScopeTargeter ScopeID="LeftEquipmentScope" ScopeParent="..\LeftMenu" ScopeMovements="Vertical" UpNavigationScope="ItemTypesScope" HasCircularMovement="false" ExtendDiscoveryAreaRight="185" UseDiscoveryAreaAsScopeEdges="true" NavigateFromScopeEdges="true" />
+                <Widget Id="LeftMenu" VisualDefinition="LeftMenu" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" PositionXOffset="!SidePanel.NegativeWidth">
+                  <Children>
+                    <InventoryEquippedItemSlot HorizontalAlignment="Left" MarginLeft="5" VerticalAlignment="Center" Parameter.BackgroundBrush="InventoryHelmetSlot" Parameter.DropTag="Equipment_5" Parameter.EquipmentIndex="5" Parameter.HintDataSource="{Hint}" Parameter.IsRightSide="false" Parameter.ItemDataSource="{ItemSlot}" GamepadNavigationIndex="0" />
+                  </Children>
+                </Widget>
+                <NavigationScopeTargeter ScopeID="RightEquipmentScope" ScopeParent="..\RightMenu" ScopeMovements="Vertical" UpNavigationScope="ItemTypesScope" HasCircularMovement="false" ExtendDiscoveryAreaLeft="215" UseDiscoveryAreaAsScopeEdges="true" NavigateFromScopeEdges="true" />
+                <Widget Id="RightMenu" VisualDefinition="RightMenu" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right" PositionXOffset="!SidePanel.Width">
+                  <Children>
+                    <InventoryEquippedItemSlot MarginLeft="5" VerticalAlignment="Center" Parameter.BackgroundBrush="InventoryWeaponSlot" Parameter.DropTag="Equipment_0" Parameter.EquipmentIndex="0" Parameter.HintDataSource="{Hint}" Parameter.IsRightSide="true" Parameter.ItemDataSource="{EnchantmentSlot}" GamepadNavigationIndex="0" />
+                  </Children>
+                </Widget>
+              </Children>
+            </Widget>
+            <BrushWidget Id="RightPanel" VisualDefinition="RightMenu" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!SidePanel.Width" PositionXOffset="!SidePanel.Width" MarginTop="!SidePanel.MarginTop" MarginBottom="!SidePanel.MarginBottom" Brush="Frame1.Broken.Right" RenderLate="true" />
           </Children>
         </ListPanel>
         <!-- Close Screen Button -->

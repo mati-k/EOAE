@@ -5,6 +5,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
+using TaleWorlds.TwoDimension;
 
 namespace EOAE_Code.States.Enchantment
 {
@@ -14,11 +15,22 @@ namespace EOAE_Code.States.Enchantment
         private GauntletLayer gauntletLayer;
         private EnchantmentState state;
         private EnchantmentVM vm;
+        private SpriteCategory spriteCategory;
 
         public EnchantmentScreen(EnchantmentState state)
         {
             this.state = state;
             state.RegisterListener(this);
+        }
+
+        private void LoadInventorySprites()
+        {
+            var spriteData = UIResourceManager.SpriteData;
+            var resourceContext = UIResourceManager.ResourceContext;
+            var resourceDepot = UIResourceManager.UIResourceDepot;
+
+            spriteCategory = spriteData.SpriteCategories["ui_inventory"];
+            spriteCategory.Load(resourceContext, resourceDepot);
         }
 
         protected override void OnFrameTick(float dt)
@@ -59,6 +71,9 @@ namespace EOAE_Code.States.Enchantment
             gauntletLayer.LoadMovie("Enchantment", vm);
             AddLayer(gauntletLayer);
             gauntletLayer.IsFocusLayer = true;
+
+            var context = gauntletLayer.UIContext;
+
             ScreenManager.TrySetFocus(gauntletLayer);
         }
 
@@ -76,11 +91,13 @@ namespace EOAE_Code.States.Enchantment
 
             gauntletLayer = null;
             vm = null;
+            spriteCategory.Unload();
         }
 
         void IGameStateListener.OnInitialize()
         {
             base.OnInitialize();
+            LoadInventorySprites();
         }
     }
 }
