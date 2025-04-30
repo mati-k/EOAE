@@ -22,7 +22,6 @@ public class BombardSpell : Spell, IUseAreaAim
     public float Radius { get; private set; }
     public string AreaAimPrefab { get; private set; }
 
-
     public BombardSpell(SpellData data)
         : base(data)
     {
@@ -48,7 +47,9 @@ public class BombardSpell : Spell, IUseAreaAim
 
     public override void Cast(Agent caster)
     {
-        var playerCastFrame = caster.IsPlayerControlled ? GetAimedFrame(caster) : GetTargeting().GetBestFrame(caster, this);
+        var playerCastFrame = caster.IsPlayerControlled
+            ? GetAimedFrame(caster)
+            : GetTargeting().GetBestFrame(caster, this);
         if (playerCastFrame == MatrixFrame.Zero)
         {
             return;
@@ -62,7 +63,8 @@ public class BombardSpell : Spell, IUseAreaAim
                     _data.MissileName,
                     pos,
                     new Vec3(0.01f, 0.01f, -1),
-                    _data.MissileSpeed
+                    _data.MissileSpeed,
+                    _data.StatusEffect
                 )
             );
 
