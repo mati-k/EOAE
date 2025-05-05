@@ -129,6 +129,28 @@ namespace EOAE_Code.States.Enchantment
             }
         }
 
+        [DataSourceProperty]
+        public int EnchantmentValueMin { get; } = 5;
+
+        [DataSourceProperty]
+        public int EnchantmentValueMax { get; } = 25;
+
+        private int _enchantmentValue = 10;
+
+        [DataSourceProperty]
+        public int EnchantmentValue
+        {
+            get { return _enchantmentValue; }
+            set
+            {
+                if (value != _enchantmentValue)
+                {
+                    _enchantmentValue = value;
+                    OnPropertyChangedWithValue(value, "EnchantmentValue");
+                }
+            }
+        }
+
         public EnchantmentVM()
             : base()
         {
