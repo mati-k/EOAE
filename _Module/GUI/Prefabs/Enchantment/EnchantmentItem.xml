@@ -1,21 +1,31 @@
 ﻿<Prefab>
   <Constants>
     <Constant Name="Image.Padding" Value="4" />
-    <Constant Name="NameText.Width" Value="235" />
-    <Constant Name="NameText.Margin" Value="160" />
-    <Constant Name="NameText.XFixPressed" Value="-4" />
-    <Constant Name="CountText.Width" Value="55" />
-    <Constant Name="CountText.Margin" Value="62" />
-    <Constant Name="ValueText.Width" Value="55" />
-    <Constant Name="ValueText.Margin" Value="0" />
+    <Constant Name="NameText.Width" BooleanCheck="*IsRightSide" OnTrue="247" OnFalse="235" />
+    <Constant Name="NameText.Margin" BooleanCheck="*IsRightSide" OnTrue="120" OnFalse="160" />
+    <Constant Name="NameText.XFixPressed" BooleanCheck="*IsRightSide" OnTrue="-3" OnFalse="-4" />
+    <Constant Name="CountText.Width" BooleanCheck="*IsRightSide" OnTrue="55" OnFalse="55" />
+    <Constant Name="CountText.Margin" BooleanCheck="*IsRightSide" OnTrue="87" OnFalse="62" />
+    <Constant Name="ValueText.Width" BooleanCheck="*IsRightSide" OnTrue="50" OnFalse="55" />
+    <Constant Name="ValueText.Margin" BooleanCheck="*IsRightSide" OnTrue="30" OnFalse="0" />
     <Constant Name="TextYFix" Value="2" />
-    <Constant Name="Inventory.Tuple.ThumbnailMargin" Value="41" />
-    <Constant Name="Inventory.Tuple" Value="Inventory.Tuple.Left" />
+    <Constant Name="Inventory.Tuple.ThumbnailMargin" BooleanCheck="*IsRightSide" OnTrue="1" OnFalse="41" />
+    <Constant Name="Inventory.Tuple" BooleanCheck="*IsRightSide" OnTrue="Inventory.Tuple.Right" OnFalse="Inventory.Tuple.Left" />
     <Constant Name="Toggle.Height" BrushName="!Inventory.Tuple" BrushLayer="Default" BrushValueType="Height" />
     <Constant Name="Toggle.Width" BrushName="!Inventory.Tuple" BrushLayer="Default" BrushValueType="Width" />
     <Constant Name="Toggle.Pressed.Width" BrushName="!Inventory.Tuple" BrushLayer="Default" BrushValueType="Width" Additive="-8" />
   </Constants>
+  <Parameters>
+    <Parameter Name="IsRightSide" DefaultValue="true" />
+  </Parameters>
   <VisualDefinitions>
+    <VisualDefinition Name="Container" TransitionDuration="0.075">
+      <VisualState State="Default" SuggestedWidth="!Toggle.Width" />
+      <VisualState State="Pressed" SuggestedWidth="!Toggle.Pressed.Width" />
+      <VisualState State="Hovered" SuggestedWidth="!Toggle.Width" />
+      <VisualState State="Disabled" SuggestedWidth="!Toggle.Width" />
+      <VisualState State="Selected" SuggestedWidth="!Toggle.Width" />
+    </VisualDefinition>
     <VisualDefinition Name="Main" TransitionDuration="0.075">
       <VisualState State="Default" SuggestedWidth="!Toggle.Width" />
       <VisualState State="Pressed" SuggestedWidth="!Toggle.Pressed.Width" />
@@ -29,7 +39,7 @@
     </VisualDefinition>
   </VisualDefinitions>
   <Window>
-    <ButtonWidget WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" AcceptDrag="true" DragWidget="DragWidget">
+    <ButtonWidget VisualDefinition="Container" WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" AcceptDrag="true" DragWidget="DragWidget">
       <Children>
         <Widget Id="DragWidget" IsVisible="false" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="128" SuggestedHeight="60" HorizontalAlignment="Left" VerticalAlignment="Top" Sprite="Inventory\portrait" DoNotPassEventsToChildren="true" IsDisabled="true">
           <Children>

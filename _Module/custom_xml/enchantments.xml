@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfEnchantmentData>
+  <EnchantmentData Name="fire" DisplayName="BURN BURN BURN" IconItem="fireball"/>
+  <EnchantmentData Name="ice" DisplayName="So cold" IconItem="whiteFlame"/>
+</ArrayOfEnchantmentData>

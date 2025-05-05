@@ -4,6 +4,7 @@ using EOAE_Code.Data.Loaders;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml;
 using EOAE_Code.Data.Xml.Book;
+using EOAE_Code.Data.Xml.Enchantments;
 using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Literature;
 using EOAE_Code.Magic;
@@ -41,6 +42,7 @@ namespace EOAE_Code
             XmlDataLoader.LoadXmlDataList<StatusEffectParticleData, StatusEffectParticleManager>(
                 "effect_particles.xml"
             );
+            XmlDataLoader.LoadXmlDataList<EnchantmentData, EnchantmentManager>("enchantments.xml");
 
             TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();

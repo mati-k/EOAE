@@ -3,29 +3,14 @@ using TaleWorlds.Library;
 
 namespace EOAE_Code.States.Enchantment
 {
-    public class EnchantmentItemVM : ViewModel
+    public class EnchantmentItemVM : EnchantmentDraggable
     {
-        private ImageIdentifierVM _imageIdentifier;
         private int _itemCount;
 
         [DataSourceProperty]
-        public ImageIdentifierVM ImageIdentifier
+        public override string Name
         {
-            get { return this._imageIdentifier; }
-            set
-            {
-                if (value != this._imageIdentifier)
-                {
-                    this._imageIdentifier = value;
-                    base.OnPropertyChangedWithValue<ImageIdentifierVM>(value, "ImageIdentifier");
-                }
-            }
-        }
-
-        [DataSourceProperty]
-        public string Name
-        {
-            get { return item.EquipmentElement.GetModifiedItemName().ToString(); }
+            get { return Item?.EquipmentElement.GetModifiedItemName().ToString() ?? string.Empty; }
         }
 
         [DataSourceProperty]
@@ -45,30 +30,52 @@ namespace EOAE_Code.States.Enchantment
         [DataSourceProperty]
         public int ItemCost
         {
-            get { return item.EquipmentElement.ItemValue; }
+            get { return Item?.EquipmentElement.ItemValue ?? 0; }
         }
 
-        public ItemRosterElement item { get; private set; }
-        public bool IsInSlot { get; private set; } = false;
+        public ItemRosterElement? Item { get; private set; }
+
+        public bool IsFiltered => throw new System.NotImplementedException();
 
         public EnchantmentItemVM() { }
 
+        public EnchantmentItemVM(bool isInSlot)
+        {
+            IsInSlot = isInSlot;
+            ImageIdentifier = new ImageIdentifierVM();
+        }
+
         public EnchantmentItemVM(ItemRosterElement item)
         {
-            this.item = item;
+            this.Item = item;
             ItemCount = item.Amount;
             ImageIdentifier = new ImageIdentifierVM(item.EquipmentElement.Item);
         }
 
-        public EnchantmentItemVM SplitForUse()
+        public void AssignToSlot(EnchantmentItemVM item)
         {
-            ItemCount -= 1;
-            return new EnchantmentItemVM(item) { ItemCount = 1, IsInSlot = true };
+            this.Item = item.Item;
+            this.ImageIdentifier = item.ImageIdentifier;
+            this.ItemCount = 1;
+
+            item.ItemCount -= 1;
         }
 
         public bool HasSameItem(EnchantmentItemVM item)
         {
-            return this.item.EquipmentElement.Item == item.item.EquipmentElement.Item;
+            if (item.Item == null && this.Item == null)
+                return true;
+
+            if (item.Item == null || this.Item == null)
+                return false;
+
+            return this.Item.Value.EquipmentElement.Item == item.Item.Value.EquipmentElement.Item;
+        }
+
+        public override void Clear()
+        {
+            this.Item = null;
+            this.ImageIdentifier = new ImageIdentifierVM();
         }
     }
 }

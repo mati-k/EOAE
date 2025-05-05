@@ -1,4 +1,5 @@
-﻿using TaleWorlds.CampaignSystem.Party;
+﻿using EOAE_Code.Data.Managers;
+using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
@@ -12,10 +13,11 @@ namespace EOAE_Code.States.Enchantment
         private string _doneText = GameTexts.FindText("str_done").ToString();
         private InputKeyItemVM _doneInputKey;
         private MBBindingList<EnchantmentItemVM> _itemList = new();
+        private MBBindingList<EnchantmentEnchantmentVM> _enchantmentList = new();
         private HintViewModel _hint;
 
-        private EnchantmentSlotVM _itemSlot;
-        private EnchantmentSlotVM _enchantmentSlot;
+        private EnchantmentSlotVM<EnchantmentItemVM> _itemSlot;
+        private EnchantmentSlotVM<EnchantmentEnchantmentVM> _enchantmentSlot;
 
         [DataSourceProperty]
         public InputKeyItemVM DoneInputKey
@@ -63,6 +65,23 @@ namespace EOAE_Code.States.Enchantment
         }
 
         [DataSourceProperty]
+        public MBBindingList<EnchantmentEnchantmentVM> EnchantmentList
+        {
+            get { return this._enchantmentList; }
+            set
+            {
+                if (value != this._enchantmentList)
+                {
+                    this._enchantmentList = value;
+                    base.OnPropertyChangedWithValue<MBBindingList<EnchantmentEnchantmentVM>>(
+                        value,
+                        "EnchantmentList"
+                    );
+                }
+            }
+        }
+
+        [DataSourceProperty]
         public HintViewModel Hint
         {
             get { return this._hint; }
@@ -77,7 +96,7 @@ namespace EOAE_Code.States.Enchantment
         }
 
         [DataSourceProperty]
-        public EnchantmentSlotVM ItemSlot
+        public EnchantmentSlotVM<EnchantmentItemVM> ItemSlot
         {
             get { return this._itemSlot; }
             set
@@ -85,13 +104,16 @@ namespace EOAE_Code.States.Enchantment
                 if (value != this._itemSlot)
                 {
                     this._itemSlot = value;
-                    base.OnPropertyChangedWithValue<EnchantmentSlotVM>(value, "ItemSlot");
+                    base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentItemVM>>(
+                        value,
+                        "ItemSlot"
+                    );
                 }
             }
         }
 
         [DataSourceProperty]
-        public EnchantmentSlotVM EnchantmentSlot
+        public EnchantmentSlotVM<EnchantmentEnchantmentVM> EnchantmentSlot
         {
             get { return this._enchantmentSlot; }
             set
@@ -99,7 +121,10 @@ namespace EOAE_Code.States.Enchantment
                 if (value != this._enchantmentSlot)
                 {
                     this._enchantmentSlot = value;
-                    base.OnPropertyChangedWithValue<EnchantmentSlotVM>(value, "EnchantmentSlot");
+                    base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentEnchantmentVM>>(
+                        value,
+                        "EnchantmentSlot"
+                    );
                 }
             }
         }
@@ -142,46 +167,65 @@ namespace EOAE_Code.States.Enchantment
                 ItemList.Add(enchantmentItemVM);
             }
 
+            var enchantments = EnchantmentManager.GetAllEnchantments();
+            foreach (var enchantment in enchantments)
+            {
+                var enchantmentItemVM = new EnchantmentEnchantmentVM(enchantment);
+                EnchantmentList.Add(enchantmentItemVM);
+            }
+
             Hint = new HintViewModel(new TaleWorlds.Localization.TextObject("Some hint"));
 
-            ItemSlot = new EnchantmentSlotVM();
-            EnchantmentSlot = new EnchantmentSlotVM();
+            ItemSlot = new EnchantmentSlotVM<EnchantmentItemVM>(new EnchantmentItemVM(true));
+            EnchantmentSlot = new EnchantmentSlotVM<EnchantmentEnchantmentVM>(
+                new EnchantmentEnchantmentVM(true)
+            );
         }
 
-        public void ExecuteTransferWithParameters(
-            EnchantmentItemVM item,
-            int index,
-            string targetTag
-        )
+        public void ExecuteDropOnEnchantingArea(EnchantmentDraggable draggable, int index)
         {
-            if (targetTag == "Item")
+            if (draggable.IsInSlot)
+            {
+                return;
+            }
+
+            if (draggable is EnchantmentItemVM item)
             {
                 if (!ItemSlot.IsEmpty())
                 {
                     ReturnItemToInventory(ItemSlot.Item);
                 }
 
-                ItemSlot.AssignItem(item.SplitForUse());
-            }
-            else if (targetTag == "Enchantment")
-            {
-                // Enchanting will have other handling obviously
-                if (!ItemSlot.IsEmpty())
-                {
-                    ReturnItemToInventory(ItemSlot.Item);
-                }
+                ItemSlot.Item.AssignToSlot(item);
 
-                EnchantmentSlot.AssignItem(item.SplitForUse());
-            }
-
-            for (int i = 0; i < ItemList.Count; i++)
-            {
-                if (ItemList[i].ItemCount == 0)
+                for (int i = 0; i < ItemList.Count; i++)
                 {
-                    ItemList.RemoveAt(i);
-                    break;
+                    if (ItemList[i].ItemCount == 0)
+                    {
+                        ItemList.RemoveAt(i);
+                        break;
+                    }
                 }
             }
+            else if (draggable is EnchantmentEnchantmentVM enchantment)
+            {
+                EnchantmentSlot.Item.AssignToSlot(enchantment);
+            }
+        }
+
+        public void ExecuteDropOnList(EnchantmentDraggable draggable, int index)
+        {
+            if (!draggable.IsInSlot)
+            {
+                return;
+            }
+
+            if (draggable is EnchantmentItemVM item)
+            {
+                ReturnItemToInventory(item);
+            }
+
+            draggable.Clear();
         }
 
         public void DropOnInventory(EnchantmentItemVM item, int index)
@@ -203,7 +247,7 @@ namespace EOAE_Code.States.Enchantment
                 }
             }
 
-            ItemList.Add(item);
+            ItemList.Add(new EnchantmentItemVM(item.Item!.Value));
         }
     }
 }

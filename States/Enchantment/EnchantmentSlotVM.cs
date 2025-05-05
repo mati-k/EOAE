@@ -2,12 +2,13 @@
 
 namespace EOAE_Code.States.Enchantment
 {
-    public class EnchantmentSlotVM : ViewModel
+    public class EnchantmentSlotVM<T> : ViewModel
+        where T : EnchantmentDraggable, new()
     {
-        private EnchantmentItemVM _item = new EnchantmentItemVM();
+        private T _item = new();
 
         [DataSourceProperty]
-        public EnchantmentItemVM Item
+        public T Item
         {
             get { return _item; }
             set
@@ -20,14 +21,14 @@ namespace EOAE_Code.States.Enchantment
             }
         }
 
-        public void AssignItem(EnchantmentItemVM item)
+        public EnchantmentSlotVM(T item)
         {
             Item = item;
         }
 
         public bool IsEmpty()
         {
-            return Item == null || Item.ItemCount == 0;
+            return !Item.IsImageSet;
         }
     }
 }
