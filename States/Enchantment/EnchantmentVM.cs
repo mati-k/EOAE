@@ -1,4 +1,5 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using System.Linq;
+using EOAE_Code.Data.Managers;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
@@ -10,6 +11,22 @@ namespace EOAE_Code.States.Enchantment
 {
     public class EnchantmentVM : ViewModel
     {
+        private static readonly ItemObject.ItemTypeEnum[] EnchantableTypes =
+            new ItemObject.ItemTypeEnum[]
+            {
+                ItemObject.ItemTypeEnum.OneHandedWeapon,
+                ItemObject.ItemTypeEnum.TwoHandedWeapon,
+                ItemObject.ItemTypeEnum.Polearm,
+                ItemObject.ItemTypeEnum.Bow,
+                ItemObject.ItemTypeEnum.Shield,
+                ItemObject.ItemTypeEnum.Crossbow,
+                ItemObject.ItemTypeEnum.HandArmor,
+                ItemObject.ItemTypeEnum.HeadArmor,
+                ItemObject.ItemTypeEnum.ChestArmor,
+                ItemObject.ItemTypeEnum.LegArmor,
+                ItemObject.ItemTypeEnum.Cape,
+            };
+
         private string _doneText = GameTexts.FindText("str_done").ToString();
         private InputKeyItemVM _doneInputKey;
         private MBBindingList<EnchantmentItemVM> _itemList = new();
@@ -185,8 +202,11 @@ namespace EOAE_Code.States.Enchantment
             var inventory = MobileParty.MainParty.ItemRoster;
             foreach (var item in inventory)
             {
-                var enchantmentItemVM = new EnchantmentItemVM(item);
-                ItemList.Add(enchantmentItemVM);
+                if (EnchantableTypes.Contains(item.EquipmentElement.Item.Type))
+                {
+                    var enchantmentItemVM = new EnchantmentItemVM(item);
+                    ItemList.Add(enchantmentItemVM);
+                }
             }
 
             var enchantments = EnchantmentManager.GetAllEnchantments();
@@ -228,10 +248,12 @@ namespace EOAE_Code.States.Enchantment
                         break;
                     }
                 }
+                UpdateEnchantmentFilters();
             }
             else if (draggable is EnchantmentEnchantmentVM enchantment)
             {
                 EnchantmentSlot.Item.AssignToSlot(enchantment);
+                UpdateItemFilters();
             }
         }
 
@@ -248,14 +270,8 @@ namespace EOAE_Code.States.Enchantment
             }
 
             draggable.Clear();
-        }
-
-        public void DropOnInventory(EnchantmentItemVM item, int index)
-        {
-            if (item.IsInSlot)
-            {
-                ReturnItemToInventory(item);
-            }
+            UpdateEnchantmentFilters();
+            UpdateItemFilters();
         }
 
         private void ReturnItemToInventory(EnchantmentItemVM item)
@@ -270,6 +286,27 @@ namespace EOAE_Code.States.Enchantment
             }
 
             ItemList.Add(new EnchantmentItemVM(item.Item!.Value));
+        }
+
+        private void UpdateItemFilters()
+        {
+            var enchantment = EnchantmentSlot.Item.EnchantmentData;
+
+            for (int i = 0; i < ItemList.Count; i++)
+            {
+                ItemList[i].FilterToEnchantment(enchantment);
+            }
+            ItemSlot.Item.FilterToEnchantment(enchantment);
+        }
+
+        private void UpdateEnchantmentFilters()
+        {
+            var item = ItemSlot.Item.Item;
+            for (int i = 0; i < EnchantmentList.Count; i++)
+            {
+                EnchantmentList[i].FilterToItem(item);
+            }
+            EnchantmentSlot.Item.FilterToItem(item);
         }
     }
 }

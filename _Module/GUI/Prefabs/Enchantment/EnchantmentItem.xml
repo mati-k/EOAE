@@ -39,7 +39,7 @@
     </VisualDefinition>
   </VisualDefinitions>
   <Window>
-    <ButtonWidget VisualDefinition="Container" WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" AcceptDrag="true" DragWidget="DragWidget">
+    <ButtonWidget VisualDefinition="Container" IsHidden="@IsFiltered" WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" AcceptDrag="true" DragWidget="DragWidget">
       <Children>
         <Widget Id="DragWidget" IsVisible="false" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="128" SuggestedHeight="60" HorizontalAlignment="Left" VerticalAlignment="Top" Sprite="Inventory\portrait" DoNotPassEventsToChildren="true" IsDisabled="true">
           <Children>

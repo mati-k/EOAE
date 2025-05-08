@@ -6,6 +6,8 @@ namespace EOAE_Code.States.Enchantment
 {
     public class EnchantmentEnchantmentVM : EnchantmentDraggable
     {
+        private bool _isFiltered;
+
         [DataSourceProperty]
         public override string Name
         {
@@ -14,7 +16,19 @@ namespace EOAE_Code.States.Enchantment
 
         public EnchantmentData EnchantmentData { get; private set; }
 
-        public bool IsFiltered => throw new System.NotImplementedException();
+        [DataSourceProperty]
+        public bool IsFiltered
+        {
+            get { return _isFiltered; }
+            set
+            {
+                if (value != this._isFiltered)
+                {
+                    this._isFiltered = value;
+                    base.OnPropertyChangedWithValue(value, "IsFiltered");
+                }
+            }
+        }
 
         public EnchantmentEnchantmentVM() { }
 
@@ -40,6 +54,17 @@ namespace EOAE_Code.States.Enchantment
         {
             this.EnchantmentData = null;
             this.ImageIdentifier = new ImageIdentifierVM();
+        }
+
+        public void FilterToItem(ItemRosterElement? item)
+        {
+            if (item == null || EnchantmentData == null)
+            {
+                IsFiltered = false;
+                return;
+            }
+
+            IsFiltered = !EnchantmentData.ItemTypes.Contains(item.Value.EquipmentElement.Item.Type);
         }
     }
 }

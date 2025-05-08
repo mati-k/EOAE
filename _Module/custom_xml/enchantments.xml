@@ -1,5 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfEnchantmentData>
-  <EnchantmentData Name="fire" DisplayName="BURN BURN BURN" IconItem="fireball"/>
-  <EnchantmentData Name="ice" DisplayName="So cold" IconItem="whiteFlame"/>
+  <EnchantmentData Name="fire" DisplayName="BURN BURN BURN" IconItem="fireball">
+    <ItemTypes>
+      <ItemType>OneHandedWeapon</ItemType>
+      <ItemType>TwoHandedWeapon</ItemType>
+    </ItemTypes>
+  </EnchantmentData>
+  <EnchantmentData Name="ice" DisplayName="So cold" IconItem="whiteFlame">
+    <ItemTypes>
+      <ItemType>OneHandedWeapon</ItemType>
+      <ItemType>TwoHandedWeapon</ItemType>
+    </ItemTypes>
+  </EnchantmentData>
+  <EnchantmentData Name="armor" DisplayName="Good Armor" IconItem="whiteFlame">
+    <ItemTypes>
+      <ItemType>HandArmor</ItemType>  
+      <ItemType>HeadArmor</ItemType>  
+      <ItemType>ChestArmor</ItemType>  
+      <ItemType>LegArmor</ItemType>  
+    </ItemTypes>
+  </EnchantmentData>
 </ArrayOfEnchantmentData>

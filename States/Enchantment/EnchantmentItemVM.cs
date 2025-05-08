@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Core;
+﻿using EOAE_Code.Data.Xml.Enchantments;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace EOAE_Code.States.Enchantment
@@ -6,6 +7,7 @@ namespace EOAE_Code.States.Enchantment
     public class EnchantmentItemVM : EnchantmentDraggable
     {
         private int _itemCount;
+        private bool _isFiltered;
 
         [DataSourceProperty]
         public override string Name
@@ -35,7 +37,19 @@ namespace EOAE_Code.States.Enchantment
 
         public ItemRosterElement? Item { get; private set; }
 
-        public bool IsFiltered => throw new System.NotImplementedException();
+        [DataSourceProperty]
+        public bool IsFiltered
+        {
+            get { return _isFiltered; }
+            set
+            {
+                if (value != this._isFiltered)
+                {
+                    this._isFiltered = value;
+                    base.OnPropertyChangedWithValue(value, "IsFiltered");
+                }
+            }
+        }
 
         public EnchantmentItemVM() { }
 
@@ -76,6 +90,17 @@ namespace EOAE_Code.States.Enchantment
         {
             this.Item = null;
             this.ImageIdentifier = new ImageIdentifierVM();
+        }
+
+        public void FilterToEnchantment(EnchantmentData? enchantment)
+        {
+            if (Item == null || enchantment == null)
+            {
+                IsFiltered = false;
+                return;
+            }
+
+            IsFiltered = !enchantment.ItemTypes.Contains(Item.Value.EquipmentElement.Item.Type);
         }
     }
 }

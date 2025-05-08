@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
+using TaleWorlds.Core;
 
 namespace EOAE_Code.Data.Xml.Enchantments
 {
@@ -15,5 +17,9 @@ namespace EOAE_Code.Data.Xml.Enchantments
         // For now use preview from some items, in future maybe custom pictures
         [XmlAttribute]
         public string IconItem = "";
+
+        [XmlArray("ItemTypes")]
+        [XmlArrayItem("ItemType")]
+        public List<ItemObject.ItemTypeEnum> ItemTypes = new();
     }
 }
