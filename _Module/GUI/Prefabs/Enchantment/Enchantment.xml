@@ -40,20 +40,19 @@
             </BrushWidget>
             <Widget Id="CenterMiddlePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="150" MarginBottom="70" AcceptDrop="true" Command.Drop="ExecuteDropOnEnchantingArea">
               <Children>
-                <NavigationScopeTargeter ScopeID="LeftEquipmentScope" ScopeParent="..\LeftMenu" ScopeMovements="Vertical" UpNavigationScope="ItemTypesScope" HasCircularMovement="false" ExtendDiscoveryAreaRight="185" UseDiscoveryAreaAsScopeEdges="true" NavigateFromScopeEdges="true" />
-                <Widget Id="LeftMenu" VisualDefinition="LeftMenu" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" PositionXOffset="!SidePanel.NegativeWidth">
-                  <Children>
-                    <EnchantmentSlot HorizontalAlignment="Left" MarginLeft="5" VerticalAlignment="Center" Parameter.BackgroundBrush="InventoryHelmetSlot" Parameter.EquipmentIndex="5" Parameter.HintDataSource="{Hint}" Parameter.IsRightSide="false" Parameter.ItemDataSource="{ItemSlot}" GamepadNavigationIndex="0" />
-                  </Children>
-                </Widget>
-                <NavigationScopeTargeter ScopeID="RightEquipmentScope" ScopeParent="..\RightMenu" ScopeMovements="Vertical" UpNavigationScope="ItemTypesScope" HasCircularMovement="false" ExtendDiscoveryAreaLeft="215" UseDiscoveryAreaAsScopeEdges="true" NavigateFromScopeEdges="true" />
-                <Widget Id="RightMenu" VisualDefinition="RightMenu" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right" PositionXOffset="!SidePanel.Width">
-                  <Children>
-                    <EnchantmentSlot MarginLeft="5" VerticalAlignment="Center" Parameter.BackgroundBrush="InventoryWeaponSlot" Parameter.EquipmentIndex="0" Parameter.HintDataSource="{Hint}" Parameter.IsRightSide="true" Parameter.ItemDataSource="{EnchantmentSlot}" GamepadNavigationIndex="0" />
-                  </Children>
-                </Widget>
+                <!-- Soul Gems -->
+                <ListPanel DataSource="{SoulGemList}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" MarginBottom="0">
+                  <ItemTemplate>
+                    <EnchantmentSoulGem />
+                  </ItemTemplate>
+                </ListPanel>
+                <!-- Slots -->
+                <EnchantmentSlot VisualDefinition="TopMenu" HorizontalAlignment="Center" VerticalAlignment="Center" MarginBottom="120" Parameter.BackgroundBrush="InventoryHelmetSlot" Parameter.HintDataSource="{Hint}" Parameter.ItemDataSource="{SoulGemSlot}" GamepadNavigationIndex="0" />
+                <EnchantmentSlot VisualDefinition="LeftMenu" HorizontalAlignment="Left" MarginLeft="40" VerticalAlignment="Center" Parameter.BackgroundBrush="InventoryHelmetSlot" Parameter.HintDataSource="{Hint}" Parameter.ItemDataSource="{ItemSlot}" GamepadNavigationIndex="0" />
+                <EnchantmentSlot VisualDefinition="RightMenu" HorizontalAlignment="Right" MarginRight="40" VerticalAlignment="Center" Parameter.BackgroundBrush="InventoryWeaponSlot" Parameter.HintDataSource="{Hint}" Parameter.ItemDataSource="{EnchantmentSlot}" GamepadNavigationIndex="0" />
+                <!-- Sliders and text inputs -->
                 <NavigationScopeTargeter ScopeID="EnchantmentValueSliderScope" ScopeParent="..\EnchantmentValueGroup" ScopeMovements="Horizontal" />
-                <Widget Id="EnchantmentValueGroup" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" HorizontalAlignment="Center" VerticalAlignment="Bottom" SuggestedWidth="450" SuggestedHeight="38" MarginBottom="40">
+                <Widget Id="EnchantmentValueGroup" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" HorizontalAlignment="Center" VerticalAlignment="Bottom" SuggestedWidth="338" SuggestedHeight="120" MarginBottom="80">
                   <Children>
                     <SliderWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="338" SuggestedHeight="42" VerticalAlignment="Center" Filler="Filler" Handle="SliderHandle" Locked="false" MaxValueInt="@EnchantmentValueMax" MinValueInt="@EnchantmentValueMin" ValueInt="@EnchantmentValue" IsDisabled="false" DoNotPassEventsToChildren="true" UpdateChildrenStates="true" IsDiscrete="true" DoNotUpdateHandleSize="true">
                       <Children>
@@ -67,11 +66,11 @@
                         <ImageWidget Id="SliderHandle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="14" SuggestedHeight="38" HorizontalAlignment="Left" VerticalAlignment="Center" Brush="CustomBattle.Slider.Handle" DoNotAcceptEvents="true" GamepadNavigationIndex="0" />
                       </Children>
                     </SliderWidget>
-                    <IntegerInputTextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="70" SuggestedHeight="30" HorizontalAlignment="Right" VerticalAlignment="Center" Brush="CustomBattle.SliderValue.Text" IntText="@EnchantmentValue" MaxInt="@EnchantmentValueMax" MinInt="@EnchantmentValueMin" EnableClamp="true" ClipContents="false" IsDisabled="false" UpdateChildrenStates="true" DoNotPassEventsToChildren="true" MaxLength="4" GamepadNavigationIndex="1">
+                    <BrushWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="55" HorizontalAlignment="Center" MarginTop="100" Brush="SaveLoad.Search.Button">
                       <Children>
-                        <BrushWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="CustomBattle.SliderValue.Input" ClipContents="false" />
+                        <EditableTextWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="10" MarginBottom="10" MarginLeft="10" MarginRight="10" Brush="SaveLoad.Search.InputText" Text="TEST" />
                       </Children>
-                    </IntegerInputTextWidget>
+                    </BrushWidget>
                   </Children>
                 </Widget>
               </Children>

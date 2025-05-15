@@ -31,10 +31,12 @@ namespace EOAE_Code.States.Enchantment
         private InputKeyItemVM _doneInputKey;
         private MBBindingList<EnchantmentItemVM> _itemList = new();
         private MBBindingList<EnchantmentEnchantmentVM> _enchantmentList = new();
+        private MBBindingList<EnchantmentSoulGemVM> _soulGemList = new();
         private HintViewModel _hint;
 
         private EnchantmentSlotVM<EnchantmentItemVM> _itemSlot;
         private EnchantmentSlotVM<EnchantmentEnchantmentVM> _enchantmentSlot;
+        private EnchantmentSlotVM<EnchantmentSoulGemVM> _soulGemSlot;
 
         [DataSourceProperty]
         public InputKeyItemVM DoneInputKey
@@ -99,6 +101,23 @@ namespace EOAE_Code.States.Enchantment
         }
 
         [DataSourceProperty]
+        public MBBindingList<EnchantmentSoulGemVM> SoulGemList
+        {
+            get { return this._soulGemList; }
+            set
+            {
+                if (value != this._soulGemList)
+                {
+                    this._soulGemList = value;
+                    base.OnPropertyChangedWithValue<MBBindingList<EnchantmentSoulGemVM>>(
+                        value,
+                        "SoulGemList"
+                    );
+                }
+            }
+        }
+
+        [DataSourceProperty]
         public HintViewModel Hint
         {
             get { return this._hint; }
@@ -141,6 +160,23 @@ namespace EOAE_Code.States.Enchantment
                     base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentEnchantmentVM>>(
                         value,
                         "EnchantmentSlot"
+                    );
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public EnchantmentSlotVM<EnchantmentSoulGemVM> SoulGemSlot
+        {
+            get { return this._soulGemSlot; }
+            set
+            {
+                if (value != this._soulGemSlot)
+                {
+                    this._soulGemSlot = value;
+                    base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentSoulGemVM>>(
+                        value,
+                        "SoulGemSlot"
                     );
                 }
             }
@@ -199,6 +235,7 @@ namespace EOAE_Code.States.Enchantment
 
         private void Refresh()
         {
+            ItemList.Clear();
             var inventory = MobileParty.MainParty.ItemRoster;
             foreach (var item in inventory)
             {
@@ -209,11 +246,18 @@ namespace EOAE_Code.States.Enchantment
                 }
             }
 
+            EnchantmentList.Clear();
             var enchantments = EnchantmentManager.GetAllEnchantments();
             foreach (var enchantment in enchantments)
             {
                 var enchantmentItemVM = new EnchantmentEnchantmentVM(enchantment);
                 EnchantmentList.Add(enchantmentItemVM);
+            }
+
+            SoulGemList.Clear();
+            for (int i = 0; i < 6; i++)
+            {
+                SoulGemList.Add(new EnchantmentSoulGemVM((CraftingMaterials)i, 0));
             }
 
             Hint = new HintViewModel(new TaleWorlds.Localization.TextObject("Some hint"));
@@ -222,10 +266,27 @@ namespace EOAE_Code.States.Enchantment
             EnchantmentSlot = new EnchantmentSlotVM<EnchantmentEnchantmentVM>(
                 new EnchantmentEnchantmentVM(true)
             );
+            SoulGemSlot = new EnchantmentSlotVM<EnchantmentSoulGemVM>(
+                new EnchantmentSoulGemVM(true)
+            );
         }
 
         public void ExecuteDropOnEnchantingArea(EnchantmentDraggable draggable, int index)
         {
+            if (draggable is EnchantmentSoulGemVM soulGem)
+            {
+                if (draggable.IsInSlot)
+                {
+                    ReturnSoulGemToInventory(soulGem);
+                    soulGem.Clear();
+                }
+                else if (!soulGem.HasSameItem(SoulGemSlot.Item))
+                {
+                    ReturnSoulGemToInventory(SoulGemSlot.Item);
+                    SoulGemSlot.Item.AssignToSlot(soulGem);
+                }
+            }
+
             if (draggable.IsInSlot)
             {
                 return;
@@ -268,6 +329,10 @@ namespace EOAE_Code.States.Enchantment
             {
                 ReturnItemToInventory(item);
             }
+            else if (draggable is EnchantmentSoulGemVM soulGem)
+            {
+                ReturnSoulGemToInventory(soulGem);
+            }
 
             draggable.Clear();
             UpdateEnchantmentFilters();
@@ -286,6 +351,18 @@ namespace EOAE_Code.States.Enchantment
             }
 
             ItemList.Add(new EnchantmentItemVM(item.Item!.Value));
+        }
+
+        private void ReturnSoulGemToInventory(EnchantmentSoulGemVM soulGemVM)
+        {
+            for (int i = 0; i < SoulGemList.Count; i++)
+            {
+                if (SoulGemList[i].HasSameItem(soulGemVM))
+                {
+                    SoulGemList[i].Amount += 1;
+                    return;
+                }
+            }
         }
 
         private void UpdateItemFilters()

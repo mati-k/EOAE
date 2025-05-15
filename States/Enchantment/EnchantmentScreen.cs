@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Core;
+﻿using System.Collections.Generic;
+using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
@@ -15,7 +16,14 @@ namespace EOAE_Code.States.Enchantment
         private GauntletLayer gauntletLayer;
         private EnchantmentState state;
         private EnchantmentVM vm;
-        private SpriteCategory spriteCategory;
+
+        private static readonly string[] SPRITE_CATEGORY_NAMES = new string[]
+        {
+            "ui_inventory",
+            "ui_crafting",
+        };
+
+        private List<SpriteCategory> LoadedSpriteCategories = new();
 
         public EnchantmentScreen(EnchantmentState state)
         {
@@ -29,8 +37,13 @@ namespace EOAE_Code.States.Enchantment
             var resourceContext = UIResourceManager.ResourceContext;
             var resourceDepot = UIResourceManager.UIResourceDepot;
 
-            spriteCategory = spriteData.SpriteCategories["ui_inventory"];
-            spriteCategory.Load(resourceContext, resourceDepot);
+            LoadedSpriteCategories.Clear();
+            foreach (var spriteCategoryName in SPRITE_CATEGORY_NAMES)
+            {
+                var spriteCategory = spriteData.SpriteCategories[spriteCategoryName];
+                spriteCategory.Load(resourceContext, resourceDepot);
+                LoadedSpriteCategories.Add(spriteCategory);
+            }
         }
 
         protected override void OnFrameTick(float dt)
@@ -91,7 +104,12 @@ namespace EOAE_Code.States.Enchantment
 
             gauntletLayer = null;
             vm = null;
-            spriteCategory.Unload();
+
+            foreach (var spriteCategory in LoadedSpriteCategories)
+            {
+                spriteCategory.Unload();
+            }
+            LoadedSpriteCategories.Clear();
         }
 
         void IGameStateListener.OnInitialize()

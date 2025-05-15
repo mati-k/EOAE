@@ -2,7 +2,6 @@
   <Parameters>
     <Parameter Name="ItemDataSource" DefaultValue="" />
     <Parameter Name="HintDataSource" DefaultValue="" />
-    <Parameter Name="IsRightSide" DefaultValue="false" />
     <Parameter Name="BackgroundBrush" DefaultValue="" />
     <Parameter Name="EquipmentIndex" DefaultValue="0" />
   </Parameters>
