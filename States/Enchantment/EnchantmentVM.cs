@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using EOAE_Code.Data.Managers;
+﻿using EOAE_Code.Data.Managers;
+using System.Linq;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
@@ -200,6 +200,7 @@ namespace EOAE_Code.States.Enchantment
                 {
                     _enchantmentValue = value;
                     OnPropertyChangedWithValue(value, "EnchantmentValue");
+                    RefreshEnchantmentDescription();
                 }
             }
         }
@@ -418,12 +419,21 @@ namespace EOAE_Code.States.Enchantment
 
         private void RefreshEnchantmentDescription()
         {
-            float value = 5;
-
             if (EnchantmentSlot.IsEmpty())
             {
                 EnchantmentDescription = string.Empty;
                 return;
+            }
+
+            float value = EnchantmentValueMin;
+
+            if (IsSliderVisible)
+            {
+                value = EnchantmentValue;
+            }
+            else if (SoulGemSlot.Item.Item != null)
+            {
+                value *= EnchantmentManager.GetSoulGemValue(SoulGemSlot.Item.Item.StringId);
             }
 
             EnchantmentDescription = EnchantmentSlot
