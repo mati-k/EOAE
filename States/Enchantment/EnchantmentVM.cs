@@ -204,6 +204,28 @@ namespace EOAE_Code.States.Enchantment
             }
         }
 
+        private string _enchantmentDescription = string.Empty;
+
+        [DataSourceProperty]
+        public string EnchantmentDescription
+        {
+            get { return _enchantmentDescription; }
+            set
+            {
+                if (value != _enchantmentDescription)
+                {
+                    _enchantmentDescription = value;
+                    OnPropertyChangedWithValue(value, "EnchantmentDescription");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public bool IsSliderVisible
+        {
+            get { return EnchantmentSlot.Item.EnchantmentData?.UseSlider ?? false; }
+        }
+
         public EnchantmentVM()
             : base()
         {
@@ -266,9 +288,16 @@ namespace EOAE_Code.States.Enchantment
             EnchantmentSlot = new EnchantmentSlotVM<EnchantmentEnchantmentVM>(
                 new EnchantmentEnchantmentVM(true)
             );
+            EnchantmentSlot.Item.ItemChanged += OnEnchantmentChanged;
             SoulGemSlot = new EnchantmentSlotVM<EnchantmentSoulGemVM>(
                 new EnchantmentSoulGemVM(true)
             );
+        }
+
+        private void OnEnchantmentChanged(object? sender, System.EventArgs e)
+        {
+            base.OnPropertyChanged(nameof(IsSliderVisible));
+            UpdateItemFilters();
         }
 
         public void ExecuteDropOnEnchantingArea(EnchantmentDraggable draggable, int index)
@@ -314,8 +343,9 @@ namespace EOAE_Code.States.Enchantment
             else if (draggable is EnchantmentEnchantmentVM enchantment)
             {
                 EnchantmentSlot.Item.AssignToSlot(enchantment);
-                UpdateItemFilters();
             }
+
+            RefreshEnchantmentDescription();
         }
 
         public void ExecuteDropOnList(EnchantmentDraggable draggable, int index)
@@ -336,7 +366,7 @@ namespace EOAE_Code.States.Enchantment
 
             draggable.Clear();
             UpdateEnchantmentFilters();
-            UpdateItemFilters();
+            RefreshEnchantmentDescription();
         }
 
         private void ReturnItemToInventory(EnchantmentItemVM item)
@@ -384,6 +414,21 @@ namespace EOAE_Code.States.Enchantment
                 EnchantmentList[i].FilterToItem(item);
             }
             EnchantmentSlot.Item.FilterToItem(item);
+        }
+
+        private void RefreshEnchantmentDescription()
+        {
+            float value = 5;
+
+            if (EnchantmentSlot.IsEmpty())
+            {
+                EnchantmentDescription = string.Empty;
+                return;
+            }
+
+            EnchantmentDescription = EnchantmentSlot
+                .Item.EnchantmentData.GetDescription(value)
+                .ToString();
         }
     }
 }

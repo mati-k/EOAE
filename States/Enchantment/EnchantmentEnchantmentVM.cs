@@ -6,6 +6,7 @@ namespace EOAE_Code.States.Enchantment
 {
     public class EnchantmentEnchantmentVM : EnchantmentDraggable
     {
+        private EnchantmentData _enchantmentData;
         private bool _isFiltered;
 
         [DataSourceProperty]
@@ -14,7 +15,15 @@ namespace EOAE_Code.States.Enchantment
             get { return EnchantmentData.DisplayName.ToString(); }
         }
 
-        public EnchantmentData EnchantmentData { get; private set; }
+        public EnchantmentData EnchantmentData
+        {
+            get { return _enchantmentData; }
+            private set
+            {
+                this._enchantmentData = value;
+                OnItemChanged();
+            }
+        }
 
         [DataSourceProperty]
         public bool IsFiltered

@@ -6,6 +6,7 @@ namespace EOAE_Code.States.Enchantment
 {
     public class EnchantmentItemVM : EnchantmentDraggable
     {
+        private ItemRosterElement? _item;
         private int _itemCount;
         private bool _isFiltered;
 
@@ -35,7 +36,15 @@ namespace EOAE_Code.States.Enchantment
             get { return Item?.EquipmentElement.ItemValue ?? 0; }
         }
 
-        public ItemRosterElement? Item { get; private set; }
+        public ItemRosterElement? Item
+        {
+            get { return _item; }
+            private set
+            {
+                this._item = value;
+                OnItemChanged();
+            }
+        }
 
         [DataSourceProperty]
         public bool IsFiltered

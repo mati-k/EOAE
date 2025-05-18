@@ -11,11 +11,21 @@ namespace EOAE_Code.States.Enchantment
     // Todo: Replace crafting materials with gems items when added
     public class EnchantmentSoulGemVM : EnchantmentDraggable
     {
+        private ItemObject? _item;
         private string _name;
         private string _stringId;
         private int _amount;
         private HintViewModel _soulGemHint;
-        private ItemObject? item;
+
+        public ItemObject? Item
+        {
+            get { return _item; }
+            private set
+            {
+                this._item = value;
+                OnItemChanged();
+            }
+        }
 
         [DataSourceProperty]
         public override string Name
@@ -89,7 +99,7 @@ namespace EOAE_Code.States.Enchantment
                 if (models != null)
                 {
                     SmithingModel smithingModel = models.SmithingModel;
-                    item = (
+                    Item = (
                         (smithingModel != null)
                             ? smithingModel.GetCraftingMaterialItem(material)
                             : null
@@ -97,16 +107,16 @@ namespace EOAE_Code.States.Enchantment
                 }
             }
 
-            if (item != null)
+            if (Item != null)
             {
-                this.ImageIdentifier = new ImageIdentifierVM(item);
+                this.ImageIdentifier = new ImageIdentifierVM(Item);
                 this._soulGemHint = new HintViewModel(
-                    new TextObject("{=!}" + item.Name.ToString(), null),
+                    new TextObject("{=!}" + Item.Name.ToString(), null),
                     null
                 );
 
-                Amount = MobileParty.MainParty.ItemRoster.GetItemNumber(item);
-                _name = item.Name.ToString();
+                Amount = MobileParty.MainParty.ItemRoster.GetItemNumber(Item);
+                _name = Item.Name.ToString();
             }
 
             this.StringId = material.ToString();
@@ -114,12 +124,12 @@ namespace EOAE_Code.States.Enchantment
 
         public bool HasSameItem(EnchantmentSoulGemVM soulGemVM)
         {
-            return soulGemVM.item == this.item;
+            return soulGemVM.Item == this.Item;
         }
 
         public override void Clear()
         {
-            this.item = null;
+            this.Item = null;
             this.ImageIdentifier = new ImageIdentifierVM();
         }
 
@@ -142,7 +152,7 @@ namespace EOAE_Code.States.Enchantment
 
         public void AssignToSlot(EnchantmentSoulGemVM soulGem)
         {
-            this.item = soulGem.item;
+            this.Item = soulGem.Item;
             this.ImageIdentifier = soulGem.ImageIdentifier;
             this.Amount = 1;
 

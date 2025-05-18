@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Core;
+﻿using System;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace EOAE_Code.States.Enchantment
@@ -6,6 +7,8 @@ namespace EOAE_Code.States.Enchantment
     public abstract class EnchantmentDraggable : ViewModel
     {
         private ImageIdentifierVM _imageIdentifier;
+
+        public event EventHandler ItemChanged;
 
         [DataSourceProperty]
         public ImageIdentifierVM ImageIdentifier
@@ -28,9 +31,14 @@ namespace EOAE_Code.States.Enchantment
             get { return ImageIdentifier != null && ImageIdentifier.Id != ""; }
         }
 
-        public bool IsInSlot { get; protected set; }
+        protected void OnItemChanged()
+        {
+            ItemChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         public abstract string Name { get; }
+        public bool IsInSlot { get; protected set; }
+
         public abstract void Clear();
     }
 }
