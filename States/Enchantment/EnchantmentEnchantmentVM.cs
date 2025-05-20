@@ -55,14 +55,14 @@ namespace EOAE_Code.States.Enchantment
 
         public void AssignToSlot(EnchantmentEnchantmentVM enchantment)
         {
-            this.EnchantmentData = enchantment.EnchantmentData;
             this.ImageIdentifier = enchantment.ImageIdentifier;
+            this.EnchantmentData = enchantment.EnchantmentData;
         }
 
         public override void Clear()
         {
-            this.EnchantmentData = null;
             this.ImageIdentifier = new ImageIdentifierVM();
+            this.EnchantmentData = null;
         }
 
         public void FilterToItem(ItemRosterElement? item)

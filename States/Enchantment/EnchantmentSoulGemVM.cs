@@ -129,8 +129,8 @@ namespace EOAE_Code.States.Enchantment
 
         public override void Clear()
         {
-            this.Item = null;
             this.ImageIdentifier = new ImageIdentifierVM();
+            this.Item = null;
         }
 
         public void ExecuteStockDragBegin()
@@ -152,8 +152,8 @@ namespace EOAE_Code.States.Enchantment
 
         public void AssignToSlot(EnchantmentSoulGemVM soulGem)
         {
-            this.Item = soulGem.Item;
             this.ImageIdentifier = soulGem.ImageIdentifier;
+            this.Item = soulGem.Item;
             this.Amount = 1;
 
             soulGem.Amount--;

@@ -77,8 +77,8 @@ namespace EOAE_Code.States.Enchantment
 
         public void AssignToSlot(EnchantmentItemVM item)
         {
-            this.Item = item.Item;
             this.ImageIdentifier = item.ImageIdentifier;
+            this.Item = item.Item;
             this.ItemCount = 1;
 
             item.ItemCount -= 1;
@@ -97,8 +97,8 @@ namespace EOAE_Code.States.Enchantment
 
         public override void Clear()
         {
-            this.Item = null;
             this.ImageIdentifier = new ImageIdentifierVM();
+            this.Item = null;
         }
 
         public void FilterToEnchantment(EnchantmentData? enchantment)

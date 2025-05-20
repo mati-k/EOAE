@@ -1,11 +1,12 @@
-﻿using EOAE_Code.Data.Managers;
-using System.Linq;
+﻿using System.Linq;
+using EOAE_Code.Data.Managers;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace EOAE_Code.States.Enchantment
 {
@@ -27,7 +28,7 @@ namespace EOAE_Code.States.Enchantment
                 ItemObject.ItemTypeEnum.Cape,
             };
 
-        private string _doneText = GameTexts.FindText("str_done").ToString();
+        private string _doneText = new TextObject("{=riOS7Pil}Enchant").ToString();
         private InputKeyItemVM _doneInputKey;
         private MBBindingList<EnchantmentItemVM> _itemList = new();
         private MBBindingList<EnchantmentEnchantmentVM> _enchantmentList = new();
@@ -183,6 +184,15 @@ namespace EOAE_Code.States.Enchantment
         }
 
         [DataSourceProperty]
+        public bool CanFinish
+        {
+            get
+            {
+                return !ItemSlot.IsEmpty() && !EnchantmentSlot.IsEmpty() && !SoulGemSlot.IsEmpty();
+            }
+        }
+
+        [DataSourceProperty]
         public int EnchantmentValueMin { get; } = 5;
 
         [DataSourceProperty]
@@ -249,6 +259,8 @@ namespace EOAE_Code.States.Enchantment
             Game.Current.GameStateManager.PopState();
         }
 
+        public void ExecuteEnchant() { }
+
         public override void OnFinalize()
         {
             base.OnFinalize();
@@ -286,19 +298,34 @@ namespace EOAE_Code.States.Enchantment
             Hint = new HintViewModel(new TaleWorlds.Localization.TextObject("Some hint"));
 
             ItemSlot = new EnchantmentSlotVM<EnchantmentItemVM>(new EnchantmentItemVM(true));
+            ItemSlot.Item.ItemChanged += OnItemChanged;
+
             EnchantmentSlot = new EnchantmentSlotVM<EnchantmentEnchantmentVM>(
                 new EnchantmentEnchantmentVM(true)
             );
             EnchantmentSlot.Item.ItemChanged += OnEnchantmentChanged;
+
             SoulGemSlot = new EnchantmentSlotVM<EnchantmentSoulGemVM>(
                 new EnchantmentSoulGemVM(true)
             );
+            SoulGemSlot.Item.ItemChanged += OnSoulGemChanged;
         }
 
         private void OnEnchantmentChanged(object? sender, System.EventArgs e)
         {
             base.OnPropertyChanged(nameof(IsSliderVisible));
+            base.OnPropertyChanged(nameof(CanFinish));
             UpdateItemFilters();
+        }
+
+        private void OnItemChanged(object? sender, System.EventArgs e)
+        {
+            base.OnPropertyChanged(nameof(CanFinish));
+        }
+
+        private void OnSoulGemChanged(object? sender, System.EventArgs e)
+        {
+            base.OnPropertyChanged(nameof(CanFinish));
         }
 
         public void ExecuteDropOnEnchantingArea(EnchantmentDraggable draggable, int index)

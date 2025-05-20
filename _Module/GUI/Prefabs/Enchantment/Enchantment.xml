@@ -88,7 +88,8 @@
           </Children>
         </ListPanel>
         <!-- Close Screen Button -->
-        <Standard.DialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="100" Parameter.DoneButtonAction="ExecuteClose" Parameter.DoneButtonText="@DoneText" Parameter.ShowCancel="false" Parameter.DoneInputKeyDataSource="{DoneInputKey}" />
+        <Standard.DialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="100" Parameter.DoneButtonAction="ExecuteEnchant" Parameter.DoneButtonText="@DoneText" Parameter.ShowCancel="false" Parameter.DoneInputKeyDataSource="{DoneInputKey}" Parameter.IsDoneEnabled="@CanFinish"/>
+        <ButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="136" SuggestedHeight="69" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginLeft="10" Brush="Crafting.Leave.Button" Command.Click="ExecuteClose" />
       </Children>
     </Widget>
   </Window>
