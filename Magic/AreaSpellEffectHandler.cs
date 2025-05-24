@@ -1,4 +1,5 @@
-﻿using EOAE_Code.Data.Xml;
+﻿using EOAE_Code.Character;
+using EOAE_Code.Data.Xml;
 using EOAE_Code.Extensions;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -37,6 +38,13 @@ namespace EOAE_Code.Magic
 
         private void DealDamage()
         {
+            var damageWithBonus =
+                Data.DamagePerSecond
+                * Caster.GetMultiplierForSkill(
+                    CustomSkills.Instance.Destruction,
+                    CustomSkillEffects.Instance.DestructionDamage
+                );
+
             var agents = new MBList<Agent>();
             Mission.Current.GetNearbyAgents(GameEntity.GlobalPosition.AsVec2, Radius, agents);
 
@@ -44,7 +52,12 @@ namespace EOAE_Code.Magic
             {
                 if (agent.IsActive())
                 {
-                    agent.DealDamage(Caster, Data.DamagePerSecond * TICK_INTERVAL);
+                    agent.DealDamage(
+                        Caster,
+                        Data.DamagePerSecond * TICK_INTERVAL,
+                        CustomSkills.Instance.Destruction,
+                        true
+                    );
                 }
             }
         }

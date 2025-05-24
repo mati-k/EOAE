@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EOAE_Code.Agents;
-using EOAE_Code.Data.Xml;
+using EOAE_Code.Character;
 using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Extensions;
 using EOAE_Code.Interfaces;
 using TaleWorlds.MountAndBlade;
 
@@ -24,7 +26,7 @@ public class SummonSpell : Spell, IUseAreaAim
     {
         SummonSpellData summonSpellData = data as SummonSpellData;
 
-        if (summonSpellData.SummonEntities.Count == 0)
+        if (summonSpellData == null || summonSpellData.SummonEntities.Count == 0)
         {
             throw new Exception("Summon spell must have at least one entity to summon");
         }
@@ -49,6 +51,11 @@ public class SummonSpell : Spell, IUseAreaAim
         {
             summonerComponent.Summon(caster, GetAimedPosition(caster), data);
         }
+        float summonedEntities = SummonEntities.Sum(entity => entity.Amount);
+        caster.AddSkillXp(
+            CustomSkills.Instance.Conjuration,
+            summonedEntities * MagicConstants.CONJURATION_EXP_PER_SUMMON
+        );
     }
 
     public override bool IsAICastValid(Agent caster)
@@ -59,7 +66,11 @@ public class SummonSpell : Spell, IUseAreaAim
             return true;
         }
 
-        if (summonerComponent.HasAnyActiveSummons() && summonerComponent.SummonDespawnTime - Mission.Current.CurrentTime > SPAWNED_TIME_LEFT_TO_DISMISS)
+        if (
+            summonerComponent.HasAnyActiveSummons()
+            && summonerComponent.SummonDespawnTime - Mission.Current.CurrentTime
+                > SPAWNED_TIME_LEFT_TO_DISMISS
+        )
         {
             return false;
         }
