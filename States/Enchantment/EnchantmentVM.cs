@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using EOAE_Code.Data.Managers;
+using HarmonyLib;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
@@ -7,6 +9,7 @@ using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.States.Enchantment
 {
@@ -38,6 +41,9 @@ namespace EOAE_Code.States.Enchantment
         private EnchantmentSlotVM<EnchantmentItemVM> _itemSlot;
         private EnchantmentSlotVM<EnchantmentEnchantmentVM> _enchantmentSlot;
         private EnchantmentSlotVM<EnchantmentSoulGemVM> _soulGemSlot;
+
+        private string _enchantmentDescription = string.Empty;
+        private string _enchantmentItemName = "INITIAL NAME";
 
         [DataSourceProperty]
         public InputKeyItemVM DoneInputKey
@@ -215,8 +221,6 @@ namespace EOAE_Code.States.Enchantment
             }
         }
 
-        private string _enchantmentDescription = string.Empty;
-
         [DataSourceProperty]
         public string EnchantmentDescription
         {
@@ -227,6 +231,20 @@ namespace EOAE_Code.States.Enchantment
                 {
                     _enchantmentDescription = value;
                     OnPropertyChangedWithValue(value, "EnchantmentDescription");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public string EnchantmentItemName
+        {
+            get { return _enchantmentItemName; }
+            set
+            {
+                if (value != _enchantmentItemName)
+                {
+                    _enchantmentItemName = value;
+                    OnPropertyChangedWithValue(value, "EnchantmentItemName");
                 }
             }
         }
@@ -259,7 +277,86 @@ namespace EOAE_Code.States.Enchantment
             Game.Current.GameStateManager.PopState();
         }
 
-        public void ExecuteEnchant() { }
+        public void ExecuteEnchantVariant()
+        {
+            var item = ItemSlot.Item.Item;
+            var enchantment = EnchantmentSlot.Item.EnchantmentData;
+            var soulGem = SoulGemSlot.Item.Item;
+            if (item == null || enchantment == null || soulGem == null)
+            {
+                return;
+            }
+
+            var enchantmentModifier = new ItemModifier() { StringId = "ENCHANTMENT_1" };
+            AccessTools
+                .DeclaredPropertySetter(typeof(ItemModifier), "Name")
+                .Invoke(
+                    enchantmentModifier,
+                    new object[] { new TextObject("{=!}" + EnchantmentItemName) }
+                );
+
+            MBObjectManager.Instance.RegisterObject<ItemModifier>(enchantmentModifier);
+            enchantmentModifier.Initialize();
+
+            var equipmentElement = item.Value.EquipmentElement;
+            EquipmentElement enchantedEquipmentElement = new EquipmentElement(
+                equipmentElement.Item,
+                enchantmentModifier,
+                equipmentElement.CosmeticItem,
+                equipmentElement.IsQuestItem
+            );
+
+            PartyBase.MainParty.ItemRoster.AddToCounts(enchantedEquipmentElement, 1);
+            PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, -1);
+        }
+
+        public void ExecuteEnchant()
+        {
+            var item = ItemSlot.Item.Item;
+            var enchantment = EnchantmentSlot.Item.EnchantmentData;
+            var soulGem = SoulGemSlot.Item.Item;
+            if (item == null || enchantment == null || soulGem == null)
+            {
+                return;
+            }
+
+            var equipmentElement = item.Value.EquipmentElement;
+
+            ItemObject enchantedItem = new ItemObject(equipmentElement.Item);
+            ItemObject.InitAsPlayerCraftedItem(ref enchantedItem);
+            enchantedItem.StringId =
+                $"{equipmentElement.Item.StringId}_{enchantment.Name}_{EnchantmentValue}";
+
+            if (equipmentElement.Item.WeaponDesign != null)
+            {
+                AccessTools
+                    .DeclaredPropertySetter(typeof(ItemObject), "WeaponDesign")
+                    .Invoke(enchantedItem, new object[] { equipmentElement.Item.WeaponDesign });
+            }
+
+            AccessTools
+                .Method(typeof(ItemObject), "SetName")
+                .Invoke(enchantedItem, new object[] { new TextObject(EnchantmentItemName) });
+            AccessTools
+                .DeclaredPropertySetter(typeof(ItemObject), "Culture")
+                .Invoke(enchantedItem, new object[] { Hero.MainHero.Culture });
+
+            EquipmentElement enchantedEquipmentElement = new EquipmentElement(
+                enchantedItem,
+                equipmentElement.ItemModifier,
+                equipmentElement.CosmeticItem,
+                equipmentElement.IsQuestItem
+            );
+
+            enchantedItem.DetermineItemCategoryForItem();
+
+            MBObjectManager.Instance.RegisterObject<ItemObject>(enchantedItem);
+
+            PartyBase.MainParty.ItemRoster.AddToCounts(enchantedItem, 1);
+            PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, -1);
+
+            CampaignEventDispatcher.Instance.OnNewItemCrafted(enchantedItem, null, false);
+        }
 
         public override void OnFinalize()
         {

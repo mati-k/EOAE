@@ -69,7 +69,7 @@
                     </SliderWidget>
                     <BrushWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="55" HorizontalAlignment="Center" MarginTop="100" Brush="SaveLoad.Search.Button">
                       <Children>
-                        <EditableTextWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="10" MarginBottom="10" MarginLeft="10" MarginRight="10" Brush="SaveLoad.Search.InputText" Text="TEST" />
+                        <EditableTextWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="10" MarginBottom="10" MarginLeft="10" MarginRight="10" Brush="SaveLoad.Search.InputText" Text="@EnchantmentItemName" />
                       </Children>
                     </BrushWidget>
                   </Children>
