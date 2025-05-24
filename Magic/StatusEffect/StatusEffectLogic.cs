@@ -1,8 +1,8 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using System.Collections.Generic;
+using EOAE_Code.Data.Managers;
+using EOAE_Code.Data.Xml.StatusEffects;
+using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
-using System;
-using System.Collections.Generic;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.StatusEffect
@@ -38,23 +38,48 @@ namespace EOAE_Code.Magic.StatusEffect
             return agentStatusEffects.AgentPropertiesMultipliers;
         }
 
-        public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon affectorWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
+        public override void OnAgentHit(
+            Agent affectedAgent,
+            Agent affectorAgent,
+            in MissionWeapon affectorWeapon,
+            in Blow blow,
+            in AttackCollisionData attackCollisionData
+        )
         {
-            if (!SpellManager.IsWeaponSpell(affectorWeapon.CurrentUsageItem))
-            {
+            var statusEffect = GetStatusEffectFromWeapon(affectorWeapon);
+
+            if (statusEffect == null)
                 return;
-            }
 
-            var spell = SpellManager.GetSpellFromWeapon(affectorWeapon.CurrentUsageItem);
-            if (spell is MissileSpell missileSpell && missileSpell.StatusEffect != null)
+            if (!AgentActiveEffects.ContainsKey(affectedAgent))
             {
-                if (!AgentActiveEffects.ContainsKey(affectedAgent))
-                {
-                    AgentActiveEffects.Add(affectedAgent, new AgentStatusEffects(affectedAgent));
-                }
-
-                AgentActiveEffects[affectedAgent].AddStatusEffect(new AppliedStatusEffect(missileSpell.StatusEffect, affectorAgent));
+                AgentActiveEffects.Add(affectedAgent, new AgentStatusEffects(affectedAgent));
             }
+
+            AgentActiveEffects[affectedAgent]
+                .AddStatusEffect(new AppliedStatusEffect(statusEffect, affectorAgent));
+        }
+
+        private static StatusEffectBase? GetStatusEffectFromWeapon(MissionWeapon weapon)
+        {
+            var missileEffect = weapon.Item.GetMissileEffect();
+            if (missileEffect != null)
+            {
+                return missileEffect;
+            }
+
+            if (!SpellManager.IsWeaponSpell(weapon.CurrentUsageItem))
+            {
+                return null;
+            }
+
+            var spell = SpellManager.GetSpellFromWeapon(weapon.CurrentUsageItem);
+            if (spell is MissileSpell missileSpell)
+            {
+                return missileSpell.StatusEffect;
+            }
+
+            return null;
         }
     }
 }
