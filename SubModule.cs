@@ -6,6 +6,7 @@ using EOAE_Code.Data.Xml;
 using EOAE_Code.Data.Xml.Book;
 using EOAE_Code.Data.Xml.Enchantments;
 using EOAE_Code.Data.Xml.Spells;
+using EOAE_Code.Enchanting;
 using EOAE_Code.Literature;
 using EOAE_Code.Magic;
 using EOAE_Code.Magic.StatusEffect;
@@ -68,6 +69,7 @@ namespace EOAE_Code
             {
                 starter.AddBehavior(new SavePatch());
                 starter.AddBehavior(new LiteratureCampaignBehavior());
+                starter.AddBehavior(new EnchantingCampaignBehavior());
             }
         }
 
