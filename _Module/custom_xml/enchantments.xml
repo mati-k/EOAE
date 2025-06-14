@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfEnchantmentData>
+  <EnchantmentData Name="fire" DisplayName="BURN BURN BURN" IconItem="fireball" UseSlider="true" DescriptionKey="{=Ll0rTcB}Burn target for {value} damage per second">
+    <ItemTypes>
+      <ItemType>OneHandedWeapon</ItemType>
+      <ItemType>TwoHandedWeapon</ItemType>
+    </ItemTypes>
+  </EnchantmentData>
+  <EnchantmentData Name="ice" DisplayName="So cold" IconItem="whiteFlame" UseSlider="true" DescriptionKey="{=lhJ1SPoM}Slow down target">
+    <ItemTypes>
+      <ItemType>OneHandedWeapon</ItemType>
+      <ItemType>TwoHandedWeapon</ItemType>
+    </ItemTypes>
+  </EnchantmentData>
+  <EnchantmentData Name="armor" DisplayName="Good Armor" IconItem="whiteFlame" UseSlider="false" DescriptionKey="{=pSm32bJu}Increase armor by {value}">
+    <ItemTypes>
+      <ItemType>HandArmor</ItemType>  
+      <ItemType>HeadArmor</ItemType>  
+      <ItemType>ChestArmor</ItemType>  
+      <ItemType>LegArmor</ItemType>  
+    </ItemTypes>
+  </EnchantmentData>
+</ArrayOfEnchantmentData>

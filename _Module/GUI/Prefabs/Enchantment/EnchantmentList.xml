@@ -1,0 +1,47 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="Toggle.Width" BrushName="Inventory.Tuple.Left" BrushLayer="Default" BrushValueType="Width" />
+    <Constant Name="SidePanel.Width" Additive="24" Value="!Toggle.Width" />
+    <Constant Name="SidePanel.ScrollablePanel.Width" Value="!Toggle.Width" Additive="20" />
+    <Constant Name="Scrollbar.Margin" Value="2" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginTop" Value="48" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginBottom" Value="1" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginHorizontal" Value="2" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginLeft" BooleanCheck="*IsRightSide" OnTrue="!SidePanel.ScrollablePanel.MarginHorizontal" OnFalse="0" />
+    <Constant Name="SidePanel.ScrollablePanel.MarginRight" BooleanCheck="*IsRightSide" OnTrue="0" OnFalse="!SidePanel.ScrollablePanel.MarginHorizontal" />
+    <Constant Name="SidePanel.ScrollablePanel.HorizontalAlignment" BooleanCheck="*IsRightSide" OnTrue="Left" OnFalse="Right" />
+    <Constant Name="Scrollbar.HorizontalAlignment" BooleanCheck="*IsRightSide" OnTrue="Right" OnFalse="Left" />
+  </Constants>
+  <Parameters>
+    <Parameter Name="ListDataSource" DefaultValue="" />
+    <Parameter Name="IsRightSide" DefaultValue="true" />
+    <Parameter Name="ListScopeID" DefaultValue="InventoryListDefaultItemsScope" />
+  </Parameters>
+  <Window>
+    <Widget DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!SidePanel.Width">
+      <Children>
+        <ScrollablePanel Id="InventoryListScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="!Toggle.Width" InnerPanel="MyClipRect\InnerPanelParent" ClipRect="MyClipRect" MarginTop="!SidePanel.ScrollablePanel.MarginTop" MarginBottom="!SidePanel.ScrollablePanel.MarginBottom" MarginLeft="!SidePanel.ScrollablePanel.MarginLeft" MarginRight="!SidePanel.ScrollablePanel.MarginRight" HorizontalAlignment="!SidePanel.ScrollablePanel.HorizontalAlignment" VerticalAlignment="Bottom" VerticalScrollbar="..\Scrollbar\Scrollbar" AutoHideScrollBars="true" ClipContents="true" AcceptDrop="true" Command.Drop="{ExecuteDropOnList}">
+          <Children>
+            <NavigationScopeTargeter ScopeID="*ListScopeID" ScopeParent="..\MyClipRect" ScopeMovements="Vertical" HasCircularMovement="false" ForceGainNavigationBasedOnDirection="true" DoNotAutoNavigateAfterSort="true" NavigateFromScopeEdges="true" DoNotAutoCollectChildScopes="true" />
+            <Widget Id="MyClipRect" WidthSizePolicy="Fixed" SuggestedWidth="!SidePanel.ScrollablePanel.Width" HeightSizePolicy="StretchToParent" ClipContents="true" HorizontalAlignment="Center">
+              <Children>
+                <ListPanel Id="InnerPanelParent" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
+                  <Children>
+                    <InventoryListPanel Id="InnerPanel" DataSource="*ListDataSource" StackLayout.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StepSize="10" EmptyNavigationWidget="..\..\..\MyClipRect">
+                      <ItemTemplate>
+                        <EnchantmentItem Parameter.IsRightSide="false" />
+                      </ItemTemplate>
+                    </InventoryListPanel>
+                    <!-- Bottom Margin Widget -->
+                    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="10" />
+                  </Children>
+                </ListPanel>
+              </Children>
+            </Widget>
+          </Children>
+        </ScrollablePanel>
+        <Standard.VerticalScrollbar Id="Scrollbar" HorizontalAlignment="!Scrollbar.HorizontalAlignment" VerticalAlignment="Bottom" MarginRight="!Scrollbar.Margin" HeightSizePolicy="StretchToParent" MarginTop="!SidePanel.ScrollablePanel.MarginTop" MarginBottom="!SidePanel.ScrollablePanel.MarginBottom" />
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

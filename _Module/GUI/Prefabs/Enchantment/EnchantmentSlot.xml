@@ -1,0 +1,28 @@
+﻿<Prefab>
+  <Parameters>
+    <Parameter Name="ItemDataSource" DefaultValue="" />
+    <Parameter Name="HintDataSource" DefaultValue="" />
+    <Parameter Name="BackgroundBrush" DefaultValue="" />
+    <Parameter Name="EquipmentIndex" DefaultValue="0" />
+  </Parameters>
+  <Constants>
+    <Constant Name="HintDataSourceBackground" Value="*HintDataSource" />
+  </Constants>
+  <Window>
+    <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="130" SuggestedHeight="65" DataSource="*ItemDataSource">
+      <Children>
+        <BrushWidget Id="Background" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="*BackgroundBrush">
+          <Children>
+            <HintWidget IsDisabled="true" DataSource="!HintDataSourceBackground" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" />
+          </Children>
+        </BrushWidget>
+        <ButtonWidget DataSource="{Item}" AcceptDrag="@IsImageSet" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Background="..\Background">
+          <Children>
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="3" MarginRight="4" MarginTop="3" MarginBottom="4" Sprite="Inventory\portrait_cart" IsVisible="@IsImageSet" />
+            <ImageIdentifierWidget Id="ImageIdentifier" DataSource="{ImageIdentifier}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="3" MarginRight="4" MarginTop="3" MarginBottom="4" ImageId="@Id" AdditionalArgs="@AdditionalArgs" ImageTypeCode="@ImageTypeCode" />
+          </Children>
+        </ButtonWidget>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>
