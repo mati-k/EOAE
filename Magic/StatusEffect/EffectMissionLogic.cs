@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EOAE_Code.Data.Managers;
+﻿using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
@@ -50,23 +49,33 @@ namespace EOAE_Code.Magic.StatusEffect
 
             if (statusEffect == null)
                 return;
+
+            if (!AgentActiveEffects.ContainsKey(affectedAgent))
+            {
+                AgentActiveEffects.Add(affectedAgent, new AgentEffects(affectedAgent));
             }
 
-            var spell = SpellManager.GetSpellFromWeapon(affectorWeapon.CurrentUsageItem);
-            if (spell is MissileSpell missileSpell && missileSpell.StatusEffect != null)
-            {
-                if (!AgentActiveEffects.ContainsKey(affectedAgent))
-                {
-                    AgentActiveEffects.Add(affectedAgent, new AgentStatusEffects(affectedAgent));
-                }
+            AgentActiveEffects[affectedAgent]
+                .AddStatusEffect(new AppliedEffect(statusEffect, affectorAgent));
+        }
 
-                AgentActiveEffects[affectedAgent].AddStatusEffect(new AppliedStatusEffect(missileSpell.StatusEffect, affectorAgent));
+        private static Effect? GetStatusEffectFromWeapon(MissionWeapon weapon)
+        {
+            var missileEffect = weapon.Item.GetMissileEffect();
+            if (missileEffect != null)
+            {
+                return missileEffect;
+            }
+
+            if (!SpellManager.IsWeaponSpell(weapon.CurrentUsageItem))
+            {
+                return null;
             }
 
             var spell = SpellManager.GetSpellFromWeapon(weapon.CurrentUsageItem);
             if (spell is MissileSpell missileSpell)
             {
-                return missileSpell.StatusEffect;
+                return missileSpell.Effect;
             }
 
             return null;

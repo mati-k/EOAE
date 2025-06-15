@@ -1,5 +1,5 @@
-﻿using EOAE_Code.Data.Xml.StatusEffects;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using EOAE_Code.Data.Xml.StatusEffects;
 using TaleWorlds.Core;
 
 namespace EOAE_Code.Extensions;
