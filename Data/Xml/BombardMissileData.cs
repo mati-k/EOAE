@@ -1,5 +1,6 @@
-﻿using EOAE_Code.Data.Xml.StatusEffects;
+﻿using System;
 using System.Xml.Serialization;
+using EOAE_Code.Data.Xml.StatusEffects;
 
 namespace EOAE_Code.Data.Xml
 {

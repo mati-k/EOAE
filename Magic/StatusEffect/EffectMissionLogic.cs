@@ -1,4 +1,5 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using System.Collections.Generic;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
@@ -9,7 +10,7 @@ namespace EOAE_Code.Magic.StatusEffect
     public class EffectMissionLogic : MissionLogic
     {
         // todo: Dictionary or maybe a behavior component on each agent?
-        private static Dictionary<Agent, AgentEffects> AgentActiveEffects = new();
+        private static readonly Dictionary<Agent, AgentEffects> AgentActiveEffects = new();
 
         public override void AfterStart()
         {

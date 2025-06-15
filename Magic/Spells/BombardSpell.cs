@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using EOAE_Code.Data.Xml;
 using EOAE_Code.Data.Xml.Spells;
 using EOAE_Code.Interfaces;
@@ -64,7 +62,7 @@ public class BombardSpell : Spell, IUseAreaAim
                     pos,
                     new Vec3(0.01f, 0.01f, -1),
                     _data.MissileSpeed,
-                    _data.StatusEffect
+                    _data.Effect
                 )
             );
 
