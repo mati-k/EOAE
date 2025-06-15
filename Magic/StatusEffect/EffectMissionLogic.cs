@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Data.Xml.StatusEffects;
+using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.MountAndBlade;
 
@@ -44,22 +46,30 @@ namespace EOAE_Code.Magic.StatusEffect
             in AttackCollisionData attackCollisionData
         )
         {
-            if (!SpellManager.IsWeaponSpell(affectorWeapon.CurrentUsageItem))
-            {
+            var statusEffect = GetStatusEffectFromWeapon(affectorWeapon);
+
+            if (statusEffect == null)
                 return;
             }
 
             var spell = SpellManager.GetSpellFromWeapon(affectorWeapon.CurrentUsageItem);
-            if (spell is MissileSpell missileSpell && missileSpell.Effect != null)
+            if (spell is MissileSpell missileSpell && missileSpell.StatusEffect != null)
             {
                 if (!AgentActiveEffects.ContainsKey(affectedAgent))
                 {
-                    AgentActiveEffects.Add(affectedAgent, new AgentEffects(affectedAgent));
+                    AgentActiveEffects.Add(affectedAgent, new AgentStatusEffects(affectedAgent));
                 }
 
-                AgentActiveEffects[affectedAgent]
-                    .AddStatusEffect(new AppliedEffect(missileSpell.Effect, affectorAgent));
+                AgentActiveEffects[affectedAgent].AddStatusEffect(new AppliedStatusEffect(missileSpell.StatusEffect, affectorAgent));
             }
+
+            var spell = SpellManager.GetSpellFromWeapon(weapon.CurrentUsageItem);
+            if (spell is MissileSpell missileSpell)
+            {
+                return missileSpell.StatusEffect;
+            }
+
+            return null;
         }
     }
 }
