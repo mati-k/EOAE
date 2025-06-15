@@ -5,11 +5,11 @@ using TaleWorlds.MountAndBlade;
 namespace EOAE_Code.Data.Xml.StatusEffects
 {
     [Serializable]
-    public class DamageOverTimeEffectData : StatusEffectBase
+    public class DamageOverTimeEffectData : Modifier
     {
         public override void Apply(float totalValue, AgentDrivenProperties multiplierProperties) { }
 
-        public override void EffectTick(float totalValue, Agent target, Agent caster)
+        public override void Tick(float totalValue, Agent target, Agent caster)
         {
             if (target.IsFadingOut())
             {

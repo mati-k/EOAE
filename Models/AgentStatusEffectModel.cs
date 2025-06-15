@@ -6,14 +6,18 @@ namespace EOAE_Code.Models
 {
     public class AgentStatusEffectModel : SandboxAgentStatCalculateModel
     {
-        public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
+        public override void UpdateAgentStats(
+            Agent agent,
+            AgentDrivenProperties agentDrivenProperties
+        )
         {
             base.UpdateAgentStats(agent, agentDrivenProperties);
 
-            var multiplierProperties = StatusEffectLogic.GetAgentStatModifiers(agent);
+            var multiplierProperties = EffectMissionLogic.GetAgentStatModifiers(agent);
             if (multiplierProperties != null)
             {
-                agent.AgentDrivenProperties.MaxSpeedMultiplier *= multiplierProperties.MaxSpeedMultiplier;
+                agent.AgentDrivenProperties.MaxSpeedMultiplier *=
+                    multiplierProperties.MaxSpeedMultiplier;
             }
         }
     }

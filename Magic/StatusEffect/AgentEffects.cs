@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using EOAE_Code.Data.Managers;
+using EOAE_Code.Data.Xml.StatusEffects;
+using TaleWorlds.Engine;
+using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade;
+
+namespace EOAE_Code.Magic.StatusEffect
+{
+    public class AgentEffects
+    {
+        private const float EFFECT_TICK_RATE = 1;
+        private float tickCounter = EFFECT_TICK_RATE;
+
+        public Agent Agent { get; private set; }
+        private List<AppliedEffect> ActiveEffects = new();
+        private Dictionary<
+            string,
+            TaleWorlds.Library.PriorityQueue<float, Modifier>
+        > ExclusiveModifiers = new();
+        public List<Modifier> StackableModifiers = new List<Modifier>();
+
+        private Dictionary<string, GameEntity> ParticleEffects = new();
+
+        public AgentDrivenProperties AgentPropertiesMultipliers { get; private set; } = new();
+
+        public AgentEffects(Agent agent)
+        {
+            Agent = agent;
+        }
+
+        public void AddStatusEffect(AppliedEffect appliedStatusEffect)
+        {
+            foreach (var action in appliedStatusEffect.Effect.Actions)
+            {
+                var modifier = action as Modifier;
+                if (modifier == null)
+                {
+                    continue;
+                }
+
+                if (String.IsNullOrEmpty(modifier.Key))
+                {
+                    StackableModifiers.Add(modifier);
+                }
+                else
+                {
+                    if (!ExclusiveModifiers.ContainsKey(modifier.Key))
+                    {
+                        ExclusiveModifiers.Add(modifier.Key, new());
+                    }
+
+                    ExclusiveModifiers[modifier.Key].Enqueue(Math.Abs(modifier.Value), modifier);
+
+                    string key = modifier.Key;
+                    if (StatusEffectParticleManager.StatusEffectPrefabs.ContainsKey(key))
+                    {
+                        string particlePrefab = StatusEffectParticleManager.StatusEffectPrefabs[
+                            key
+                        ];
+                        if (!ParticleEffects.ContainsKey(particlePrefab))
+                        {
+                            AddParticleEffect(particlePrefab);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Tick(float dt)
+        {
+            if (!Agent.IsActive())
+            {
+                return;
+            }
+
+            CleanUpAppliedEffects();
+
+            foreach (var exclusiveModifier in ExclusiveModifiers)
+            {
+                string key = exclusiveModifier.Key;
+
+                if (exclusiveModifier.Value.IsEmpty && ParticleEffects.ContainsKey(key))
+                {
+                    ParticleEffects[key].FadeOut(0, true);
+                    ParticleEffects.Remove(key);
+                }
+            }
+
+            // Todo: maybe do this every 1s or so to save performance
+            RecalculateStats();
+            Agent.UpdateAgentProperties();
+            FireEffectTick(dt);
+            UpdateEffectPositions();
+        }
+
+        private void RecalculateStats()
+        {
+            AgentPropertiesMultipliers.MaxSpeedMultiplier = 1;
+
+            foreach (var exclusiveModifier in ExclusiveModifiers)
+            {
+                if (!exclusiveModifier.Value.IsEmpty)
+                {
+                    var modifier = exclusiveModifier.Value.PeekValue();
+                    modifier.Apply(modifier.Value, AgentPropertiesMultipliers);
+                }
+            }
+
+            foreach (var modifier in StackableModifiers)
+            {
+                modifier.Apply(modifier.Value, AgentPropertiesMultipliers);
+            }
+        }
+
+        private void FireEffectTick(float dt)
+        {
+            tickCounter -= dt;
+
+            if (tickCounter < 0)
+            {
+                foreach (var exclusiveModifier in ExclusiveModifiers)
+                {
+                    if (!exclusiveModifier.Value.IsEmpty)
+                    {
+                        var modifier = exclusiveModifier.Value.PeekValue();
+                        modifier.Tick(modifier.Value, Agent, null);
+                    }
+                }
+
+                foreach (var modifier in StackableModifiers)
+                {
+                    modifier.Tick(modifier.Value, Agent, null);
+                }
+
+                tickCounter = EFFECT_TICK_RATE;
+            }
+        }
+
+        private void AddParticleEffect(string prefab)
+        {
+            var effectEntity = GameEntity.CreateEmpty(Mission.Current.Scene);
+            MatrixFrame frame = MatrixFrame.Identity;
+            var particle = ParticleSystem.CreateParticleSystemAttachedToEntity(
+                prefab,
+                effectEntity,
+                ref frame
+            );
+            var globalFrame = new MatrixFrame(Mat3.Identity, Agent.Position);
+            effectEntity.SetGlobalFrame(globalFrame);
+
+            ParticleEffects.Add(prefab, effectEntity);
+        }
+
+        private void UpdateEffectPositions()
+        {
+            var globalFrame = new MatrixFrame(Mat3.Identity, Agent.Position);
+            foreach (var particleEffect in ParticleEffects)
+            {
+                particleEffect.Value.SetGlobalFrame(globalFrame);
+            }
+        }
+
+        private void CleanUpAppliedEffects()
+        {
+            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            {
+                if (ActiveEffects[i].DurationLeft <= 0)
+                {
+                    CleanUpAppliedEffect(ActiveEffects[i]);
+                    ActiveEffects.RemoveAt(i);
+                }
+            }
+        }
+
+        private void CleanUpAppliedEffect(AppliedEffect appliedEffect)
+        {
+            foreach (var action in appliedEffect.Effect.Actions)
+            {
+                if (action is Modifier modifier)
+                {
+                    if (String.IsNullOrEmpty(modifier.Key))
+                    {
+                        StackableModifiers.Remove(modifier);
+                    }
+                    else
+                    {
+                        if (ExclusiveModifiers.ContainsKey(modifier.Key))
+                        {
+                            ExclusiveModifiers[modifier.Key]
+                                .Remove(
+                                    new KeyValuePair<float, Modifier>(
+                                        Math.Abs(modifier.Value),
+                                        modifier
+                                    )
+                                );
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

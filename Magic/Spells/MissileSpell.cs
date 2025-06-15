@@ -8,7 +8,7 @@ namespace EOAE_Code.Magic.Spells
     {
         public int ExtraMissiles { get; private set; }
         public float MissileSpread { get; private set; }
-        public StatusEffectBase? StatusEffect { get; private set; }
+        public Effect? Effect { get; private set; }
         public override bool IsThrown => true;
 
         public MissileSpell(SpellData data)
@@ -18,7 +18,7 @@ namespace EOAE_Code.Magic.Spells
 
             ExtraMissiles = missileSpellData.ExtraMissiles;
             MissileSpread = missileSpellData.MissileSpread;
-            StatusEffect = missileSpellData.StatusEffect;
+            Effect = missileSpellData.Effect;
         }
 
         public override void Cast(Agent caster) { }

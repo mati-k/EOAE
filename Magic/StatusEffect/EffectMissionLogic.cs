@@ -1,16 +1,14 @@
-﻿using EOAE_Code.Data.Managers;
+﻿using System.Collections.Generic;
+using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
-using System;
-using System.Collections.Generic;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.StatusEffect
 {
-    public class StatusEffectLogic : MissionLogic
+    public class EffectMissionLogic : MissionLogic
     {
         // todo: Dictionary or maybe a behavior component on each agent?
-        private static Dictionary<Agent, AgentStatusEffects> AgentActiveEffects = new();
+        private static Dictionary<Agent, AgentEffects> AgentActiveEffects = new();
 
         public override void AfterStart()
         {
@@ -38,7 +36,13 @@ namespace EOAE_Code.Magic.StatusEffect
             return agentStatusEffects.AgentPropertiesMultipliers;
         }
 
-        public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon affectorWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
+        public override void OnAgentHit(
+            Agent affectedAgent,
+            Agent affectorAgent,
+            in MissionWeapon affectorWeapon,
+            in Blow blow,
+            in AttackCollisionData attackCollisionData
+        )
         {
             if (!SpellManager.IsWeaponSpell(affectorWeapon.CurrentUsageItem))
             {
@@ -46,14 +50,15 @@ namespace EOAE_Code.Magic.StatusEffect
             }
 
             var spell = SpellManager.GetSpellFromWeapon(affectorWeapon.CurrentUsageItem);
-            if (spell is MissileSpell missileSpell && missileSpell.StatusEffect != null)
+            if (spell is MissileSpell missileSpell && missileSpell.Effect != null)
             {
                 if (!AgentActiveEffects.ContainsKey(affectedAgent))
                 {
-                    AgentActiveEffects.Add(affectedAgent, new AgentStatusEffects(affectedAgent));
+                    AgentActiveEffects.Add(affectedAgent, new AgentEffects(affectedAgent));
                 }
 
-                AgentActiveEffects[affectedAgent].AddStatusEffect(new AppliedStatusEffect(missileSpell.StatusEffect, affectorAgent));
+                AgentActiveEffects[affectedAgent]
+                    .AddStatusEffect(new AppliedEffect(missileSpell.Effect, affectorAgent));
             }
         }
     }

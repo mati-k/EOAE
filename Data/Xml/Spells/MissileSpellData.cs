@@ -14,6 +14,6 @@ namespace EOAE_Code.Data.Xml.Spells
         public float MissileSpread = 1;
 
         [XmlElement]
-        public StatusEffectBase? StatusEffect;
+        public Effect? Effect;
     }
 }
