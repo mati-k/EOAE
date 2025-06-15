@@ -1,6 +1,5 @@
-﻿using System;
+﻿using EOAE_Code.Data.Xml.StatusEffects;
 using System.Xml.Serialization;
-using EOAE_Code.Data.Xml.StatusEffects;
 
 namespace EOAE_Code.Data.Xml
 {
@@ -23,6 +22,6 @@ namespace EOAE_Code.Data.Xml
         public float MaxHeight = 0;
 
         [XmlElement]
-        public StatusEffectBase? StatusEffect;
+        public Effect? Effect;
     }
 }

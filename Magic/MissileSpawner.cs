@@ -17,7 +17,7 @@ public class MissileSpawner : ScriptComponentBehavior
         Vec3 offset,
         Vec3 direction,
         float speed,
-        StatusEffectBase? statusEffect
+        Effect? statusEffect
     )
     {
         var missileItem = MBObjectManager.Instance.GetObject<ItemObject>(missileName);
