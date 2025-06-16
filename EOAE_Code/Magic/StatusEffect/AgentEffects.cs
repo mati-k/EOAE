@@ -14,14 +14,14 @@ namespace EOAE_Code.Magic.StatusEffect
         private float tickCounter = EFFECT_TICK_RATE;
 
         public Agent Agent { get; private set; }
-        private List<AppliedEffect> ActiveEffects = new();
-        private Dictionary<
+        protected List<AppliedEffect> activeEffects = new();
+        protected Dictionary<
             string,
             TaleWorlds.Library.PriorityQueue<float, Modifier>
-        > ExclusiveModifiers = new();
-        public List<Modifier> StackableModifiers = new List<Modifier>();
+        > exclusiveModifiers = new();
+        protected List<Modifier> stackableModifiers = new List<Modifier>();
 
-        private Dictionary<string, GameEntity> ParticleEffects = new();
+        protected Dictionary<string, GameEntity> particleEffects = new();
 
         public AgentDrivenProperties AgentPropertiesMultipliers { get; private set; } = new();
 
@@ -42,16 +42,16 @@ namespace EOAE_Code.Magic.StatusEffect
 
                 if (String.IsNullOrEmpty(modifier.Key))
                 {
-                    StackableModifiers.Add(modifier);
+                    stackableModifiers.Add(modifier);
                 }
                 else
                 {
-                    if (!ExclusiveModifiers.ContainsKey(modifier.Key))
+                    if (!exclusiveModifiers.ContainsKey(modifier.Key))
                     {
-                        ExclusiveModifiers.Add(modifier.Key, new());
+                        exclusiveModifiers.Add(modifier.Key, new());
                     }
 
-                    ExclusiveModifiers[modifier.Key].Enqueue(Math.Abs(modifier.Value), modifier);
+                    exclusiveModifiers[modifier.Key].Enqueue(Math.Abs(modifier.Value), modifier);
 
                     string key = modifier.Key;
                     if (StatusEffectParticleManager.StatusEffectPrefabs.ContainsKey(key))
@@ -59,7 +59,7 @@ namespace EOAE_Code.Magic.StatusEffect
                         string particlePrefab = StatusEffectParticleManager.StatusEffectPrefabs[
                             key
                         ];
-                        if (!ParticleEffects.ContainsKey(particlePrefab))
+                        if (!particleEffects.ContainsKey(particlePrefab))
                         {
                             AddParticleEffect(particlePrefab);
                         }
@@ -77,14 +77,14 @@ namespace EOAE_Code.Magic.StatusEffect
 
             CleanUpAppliedEffects();
 
-            foreach (var exclusiveModifier in ExclusiveModifiers)
+            foreach (var exclusiveModifier in exclusiveModifiers)
             {
                 string key = exclusiveModifier.Key;
 
-                if (exclusiveModifier.Value.IsEmpty && ParticleEffects.ContainsKey(key))
+                if (exclusiveModifier.Value.IsEmpty && particleEffects.ContainsKey(key))
                 {
-                    ParticleEffects[key].FadeOut(0, true);
-                    ParticleEffects.Remove(key);
+                    particleEffects[key].FadeOut(0, true);
+                    particleEffects.Remove(key);
                 }
             }
 
@@ -99,7 +99,7 @@ namespace EOAE_Code.Magic.StatusEffect
         {
             AgentPropertiesMultipliers.MaxSpeedMultiplier = 1;
 
-            foreach (var exclusiveModifier in ExclusiveModifiers)
+            foreach (var exclusiveModifier in exclusiveModifiers)
             {
                 if (!exclusiveModifier.Value.IsEmpty)
                 {
@@ -108,7 +108,7 @@ namespace EOAE_Code.Magic.StatusEffect
                 }
             }
 
-            foreach (var modifier in StackableModifiers)
+            foreach (var modifier in stackableModifiers)
             {
                 modifier.Apply(modifier.Value, AgentPropertiesMultipliers);
             }
@@ -120,7 +120,7 @@ namespace EOAE_Code.Magic.StatusEffect
 
             if (tickCounter < 0)
             {
-                foreach (var exclusiveModifier in ExclusiveModifiers)
+                foreach (var exclusiveModifier in exclusiveModifiers)
                 {
                     if (!exclusiveModifier.Value.IsEmpty)
                     {
@@ -129,7 +129,7 @@ namespace EOAE_Code.Magic.StatusEffect
                     }
                 }
 
-                foreach (var modifier in StackableModifiers)
+                foreach (var modifier in stackableModifiers)
                 {
                     modifier.Tick(modifier.Value, Agent, null);
                 }
@@ -150,13 +150,13 @@ namespace EOAE_Code.Magic.StatusEffect
             var globalFrame = new MatrixFrame(Mat3.Identity, Agent.Position);
             effectEntity.SetGlobalFrame(globalFrame);
 
-            ParticleEffects.Add(prefab, effectEntity);
+            particleEffects.Add(prefab, effectEntity);
         }
 
         private void UpdateEffectPositions()
         {
             var globalFrame = new MatrixFrame(Mat3.Identity, Agent.Position);
-            foreach (var particleEffect in ParticleEffects)
+            foreach (var particleEffect in particleEffects)
             {
                 particleEffect.Value.SetGlobalFrame(globalFrame);
             }
@@ -164,12 +164,12 @@ namespace EOAE_Code.Magic.StatusEffect
 
         private void CleanUpAppliedEffects()
         {
-            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            for (int i = activeEffects.Count - 1; i >= 0; i--)
             {
-                if (ActiveEffects[i].DurationLeft <= 0)
+                if (activeEffects[i].DurationLeft <= 0)
                 {
-                    CleanUpAppliedEffect(ActiveEffects[i]);
-                    ActiveEffects.RemoveAt(i);
+                    CleanUpAppliedEffect(activeEffects[i]);
+                    activeEffects.RemoveAt(i);
                 }
             }
         }
@@ -182,13 +182,13 @@ namespace EOAE_Code.Magic.StatusEffect
                 {
                     if (String.IsNullOrEmpty(modifier.Key))
                     {
-                        StackableModifiers.Remove(modifier);
+                        stackableModifiers.Remove(modifier);
                     }
                     else
                     {
-                        if (ExclusiveModifiers.ContainsKey(modifier.Key))
+                        if (exclusiveModifiers.ContainsKey(modifier.Key))
                         {
-                            ExclusiveModifiers[modifier.Key]
+                            exclusiveModifiers[modifier.Key]
                                 .Remove(
                                     new KeyValuePair<float, Modifier>(
                                         Math.Abs(modifier.Value),
