@@ -1,6 +1,6 @@
 using EOAE_Code.Tests.Fixtures;
+using EOAE_Code.Wrappers;
 using NSubstitute;
-using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Tests.StatusEffects
 {
@@ -9,7 +9,7 @@ namespace EOAE_Code.Tests.StatusEffects
         [Fact]
         public void InstantiatesAgentEffects()
         {
-            var mockAgent = Substitute.For<Agent>();
+            var mockAgent = Substitute.For<AgentWrapper>();
             var agentEffects = new AgentEffectsFixture(mockAgent);
 
             Assert.NotNull(agentEffects);

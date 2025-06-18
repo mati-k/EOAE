@@ -3,6 +3,7 @@ using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
+using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.StatusEffect
@@ -53,7 +54,10 @@ namespace EOAE_Code.Magic.StatusEffect
 
             if (!AgentActiveEffects.ContainsKey(affectedAgent))
             {
-                AgentActiveEffects.Add(affectedAgent, new AgentEffects(affectedAgent));
+                AgentActiveEffects.Add(
+                    affectedAgent,
+                    new AgentEffects(new AgentWrapper(affectedAgent))
+                );
             }
 
             AgentActiveEffects[affectedAgent]

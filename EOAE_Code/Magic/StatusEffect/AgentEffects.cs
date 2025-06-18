@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml.StatusEffects;
+using EOAE_Code.Wrappers;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -13,19 +14,19 @@ namespace EOAE_Code.Magic.StatusEffect
         private const float EFFECT_TICK_RATE = 1;
         private float tickCounter = EFFECT_TICK_RATE;
 
-        public Agent Agent { get; private set; }
+        public AgentWrapper Agent { get; private set; }
         protected List<AppliedEffect> activeEffects = new();
         protected Dictionary<
             string,
             TaleWorlds.Library.PriorityQueue<float, Modifier>
         > exclusiveModifiers = new();
-        protected List<Modifier> stackableModifiers = new List<Modifier>();
+        protected List<Modifier> stackableModifiers = new();
 
         protected Dictionary<string, GameEntity> particleEffects = new();
 
         public AgentDrivenProperties AgentPropertiesMultipliers { get; private set; } = new();
 
-        public AgentEffects(Agent agent)
+        public AgentEffects(AgentWrapper agent)
         {
             Agent = agent;
         }
@@ -34,8 +35,7 @@ namespace EOAE_Code.Magic.StatusEffect
         {
             foreach (var action in appliedStatusEffect.Effect.Actions)
             {
-                var modifier = action as Modifier;
-                if (modifier == null)
+                if (action is not Modifier modifier)
                 {
                     continue;
                 }
@@ -125,13 +125,13 @@ namespace EOAE_Code.Magic.StatusEffect
                     if (!exclusiveModifier.Value.IsEmpty)
                     {
                         var modifier = exclusiveModifier.Value.PeekValue();
-                        modifier.Tick(modifier.Value, Agent, null);
+                        modifier.Tick(modifier.Value, Agent.GetAgent(), null);
                     }
                 }
 
                 foreach (var modifier in stackableModifiers)
                 {
-                    modifier.Tick(modifier.Value, Agent, null);
+                    modifier.Tick(modifier.Value, Agent.GetAgent(), null);
                 }
 
                 tickCounter = EFFECT_TICK_RATE;

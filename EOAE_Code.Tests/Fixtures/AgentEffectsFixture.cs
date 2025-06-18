@@ -1,13 +1,13 @@
 ﻿using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Magic.StatusEffect;
+using EOAE_Code.Wrappers;
 using TaleWorlds.Engine;
-using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Tests.Fixtures
 {
     public class AgentEffectsFixture : AgentEffects
     {
-        public AgentEffectsFixture(Agent agent)
+        public AgentEffectsFixture(AgentWrapper agent)
             : base(agent) { }
 
         public List<AppliedEffect> ActiveEffects => activeEffects;
