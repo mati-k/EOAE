@@ -3,6 +3,7 @@ using EOAE_Code.Magic.StatusEffect;
 using EOAE_Code.Tests.Fixtures;
 using EOAE_Code.Wrappers;
 using NSubstitute;
+using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Tests.StatusEffects
 {
@@ -93,6 +94,42 @@ namespace EOAE_Code.Tests.StatusEffects
             }
 
             Assert.DoesNotContain(appliedEffect, agentEffects.ActiveEffects);
+        }
+
+        [Fact]
+        public void FireEffectTick_FiresPulseEffect_AfterTickRate()
+        {
+            var agentEffects = new AgentEffectsFixture(mockAgent);
+
+            var mockModifier = Substitute.For<Modifier>();
+
+            var effect = new Effect
+            {
+                Duration = 5.0f,
+                Actions = new List<EffectAction> { mockModifier },
+            };
+            var appliedEffect = new AppliedEffect(effect, null);
+
+            agentEffects.AddStatusEffect(appliedEffect);
+
+            float tickStep = agentEffects.TickRate * 0.4f;
+
+            // Tick few times before reaching pulse
+            agentEffects.Tick(tickStep);
+            mockModifier
+                .DidNotReceive()
+                .Tick(Arg.Any<float>(), Arg.Any<AgentWrapper>(), Arg.Any<Agent>());
+
+            agentEffects.Tick(tickStep);
+            mockModifier
+                .DidNotReceive()
+                .Tick(Arg.Any<float>(), Arg.Any<AgentWrapper>(), Arg.Any<Agent>());
+
+            // Assert: Tick should have been called once
+            agentEffects.Tick(tickStep);
+            mockModifier
+                .Received(1)
+                .Tick(Arg.Any<float>(), Arg.Any<AgentWrapper>(), Arg.Any<Agent>());
         }
     }
 }
