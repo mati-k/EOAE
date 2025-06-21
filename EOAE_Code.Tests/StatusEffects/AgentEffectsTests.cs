@@ -131,5 +131,127 @@ namespace EOAE_Code.Tests.StatusEffects
                 .Received(1)
                 .Tick(Arg.Any<float>(), Arg.Any<AgentWrapper>(), Arg.Any<Agent>());
         }
+
+        [Fact]
+        public void ExclusiveModifier_OnlyTopValueIsApplied()
+        {
+            var agentEffects = new AgentEffectsFixture(mockAgent);
+
+            var modifierLow = Substitute.For<Modifier>();
+            modifierLow.Key = "test_key";
+            modifierLow.Value = 1.0f;
+
+            var modifierMedium = Substitute.For<Modifier>();
+            modifierMedium.Key = "test_key";
+            modifierMedium.Value = 3.0f;
+
+            var modifierHigh = Substitute.For<Modifier>();
+            modifierHigh.Key = "test_key";
+            modifierHigh.Value = 5.0f;
+
+            void AddModifier(Modifier modifier)
+            {
+                var effect = new Effect
+                {
+                    Duration = 5.0f,
+                    Actions = new List<EffectAction> { modifier },
+                };
+                agentEffects.AddStatusEffect(new AppliedEffect(effect, null));
+            }
+
+            AddModifier(modifierLow);
+            AddModifier(modifierHigh);
+            AddModifier(modifierMedium);
+
+            // Only the highest value modifier should be applied
+            agentEffects.Tick(1.0f);
+            modifierHigh.Received(1).Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+            modifierMedium
+                .DidNotReceive()
+                .Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+            modifierLow.DidNotReceive().Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+        }
+
+        [Fact]
+        public void ExclusiveModifier_NegativeValues_AreHandledCorrectly()
+        {
+            var agentEffects = new AgentEffectsFixture(mockAgent);
+
+            var modifierLow = Substitute.For<Modifier>();
+            modifierLow.Key = "test_key";
+            modifierLow.Value = -1.0f;
+
+            var modifierMedium = Substitute.For<Modifier>();
+            modifierMedium.Key = "test_key";
+            modifierMedium.Value = -3.0f;
+
+            var modifierHigh = Substitute.For<Modifier>();
+            modifierHigh.Key = "test_key";
+            modifierHigh.Value = -5.0f;
+
+            void AddModifier(Modifier modifier)
+            {
+                var effect = new Effect
+                {
+                    Duration = 5.0f,
+                    Actions = new List<EffectAction> { modifier },
+                };
+                agentEffects.AddStatusEffect(new AppliedEffect(effect, null));
+            }
+
+            AddModifier(modifierLow);
+            AddModifier(modifierHigh);
+            AddModifier(modifierMedium);
+
+            // Only the highest value modifier should be applied
+            agentEffects.Tick(1.0f);
+            modifierHigh.Received(1).Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+            modifierMedium
+                .DidNotReceive()
+                .Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+            modifierLow.DidNotReceive().Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+        }
+
+        [Fact]
+        public void ExclusiveModifier_QueueUpdates_WhenEffectExpires()
+        {
+            var agentEffects = new AgentEffectsFixture(mockAgent);
+
+            // Two exclusive modifiers, different durations
+            var modShort = Substitute.For<Modifier>();
+            modShort.Key = "expire_key";
+            modShort.Value = 10.0f;
+
+            var modLong = Substitute.For<Modifier>();
+            modLong.Key = "expire_key";
+            modLong.Value = 5.0f;
+
+            var effectShort = new Effect
+            {
+                Duration = agentEffects.TickRate * 1.5f,
+                Actions = new List<EffectAction> { modShort },
+            };
+            var effectLong = new Effect
+            {
+                Duration = agentEffects.TickRate * 5f,
+                Actions = new List<EffectAction> { modLong },
+            };
+
+            var appliedShort = new AppliedEffect(effectShort, null);
+            var appliedLong = new AppliedEffect(effectLong, null);
+
+            agentEffects.AddStatusEffect(appliedShort);
+            agentEffects.AddStatusEffect(appliedLong);
+
+            // Initially, the higher value modifier should be applied
+            agentEffects.Tick(agentEffects.TickRate * 1.1f);
+            modShort.Received(1).Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+            modLong.DidNotReceive().Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+
+            // Advance time to expire the short effect
+            agentEffects.Tick(1.1f);
+
+            modLong.Received(1).Apply(Arg.Any<float>(), Arg.Any<AgentDrivenProperties>());
+        }
     }
 }
