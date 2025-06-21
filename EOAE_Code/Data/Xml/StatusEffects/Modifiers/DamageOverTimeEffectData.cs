@@ -1,5 +1,5 @@
 ﻿using System;
-using EOAE_Code.Extensions;
+using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Data.Xml.StatusEffects
@@ -9,7 +9,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
     {
         public override void Apply(float totalValue, AgentDrivenProperties multiplierProperties) { }
 
-        public override void Tick(float totalValue, Agent target, Agent caster)
+        public override void Tick(float totalValue, AgentWrapper target, Agent caster)
         {
             if (target.IsFadingOut())
             {

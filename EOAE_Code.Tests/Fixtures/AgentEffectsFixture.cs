@@ -17,5 +17,7 @@ namespace EOAE_Code.Tests.Fixtures
         > ExclusiveModifiers => exclusiveModifiers;
         public List<Modifier> StackableModifiers => stackableModifiers;
         public Dictionary<string, GameEntity> ParticleEffects => particleEffects;
+
+        public float TickRate => EFFECT_TICK_RATE;
     }
 }

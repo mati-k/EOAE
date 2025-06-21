@@ -1,4 +1,5 @@
 ﻿using System;
+using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Data.Xml.StatusEffects
@@ -11,6 +12,6 @@ namespace EOAE_Code.Data.Xml.StatusEffects
             multiplierProperties.MaxSpeedMultiplier = totalValue + 1;
         }
 
-        public override void Tick(float totalValue, Agent target, Agent caster) { }
+        public override void Tick(float totalValue, AgentWrapper target, Agent caster) { }
     }
 }

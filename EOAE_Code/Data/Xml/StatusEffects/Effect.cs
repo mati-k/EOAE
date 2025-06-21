@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Data.Xml.StatusEffects
@@ -25,7 +26,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
         {
             foreach (var action in Actions)
             {
-                action.Tick(totalValue, target, caster);
+                action.Tick(totalValue, AgentWrapper.GetFor(target), caster);
             }
         }
     }

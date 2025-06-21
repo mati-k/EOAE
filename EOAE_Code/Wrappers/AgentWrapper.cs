@@ -1,24 +1,23 @@
-﻿using TaleWorlds.Library;
+﻿using EOAE_Code.Extensions;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Wrappers
 {
-    public class AgentWrapper
+    public class AgentWrapper : WrapperBase<AgentWrapper, Agent>
     {
-        private Agent agent;
+        private Agent agent => UnwrappedObject;
 
-        public AgentWrapper() { }
+        public virtual bool IsActive() => agent.IsActive();
 
-        public AgentWrapper(Agent agent)
-        {
-            this.agent = agent;
-        }
+        public virtual void UpdateAgentProperties() => agent.UpdateAgentProperties();
 
-        public bool IsActive() => agent.IsActive();
+        public virtual Vec3 Position => agent.Position;
 
-        public void UpdateAgentProperties() => agent.UpdateAgentProperties();
+        public virtual bool IsFadingOut() => agent.IsFadingOut();
 
-        public Vec3 Position => agent.Position;
+        public virtual void DealDamage(Agent caster, float damage) =>
+            agent.DealDamage(caster, damage);
 
         // Remove it once wrapper is more propagated
         public Agent GetAgent()

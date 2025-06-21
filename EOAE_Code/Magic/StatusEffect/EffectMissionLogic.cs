@@ -56,7 +56,7 @@ namespace EOAE_Code.Magic.StatusEffect
             {
                 AgentActiveEffects.Add(
                     affectedAgent,
-                    new AgentEffects(new AgentWrapper(affectedAgent))
+                    new AgentEffects(AgentWrapper.GetFor(affectedAgent))
                 );
             }
 

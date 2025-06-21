@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Data.Xml.StatusEffects
@@ -14,6 +15,6 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
         public abstract void Apply(float totalValue, AgentDrivenProperties multiplierProperties);
 
-        public abstract void Tick(float totalValue, Agent target, Agent caster);
+        public abstract void Tick(float totalValue, AgentWrapper target, Agent caster);
     }
 }

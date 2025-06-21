@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Wrappers;
@@ -11,7 +12,7 @@ namespace EOAE_Code.Magic.StatusEffect
 {
     public class AgentEffects
     {
-        private const float EFFECT_TICK_RATE = 1;
+        protected const float EFFECT_TICK_RATE = 1;
         private float tickCounter = EFFECT_TICK_RATE;
 
         public AgentWrapper Agent { get; private set; }
@@ -33,6 +34,12 @@ namespace EOAE_Code.Magic.StatusEffect
 
         public void AddStatusEffect(AppliedEffect appliedStatusEffect)
         {
+            // ToDo: Add Tests after adding instant stuff
+            if (appliedStatusEffect.Effect.Actions.Any(action => action is Modifier))
+            {
+                activeEffects.Add(appliedStatusEffect);
+            }
+
             foreach (var action in appliedStatusEffect.Effect.Actions)
             {
                 if (action is not Modifier modifier)
@@ -75,7 +82,7 @@ namespace EOAE_Code.Magic.StatusEffect
                 return;
             }
 
-            CleanUpAppliedEffects();
+            TickAndCleanupAppliedEffects(dt);
 
             foreach (var exclusiveModifier in exclusiveModifiers)
             {
@@ -125,13 +132,13 @@ namespace EOAE_Code.Magic.StatusEffect
                     if (!exclusiveModifier.Value.IsEmpty)
                     {
                         var modifier = exclusiveModifier.Value.PeekValue();
-                        modifier.Tick(modifier.Value, Agent.GetAgent(), null);
+                        modifier.Tick(modifier.Value, Agent, null);
                     }
                 }
 
                 foreach (var modifier in stackableModifiers)
                 {
-                    modifier.Tick(modifier.Value, Agent.GetAgent(), null);
+                    modifier.Tick(modifier.Value, Agent, null);
                 }
 
                 tickCounter = EFFECT_TICK_RATE;
@@ -162,10 +169,11 @@ namespace EOAE_Code.Magic.StatusEffect
             }
         }
 
-        private void CleanUpAppliedEffects()
+        private void TickAndCleanupAppliedEffects(float dt)
         {
             for (int i = activeEffects.Count - 1; i >= 0; i--)
             {
+                activeEffects[i].Tick(dt);
                 if (activeEffects[i].DurationLeft <= 0)
                 {
                     CleanUpAppliedEffect(activeEffects[i]);
