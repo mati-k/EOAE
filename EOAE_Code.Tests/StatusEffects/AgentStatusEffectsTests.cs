@@ -7,13 +7,13 @@ using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Tests.StatusEffects
 {
-    public class AgentEffectsTests
+    public class AgentStatusEffectsTests
     {
         AgentWrapper mockAgent = Substitute.For<AgentWrapper>();
-        Effect sampleEffect = new Effect
+        StatusEffect sampleEffect = new StatusEffect
         {
             Duration = 15.0f,
-            Actions = new List<EffectAction>()
+            Actions = new List<StatusEffectAction>()
             {
                 new DamageOverTimeEffectData { Value = 15.0f },
                 new DamageOverTimeEffectData { Value = 10.0f },
@@ -26,7 +26,7 @@ namespace EOAE_Code.Tests.StatusEffects
             },
         };
 
-        public AgentEffectsTests()
+        public AgentStatusEffectsTests()
         {
             mockAgent.IsActive().ReturnsForAnyArgs(true);
             mockAgent.IsFadingOut().ReturnsForAnyArgs(false);
@@ -44,7 +44,7 @@ namespace EOAE_Code.Tests.StatusEffects
         public void AddStatusEffect_AddsEffectToActiveEffects()
         {
             var agentEffects = new AgentEffectsFixture(mockAgent);
-            var appliedEffect = new AppliedEffect(sampleEffect, null);
+            var appliedEffect = new AppliedStatusEffect(sampleEffect, null);
 
             agentEffects.AddStatusEffect(appliedEffect);
             Assert.Contains(appliedEffect, agentEffects.ActiveEffects);
@@ -54,7 +54,7 @@ namespace EOAE_Code.Tests.StatusEffects
         public void AddStatusEffect_AddsModifiersToExclusiveAndStackable()
         {
             var agentEffects = new AgentEffectsFixture(mockAgent);
-            var appliedEffect = new AppliedEffect(sampleEffect, null);
+            var appliedEffect = new AppliedStatusEffect(sampleEffect, null);
             agentEffects.AddStatusEffect(appliedEffect);
 
             // Check exclusive modifiers
@@ -82,7 +82,7 @@ namespace EOAE_Code.Tests.StatusEffects
         public void AppliedEffect_Removed_After_Duration_Ends()
         {
             var agentEffects = new AgentEffectsFixture(mockAgent);
-            var appliedEffect = new AppliedEffect(sampleEffect, null);
+            var appliedEffect = new AppliedStatusEffect(sampleEffect, null);
             agentEffects.AddStatusEffect(appliedEffect);
 
             Assert.Contains(appliedEffect, agentEffects.ActiveEffects);
@@ -103,12 +103,12 @@ namespace EOAE_Code.Tests.StatusEffects
 
             var mockModifier = Substitute.For<Modifier>();
 
-            var effect = new Effect
+            var effect = new StatusEffect
             {
                 Duration = 5.0f,
-                Actions = new List<EffectAction> { mockModifier },
+                Actions = new List<StatusEffectAction> { mockModifier },
             };
-            var appliedEffect = new AppliedEffect(effect, null);
+            var appliedEffect = new AppliedStatusEffect(effect, null);
 
             agentEffects.AddStatusEffect(appliedEffect);
 
@@ -151,12 +151,12 @@ namespace EOAE_Code.Tests.StatusEffects
 
             void AddModifier(Modifier modifier)
             {
-                var effect = new Effect
+                var effect = new StatusEffect
                 {
                     Duration = 5.0f,
-                    Actions = new List<EffectAction> { modifier },
+                    Actions = new List<StatusEffectAction> { modifier },
                 };
-                agentEffects.AddStatusEffect(new AppliedEffect(effect, null));
+                agentEffects.AddStatusEffect(new AppliedStatusEffect(effect, null));
             }
 
             AddModifier(modifierLow);
@@ -191,12 +191,12 @@ namespace EOAE_Code.Tests.StatusEffects
 
             void AddModifier(Modifier modifier)
             {
-                var effect = new Effect
+                var effect = new StatusEffect
                 {
                     Duration = 5.0f,
-                    Actions = new List<EffectAction> { modifier },
+                    Actions = new List<StatusEffectAction> { modifier },
                 };
-                agentEffects.AddStatusEffect(new AppliedEffect(effect, null));
+                agentEffects.AddStatusEffect(new AppliedStatusEffect(effect, null));
             }
 
             AddModifier(modifierLow);
@@ -226,19 +226,19 @@ namespace EOAE_Code.Tests.StatusEffects
             modLong.Key = "expire_key";
             modLong.Value = 5.0f;
 
-            var effectShort = new Effect
+            var effectShort = new StatusEffect
             {
                 Duration = agentEffects.TickRate * 1.5f,
-                Actions = new List<EffectAction> { modShort },
+                Actions = new List<StatusEffectAction> { modShort },
             };
-            var effectLong = new Effect
+            var effectLong = new StatusEffect
             {
                 Duration = agentEffects.TickRate * 5f,
-                Actions = new List<EffectAction> { modLong },
+                Actions = new List<StatusEffectAction> { modLong },
             };
 
-            var appliedShort = new AppliedEffect(effectShort, null);
-            var appliedLong = new AppliedEffect(effectLong, null);
+            var appliedShort = new AppliedStatusEffect(effectShort, null);
+            var appliedLong = new AppliedStatusEffect(effectLong, null);
 
             agentEffects.AddStatusEffect(appliedShort);
             agentEffects.AddStatusEffect(appliedLong);

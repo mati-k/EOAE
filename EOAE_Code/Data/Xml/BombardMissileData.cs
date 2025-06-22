@@ -23,6 +23,6 @@ namespace EOAE_Code.Data.Xml
         public float MaxHeight = 0;
 
         [XmlElement]
-        public Effect? Effect;
+        public StatusEffect? Effect;
     }
 }

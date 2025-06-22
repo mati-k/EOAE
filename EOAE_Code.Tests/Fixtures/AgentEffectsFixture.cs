@@ -10,7 +10,7 @@ namespace EOAE_Code.Tests.Fixtures
         public AgentEffectsFixture(AgentWrapper agent)
             : base(agent) { }
 
-        public List<AppliedEffect> ActiveEffects => activeEffects;
+        public List<AppliedStatusEffect> ActiveEffects => activeEffects;
         public Dictionary<
             string,
             TaleWorlds.Library.PriorityQueue<float, Modifier>

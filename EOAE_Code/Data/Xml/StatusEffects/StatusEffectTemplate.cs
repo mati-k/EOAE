@@ -3,8 +3,8 @@
 namespace EOAE_Code.Data.Xml.StatusEffects
 {
     [Serializable]
-    public class EffectTemplate
+    public class StatusEffectTemplate
     {
-        public Effect Effect = new Effect();
+        public StatusEffect Effect = new StatusEffect();
     }
 }

@@ -85,7 +85,7 @@ namespace EOAE_Code
             mission.AddMissionBehavior(new MagicMissionView());
             mission.AddMissionBehavior(new SpellAimView());
             mission.AddMissionBehavior(new SpellSelectorView());
-            mission.AddMissionBehavior(new EffectMissionLogic());
+            mission.AddMissionBehavior(new StatusEffectMissionLogic());
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)

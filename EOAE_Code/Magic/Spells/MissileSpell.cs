@@ -8,7 +8,7 @@ namespace EOAE_Code.Magic.Spells
     {
         public int ExtraMissiles { get; private set; }
         public float MissileSpread { get; private set; }
-        public Effect? Effect { get; private set; }
+        public Data.Xml.StatusEffects.StatusEffect? Effect { get; private set; }
         public override bool IsThrown => true;
 
         public MissileSpell(SpellData data)

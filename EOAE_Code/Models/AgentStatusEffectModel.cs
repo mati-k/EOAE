@@ -13,7 +13,7 @@ namespace EOAE_Code.Models
         {
             base.UpdateAgentStats(agent, agentDrivenProperties);
 
-            var multiplierProperties = EffectMissionLogic.GetAgentStatModifiers(agent);
+            var multiplierProperties = StatusEffectMissionLogic.GetAgentStatModifiers(agent);
             if (multiplierProperties != null)
             {
                 agent.AgentDrivenProperties.MaxSpeedMultiplier *=

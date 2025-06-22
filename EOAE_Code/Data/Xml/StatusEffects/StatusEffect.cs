@@ -7,9 +7,9 @@ using TaleWorlds.MountAndBlade;
 namespace EOAE_Code.Data.Xml.StatusEffects
 {
     [Serializable]
-    public class Effect
+    public class StatusEffect
     {
-        public List<EffectAction> Actions = new List<EffectAction>();
+        public List<StatusEffectAction> Actions = new List<StatusEffectAction>();
 
         [XmlAttribute]
         public float Duration = 0;

@@ -8,7 +8,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
     [XmlInclude(typeof(MovementSpeedEffectData))]
     [XmlInclude(typeof(DamageOverTimeEffectData))]
     [Serializable]
-    public abstract class EffectAction
+    public abstract class StatusEffectAction
     {
         [XmlAttribute]
         public float Value = 0;

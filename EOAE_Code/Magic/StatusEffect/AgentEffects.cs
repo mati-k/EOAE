@@ -16,7 +16,7 @@ namespace EOAE_Code.Magic.StatusEffect
         private float tickCounter = EFFECT_TICK_RATE;
 
         public AgentWrapper Agent { get; private set; }
-        protected List<AppliedEffect> activeEffects = new();
+        protected List<AppliedStatusEffect> activeEffects = new();
         protected Dictionary<
             string,
             TaleWorlds.Library.PriorityQueue<float, Modifier>
@@ -32,7 +32,7 @@ namespace EOAE_Code.Magic.StatusEffect
             Agent = agent;
         }
 
-        public void AddStatusEffect(AppliedEffect appliedStatusEffect)
+        public void AddStatusEffect(AppliedStatusEffect appliedStatusEffect)
         {
             // ToDo: Add Tests after adding instant stuff
             if (appliedStatusEffect.Effect.Actions.Any(action => action is Modifier))
@@ -182,7 +182,7 @@ namespace EOAE_Code.Magic.StatusEffect
             }
         }
 
-        private void CleanUpAppliedEffect(AppliedEffect appliedEffect)
+        private void CleanUpAppliedEffect(AppliedStatusEffect appliedEffect)
         {
             foreach (var action in appliedEffect.Effect.Actions)
             {

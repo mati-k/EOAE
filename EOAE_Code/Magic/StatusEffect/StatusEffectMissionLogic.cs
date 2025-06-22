@@ -8,7 +8,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Magic.StatusEffect
 {
-    public class EffectMissionLogic : MissionLogic
+    public class StatusEffectMissionLogic : MissionLogic
     {
         // todo: Dictionary or maybe a behavior component on each agent?
         private static readonly Dictionary<Agent, AgentEffects> AgentActiveEffects = new();
@@ -61,10 +61,12 @@ namespace EOAE_Code.Magic.StatusEffect
             }
 
             AgentActiveEffects[affectedAgent]
-                .AddStatusEffect(new AppliedEffect(statusEffect, affectorAgent));
+                .AddStatusEffect(new AppliedStatusEffect(statusEffect, affectorAgent));
         }
 
-        private static Effect? GetStatusEffectFromWeapon(MissionWeapon weapon)
+        private static Data.Xml.StatusEffects.StatusEffect? GetStatusEffectFromWeapon(
+            MissionWeapon weapon
+        )
         {
             var missileEffect = weapon.Item.GetMissileEffect();
             if (missileEffect != null)
