@@ -8,7 +8,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace EOAE_Code.Magic.StatusEffect
+namespace EOAE_Code.StatusEffect
 {
     public class AgentEffects
     {
@@ -17,10 +17,7 @@ namespace EOAE_Code.Magic.StatusEffect
 
         public AgentWrapper Agent { get; private set; }
         protected List<AppliedStatusEffect> activeEffects = new();
-        protected Dictionary<
-            string,
-            TaleWorlds.Library.PriorityQueue<float, Modifier>
-        > exclusiveModifiers = new();
+        protected Dictionary<string, PriorityQueue<float, Modifier>> exclusiveModifiers = new();
         protected List<Modifier> stackableModifiers = new();
 
         protected Dictionary<string, GameEntity> particleEffects = new();
@@ -47,7 +44,7 @@ namespace EOAE_Code.Magic.StatusEffect
                     continue;
                 }
 
-                if (String.IsNullOrEmpty(modifier.Key))
+                if (string.IsNullOrEmpty(modifier.Key))
                 {
                     stackableModifiers.Add(modifier);
                 }
@@ -188,7 +185,7 @@ namespace EOAE_Code.Magic.StatusEffect
             {
                 if (action is Modifier modifier)
                 {
-                    if (String.IsNullOrEmpty(modifier.Key))
+                    if (string.IsNullOrEmpty(modifier.Key))
                     {
                         stackableModifiers.Remove(modifier);
                     }

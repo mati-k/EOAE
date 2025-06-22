@@ -6,7 +6,7 @@ using EOAE_Code.Magic.Spells;
 using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
-namespace EOAE_Code.Magic.StatusEffect
+namespace EOAE_Code.StatusEffect
 {
     public class StatusEffectMissionLogic : MissionLogic
     {
