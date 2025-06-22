@@ -1,6 +1,6 @@
-﻿using EOAE_Code.Data.Xml.Enchantments;
+﻿using System.Collections.Generic;
+using EOAE_Code.Data.Xml.Enchantments;
 using EOAE_Code.Interfaces;
-using System.Collections.Generic;
 
 namespace EOAE_Code.Data.Managers
 {
@@ -38,6 +38,16 @@ namespace EOAE_Code.Data.Managers
             }
 
             return 1f;
+        }
+
+        public static EnchantmentData? GetEnchantment(string name)
+        {
+            if (enchantments.TryGetValue(name, out EnchantmentData? enchantment))
+            {
+                return enchantment;
+            }
+
+            return null;
         }
     }
 }

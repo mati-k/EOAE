@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using EOAE_Code.Data.Xml.StatusEffects;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
@@ -29,6 +30,9 @@ namespace EOAE_Code.Data.Xml.Enchantments
         [XmlArray("ItemTypes")]
         [XmlArrayItem("ItemType")]
         public List<ItemObject.ItemTypeEnum> ItemTypes = new();
+
+        [XmlElement("StatusEffectTemplate")]
+        public StatusEffectTemplate StatusEffectTemplate = new StatusEffectTemplate();
 
         public TextObject GetDescription(float value)
         {

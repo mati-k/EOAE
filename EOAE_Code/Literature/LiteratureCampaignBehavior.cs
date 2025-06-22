@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EOAE_Code.Consts;
 using EOAE_Code.Data.Managers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -329,7 +330,7 @@ public class BookProgressSaveDefiner : SaveableTypeDefiner
 {
     // use a big number and ensure that no other mod is using a close range
     public BookProgressSaveDefiner()
-        : base(5_275_032) { }
+        : base(ModuleConsts.SaveId) { }
 
     protected override void DefineContainerDefinitions()
     {

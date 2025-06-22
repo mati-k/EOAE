@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Enchanting;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
@@ -351,6 +352,12 @@ namespace EOAE_Code.States.Enchantment
             enchantedItem.DetermineItemCategoryForItem();
 
             MBObjectManager.Instance.RegisterObject<ItemObject>(enchantedItem);
+            Campaign
+                .Current.GetCampaignBehavior<EnchantingCampaignBehavior>()
+                .RegisterEnchantedItem(
+                    enchantedItem,
+                    new EnchantedItem(enchantment, EnchantmentValue)
+                );
 
             PartyBase.MainParty.ItemRoster.AddToCounts(enchantedItem, 1);
             PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, -1);
