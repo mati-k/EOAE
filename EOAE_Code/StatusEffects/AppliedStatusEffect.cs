@@ -1,7 +1,6 @@
-﻿using EOAE_Code.Data.Xml.StatusEffects;
-using TaleWorlds.MountAndBlade;
+﻿using TaleWorlds.MountAndBlade;
 
-namespace EOAE_Code.StatusEffect
+namespace EOAE_Code.StatusEffects
 {
     public class AppliedStatusEffect
     {

@@ -1,5 +1,5 @@
 using EOAE_Code.Data.Xml.StatusEffects;
-using EOAE_Code.Magic.StatusEffect;
+using EOAE_Code.StatusEffects;
 using EOAE_Code.Tests.Fixtures;
 using EOAE_Code.Wrappers;
 using NSubstitute;

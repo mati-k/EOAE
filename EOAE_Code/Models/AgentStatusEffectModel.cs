@@ -1,4 +1,4 @@
-﻿using EOAE_Code.StatusEffect;
+﻿using EOAE_Code.StatusEffects;
 using SandBox.GameComponents;
 using TaleWorlds.MountAndBlade;
 

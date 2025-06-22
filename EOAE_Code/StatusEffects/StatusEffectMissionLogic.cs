@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using EOAE_Code.Data.Managers;
-using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
 using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
-namespace EOAE_Code.StatusEffect
+namespace EOAE_Code.StatusEffects
 {
     public class StatusEffectMissionLogic : MissionLogic
     {

@@ -1,5 +1,5 @@
 ﻿using EOAE_Code.Data.Xml.StatusEffects;
-using EOAE_Code.StatusEffect;
+using EOAE_Code.StatusEffects;
 using EOAE_Code.Wrappers;
 using TaleWorlds.Engine;
 
