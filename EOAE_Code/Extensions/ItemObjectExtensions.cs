@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using EOAE_Code.Data.Xml.StatusEffects;
+using EOAE_Code.Enchanting;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
 namespace EOAE_Code.Extensions;
@@ -22,5 +24,19 @@ public static class ItemObjectExtensions
     public static void SetMissileEffect(this ItemObject instance, StatusEffect value)
     {
         _missileEffects.GetOrCreateValue(instance).StatusEffect = value;
+    }
+
+    public static bool IsEnchanted(this ItemObject itemObject)
+    {
+        var enchantingCampaignBehavior =
+            Campaign.Current.GetCampaignBehavior<EnchantingCampaignBehavior>();
+        return enchantingCampaignBehavior.IsItemEnchanted(itemObject);
+    }
+
+    public static EnchantedItem? GetEnchantment(this ItemObject itemObject)
+    {
+        var enchantingCampaignBehavior =
+            Campaign.Current.GetCampaignBehavior<EnchantingCampaignBehavior>();
+        return enchantingCampaignBehavior.GetItemEnchantment(itemObject);
     }
 }
