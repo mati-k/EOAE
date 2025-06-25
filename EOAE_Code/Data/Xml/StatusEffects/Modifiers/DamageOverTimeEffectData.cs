@@ -18,5 +18,10 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
             target.DealDamage(caster, totalValue);
         }
+
+        public override StatusEffectAction GetScaled(float scale)
+        {
+            return new DamageOverTimeEffectData { Value = Value * scale };
+        }
     }
 }

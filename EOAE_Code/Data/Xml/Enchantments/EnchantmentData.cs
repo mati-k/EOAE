@@ -42,7 +42,7 @@ namespace EOAE_Code.Data.Xml.Enchantments
             return new TextObject(DescriptionKey, null).SetTextVariable("value", value);
         }
 
-        public void AddTooltips(ItemMenuVM itemMenuVM)
+        public void AddTooltips(ItemMenuVM itemMenuVM, float scale = 1)
         {
             itemMenuVM.AddTooltip(
                 "",
@@ -56,9 +56,7 @@ namespace EOAE_Code.Data.Xml.Enchantments
             {
                 itemMenuVM.AddTooltip(
                     "",
-                    new TextObject(DescriptionKey)
-                        .SetTextVariable("value", StatusEffectTemplate.Scale)
-                        .ToString(),
+                    new TextObject(DescriptionKey).SetTextVariable("value", scale).ToString(),
                     Color.Black
                 );
             }

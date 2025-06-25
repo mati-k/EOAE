@@ -13,5 +13,10 @@ namespace EOAE_Code.Data.Xml.StatusEffects
         }
 
         public override void Tick(float totalValue, AgentWrapper target, Agent caster) { }
+
+        public override StatusEffectAction GetScaled(float scale)
+        {
+            return new MovementSpeedEffectData { Value = Value * scale };
+        }
     }
 }

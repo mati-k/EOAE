@@ -29,5 +29,19 @@ namespace EOAE_Code.Data.Xml.StatusEffects
                 action.Tick(totalValue, AgentWrapper.GetFor(target), caster);
             }
         }
+
+        public StatusEffect GetScaled(float scale)
+        {
+            var scaledEffect = new StatusEffect { Duration = Duration * scale };
+            foreach (var action in Actions)
+            {
+                var scaledAction = action.GetScaled(scale);
+                if (scaledAction != null)
+                {
+                    scaledEffect.Actions.Add(scaledAction);
+                }
+            }
+            return scaledEffect;
+        }
     }
 }

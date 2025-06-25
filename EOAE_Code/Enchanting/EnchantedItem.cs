@@ -1,5 +1,6 @@
 ﻿using EOAE_Code.Data.Managers;
 using EOAE_Code.Data.Xml.Enchantments;
+using EOAE_Code.Data.Xml.StatusEffects;
 using TaleWorlds.SaveSystem;
 
 namespace EOAE_Code.Enchanting
@@ -14,6 +15,8 @@ namespace EOAE_Code.Enchanting
         public float Scale;
 
         public EnchantmentData Enchantment;
+
+        public StatusEffect StatusEffect;
 
         public EnchantedItem(EnchantmentData enchantment, float scale)
         {
@@ -33,6 +36,7 @@ namespace EOAE_Code.Enchanting
             if (Enchantment == null)
             {
                 Enchantment = EnchantmentManager.GetEnchantment(EnchantmentName)!;
+                StatusEffect = Enchantment.StatusEffectTemplate.GetScaled(Scale);
             }
         }
     }
