@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfEnchantmentData>
-  <EnchantmentData Name="fire" DisplayName="BURN BURN BURN" IconItem="fireball" UseSlider="true" DescriptionKey="{=Ll0rTcB}Burn target for {value} damage per second">
+  <EnchantmentData Name="fire" DisplayName="{=S1sdnNit}BURN BURN BURN" IconItem="fireball" UseSlider="true">
     <ItemTypes>
       <ItemType>OneHandedWeapon</ItemType>
       <ItemType>TwoHandedWeapon</ItemType>
     </ItemTypes>
   </EnchantmentData>
-  <EnchantmentData Name="ice" DisplayName="So cold" IconItem="whiteFlame" UseSlider="true" DescriptionKey="{=lhJ1SPoM}Slow down target">
+  <EnchantmentData Name="ice" DisplayName="{=ITfs1okQ}So cold" IconItem="whiteFlame" UseSlider="true">
     <ItemTypes>
       <ItemType>OneHandedWeapon</ItemType>
       <ItemType>TwoHandedWeapon</ItemType>
     </ItemTypes>
   </EnchantmentData>
-  <EnchantmentData Name="armor" DisplayName="Good Armor" IconItem="whiteFlame" UseSlider="false" DescriptionKey="{=pSm32bJu}Increase armor by {value}">
+  <EnchantmentData Name="armor" DisplayName="{=2Iqj0Cwe}Good Armor" IconItem="whiteFlame" UseSlider="false">
     <ItemTypes>
       <ItemType>HandArmor</ItemType>  
       <ItemType>HeadArmor</ItemType>  

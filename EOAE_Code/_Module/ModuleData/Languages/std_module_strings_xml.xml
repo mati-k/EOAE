@@ -25,6 +25,7 @@
     <string id="9aHdCKXF" text="Stop reading" />
     <string id="BCbTTNX0" text="reading &quot;{BookName}&quot;" />
 
+    <!-- Spells -->
     <string id="3fY2LWVv" text="Fireball" />
     <string id="i2b32j8F" text="Snowball" />
     <string id="JduiaSRZ" text="Rain of Fire" />
@@ -33,6 +34,7 @@
     <string id="MNL67CIp" text="Group Heal" />
     <string id="pbsK81br" text="Summon" />
 
+    <!-- Backgrounds -->
     <string id="ylSw2pTT" text="your curiosity for the arcane." />
     <string id="WF0vZxnh" text="As a child, you were always fascinated by the arcane. You would spend hours watching the court mages at work, your eyes wide with wonder as they summoned fire and ice with a flick of their wrists. You would often sneak into the library to read their spellbooks, even though you couldn't understand a word of what was written." />
     
@@ -44,5 +46,15 @@
 
     <string id="oQJlcPEa" text="you mastered an element." />
     <string id="iPyMP3tN" text="Through rigorous study and practice, you became an expert in a single element—fire, frost, or lightning. Your spells in this domain are potent and feared." />
+
+    <!-- Status Effects -->
+    <string id="WLl0rTcB" text="Deal {value} damage per second" />
+    <string id="lhJ1SPoM" text="Slow down by {value}%" />
+    <string id="pSm32bJu" text="Increase speed by {value}%" />
+    
+    <!-- Enchantments -->
+    <string id="S1sdnNit" text="BURN BURN BURN" />
+    <string id="ITfs1okQ" text="So cold" />
+    <string id="2Iqj0Cwe" text="Good Armor" />
   </strings>
 </base>

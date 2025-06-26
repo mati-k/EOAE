@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using EOAE_Code.Extensions;
 using EOAE_Code.Wrappers;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Data.Xml.StatusEffects
@@ -32,16 +35,30 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
         public StatusEffect GetScaled(float scale)
         {
-            var scaledEffect = new StatusEffect { Duration = Duration * scale };
+            var scaledEffect = new StatusEffect { Duration = Duration };
             foreach (var action in Actions)
             {
-                var scaledAction = action.GetScaled(scale);
-                if (scaledAction != null)
-                {
-                    scaledEffect.Actions.Add(scaledAction);
-                }
+                scaledEffect.Actions.Add(action.GetScaled(scale));
             }
             return scaledEffect;
+        }
+
+        public string GetDescription(float value)
+        {
+            var descriptionBuilder = new System.Text.StringBuilder();
+            foreach (var action in Actions)
+            {
+                descriptionBuilder.AppendLine(action.GetDescription(value));
+            }
+            return descriptionBuilder.ToString().TrimEnd();
+        }
+
+        public void AddTooltips(ItemMenuVM itemMenuVM)
+        {
+            foreach (var action in Actions)
+            {
+                itemMenuVM.AddTooltip("", action.GetDescription(), Color.Black);
+            }
         }
     }
 }

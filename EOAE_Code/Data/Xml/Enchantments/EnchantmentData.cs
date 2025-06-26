@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Xml.Serialization;
 using EOAE_Code.Data.Xml.StatusEffects;
-using EOAE_Code.Extensions;
-using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
-using TaleWorlds.Localization;
 
 namespace EOAE_Code.Data.Xml.Enchantments
 {
@@ -18,10 +15,6 @@ namespace EOAE_Code.Data.Xml.Enchantments
 
         [XmlAttribute]
         public string DisplayName { get; set; } = "";
-
-        // ToDo: just temporary thing. Need to make some integrated way for status effects that would be for enchantments, spells, potion etc. with easy reuse and compatibility
-        [XmlAttribute]
-        public string DescriptionKey { get; set; } = "";
 
         // For now use preview from some items, in future maybe custom pictures
         [XmlAttribute]
@@ -37,29 +30,15 @@ namespace EOAE_Code.Data.Xml.Enchantments
         [XmlElement("StatusEffectTemplate")]
         public StatusEffectTemplate StatusEffectTemplate { get; set; } = new StatusEffectTemplate();
 
-        public TextObject GetDescription(float value)
+        public string GetDescription(float value)
         {
-            return new TextObject(DescriptionKey, null).SetTextVariable("value", value);
-        }
-
-        public void AddTooltips(ItemMenuVM itemMenuVM, float scale = 1)
-        {
-            itemMenuVM.AddTooltip(
-                "",
-                new TextObject("{=aVhgwU2u}Enchantment:").ToString(),
-                Color.ConvertStringToColor("#4470F2FF")
-            );
-
-            itemMenuVM.AddTooltip("", new TextObject(DisplayName).ToString(), Color.Black);
-
-            if (!string.IsNullOrEmpty(DescriptionKey))
+            StringBuilder descriptionBuilder = new();
+            foreach (var action in StatusEffectTemplate.Effect.Actions)
             {
-                itemMenuVM.AddTooltip(
-                    "",
-                    new TextObject(DescriptionKey).SetTextVariable("value", scale).ToString(),
-                    Color.Black
-                );
+                descriptionBuilder.AppendLine(action.GetDescription(value));
             }
+
+            return descriptionBuilder.ToString().TrimEnd();
         }
     }
 }

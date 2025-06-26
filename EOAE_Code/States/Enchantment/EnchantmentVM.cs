@@ -567,9 +567,7 @@ namespace EOAE_Code.States.Enchantment
                 value *= EnchantmentManager.GetSoulGemValue(SoulGemSlot.Item.Item.StringId);
             }
 
-            EnchantmentDescription = EnchantmentSlot
-                .Item.EnchantmentData.GetDescription(value)
-                .ToString();
+            EnchantmentDescription = EnchantmentSlot.Item.EnchantmentData.GetDescription(value);
         }
     }
 }

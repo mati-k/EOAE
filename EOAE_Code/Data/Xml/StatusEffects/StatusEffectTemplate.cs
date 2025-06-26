@@ -11,13 +11,12 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
         public StatusEffect GetScaled(float scale)
         {
-            var scaledEffect = new StatusEffect { Duration = Effect.Duration };
-            foreach (var action in Effect.Actions)
-            {
-                scaledEffect.Actions.Add(action.GetScaled(scale));
-            }
+            return Effect.GetScaled(scale);
+        }
 
-            return scaledEffect;
+        public string GetDescription(float value)
+        {
+            return Effect.GetDescription(value);
         }
     }
 }

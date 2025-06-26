@@ -49,9 +49,5 @@
     <string id="eaPW4J70" text="Destruction spells damage: + {a0} %" />
     <string id="SaRDNkCn" text="Restoration spells heal: +{a0} %" />
     <string id="WJCOjwML" text="Conjuration spells duration: +{a0} %" />
-
-    <string id="WLl0rTcB" text="Burn target for {value} damage per second" />
-    <string id="lhJ1SPoM" text="Slow down target" />
-    <string id="pSm32bJu" text="Increase armor by {value}" />
   </strings>
 </base>

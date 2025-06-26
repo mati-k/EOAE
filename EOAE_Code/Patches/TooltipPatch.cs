@@ -4,6 +4,8 @@ using HarmonyLib;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
+using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.Patches;
@@ -29,7 +31,13 @@ public class TooltipPatch
         var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(item.StringId);
         if (itemObject.IsEnchanted())
         {
-            itemObject.GetEnchantment()!.Enchantment.AddTooltips(__instance);
+            __instance.AddTooltip(
+                "",
+                new TextObject("{=aVhgwU2u}Enchantment:").ToString(),
+                Color.ConvertStringToColor("#4470F2FF")
+            );
+
+            itemObject.GetEnchantment()!.StatusEffect.AddTooltips(__instance);
         }
     }
 }

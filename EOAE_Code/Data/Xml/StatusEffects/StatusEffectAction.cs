@@ -18,5 +18,12 @@ namespace EOAE_Code.Data.Xml.StatusEffects
         public abstract void Tick(float totalValue, AgentWrapper target, Agent caster);
 
         public abstract StatusEffectAction GetScaled(float scale);
+
+        public abstract string GetDescription(float scale);
+
+        public virtual string GetDescription()
+        {
+            return GetDescription(1f);
+        }
     }
 }
