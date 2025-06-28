@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EOAE_Code.Consts;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Enchanting;
 using HarmonyLib;
@@ -200,25 +201,37 @@ namespace EOAE_Code.States.Enchantment
         }
 
         [DataSourceProperty]
-        public int EnchantmentValueMin { get; } = 5;
+        public int ScaleSliderMin { get; } = 0;
 
         [DataSourceProperty]
-        public int EnchantmentValueMax { get; } = 25;
+        public int ScaleSliderMax { get; } = EnchantmentConsts.SliderScaleSteps;
 
-        private int _enchantmentValue = 10;
+        private int _scaleSliderValue = 1;
 
         [DataSourceProperty]
-        public int EnchantmentValue
+        public int ScaleSliderValue
         {
-            get { return _enchantmentValue; }
+            get { return _scaleSliderValue; }
             set
             {
-                if (value != _enchantmentValue)
+                if (value != _scaleSliderValue)
                 {
-                    _enchantmentValue = value;
-                    OnPropertyChangedWithValue(value, "EnchantmentValue");
+                    _scaleSliderValue = value;
+                    OnPropertyChangedWithValue(value, "ScaleSliderValue");
                     RefreshEnchantmentDescription();
                 }
+            }
+        }
+
+        public float EnchantmentScale
+        {
+            get
+            {
+                float scale =
+                    EnchantmentConsts.SliderScaleMin
+                    + (EnchantmentConsts.SliderScaleMax - EnchantmentConsts.SliderScaleMin)
+                        * ((float)ScaleSliderValue / EnchantmentConsts.SliderScaleSteps);
+                return MathF.Round(scale, 1);
             }
         }
 
@@ -326,7 +339,7 @@ namespace EOAE_Code.States.Enchantment
             ItemObject enchantedItem = new ItemObject(equipmentElement.Item);
             ItemObject.InitAsPlayerCraftedItem(ref enchantedItem);
             enchantedItem.StringId =
-                $"{equipmentElement.Item.StringId}_{enchantment.Name}_{EnchantmentValue}";
+                $"{equipmentElement.Item.StringId}_{enchantment.Name}_{EnchantmentScale.ToString("F1")}";
 
             if (equipmentElement.Item.WeaponDesign != null)
             {
@@ -356,7 +369,7 @@ namespace EOAE_Code.States.Enchantment
                 .Current.GetCampaignBehavior<EnchantingCampaignBehavior>()
                 .RegisterEnchantedItem(
                     enchantedItem,
-                    new EnchantedItem(enchantment, EnchantmentValue)
+                    new EnchantedItem(enchantment, EnchantmentScale)
                 );
 
             PartyBase.MainParty.ItemRoster.AddToCounts(enchantedItem, 1);
@@ -556,11 +569,11 @@ namespace EOAE_Code.States.Enchantment
                 return;
             }
 
-            float value = EnchantmentValueMin;
+            float value = 1f;
 
             if (IsSliderVisible)
             {
-                value = EnchantmentValue;
+                value = EnchantmentScale;
             }
             else if (SoulGemSlot.Item.Item != null)
             {
