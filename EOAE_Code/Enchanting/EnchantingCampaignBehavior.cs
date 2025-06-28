@@ -66,6 +66,7 @@ namespace EOAE_Code.Enchanting
             }
 
             enchantedItems[item] = enchantedItem;
+            enchantedItem.LoadEnchantment();
         }
 
         public bool IsItemEnchanted(ItemObject item)

@@ -1,6 +1,7 @@
 ﻿using EOAE_Code.Data.Xml.Enchantments;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace EOAE_Code.States.Enchantment
 {
@@ -12,7 +13,7 @@ namespace EOAE_Code.States.Enchantment
         [DataSourceProperty]
         public override string Name
         {
-            get { return EnchantmentData.DisplayName.ToString(); }
+            get { return new TextObject(EnchantmentData.DisplayName).ToString(); }
         }
 
         public EnchantmentData EnchantmentData

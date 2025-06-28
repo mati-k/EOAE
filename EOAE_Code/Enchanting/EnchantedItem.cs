@@ -36,8 +36,9 @@ namespace EOAE_Code.Enchanting
             if (Enchantment == null)
             {
                 Enchantment = EnchantmentManager.GetEnchantment(EnchantmentName)!;
-                StatusEffect = Enchantment.StatusEffectTemplate.GetScaled(Scale);
             }
+
+            StatusEffect = Enchantment.StatusEffectTemplate.GetScaled(Scale);
         }
     }
 }
