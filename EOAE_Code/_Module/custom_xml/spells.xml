@@ -11,12 +11,11 @@
       Icon="Stone"
       Animation="act_fire_magic"
     >
-    <StatusEffect
-      xsi:type="DamageOverTimeEffectData"
-      Key="burning"
-      Value="10"
-      Duration="5"
-    />
+      <Effect Duration="5">
+        <Actions>
+          <DamageOverTime Key="burning" Value="10" />
+        </Actions>
+      </Effect>
     </Missile>
     <Missile
       Name="{=i2b32j8F}Snowball"
@@ -26,12 +25,11 @@
       Icon="Stone"
       Animation="act_fire_magic"
     >
-      <StatusEffect
-        xsi:type="MovementSpeedEffectData"
-        Key="freeze"
-        Value="-0.8"
-        Duration="15"
-        />
+      <Effect Duration="15">
+        <Actions>
+          <MovementSpeed Key="freeze" Value="-0.8" />
+        </Actions>
+      </Effect>
     </Missile>
     <Bombard
       Name="{=JduiaSRZ}Rain of Fire"
@@ -51,12 +49,11 @@
         MinHeight="20"
         MaxHeight="100"
       >
-        <StatusEffect
-          xsi:type="DamageOverTimeEffectData"
-          Key="burning"
-          Value="10"
-          Duration="5"
-        />
+        <Effect Duration="5">
+          <Actions>
+            <DamageOverTime Key="burning" Value="10" />
+          </Actions>
+        </Effect>
       </Missile>
     </Bombard>
     <Bombard

@@ -1,12 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfEnchantmentData>
   <EnchantmentData Name="fire" DisplayName="{=S1sdnNit}BURN BURN BURN" IconItem="fireball" UseSlider="true">
+    <StatusEffectTemplate>
+      <Effect Duration="5">
+        <Actions>
+          <DamageOverTime Key="burning" Value="10" />
+        </Actions>
+      </Effect>
+    </StatusEffectTemplate>
     <ItemTypes>
       <ItemType>OneHandedWeapon</ItemType>
       <ItemType>TwoHandedWeapon</ItemType>
     </ItemTypes>
   </EnchantmentData>
   <EnchantmentData Name="ice" DisplayName="{=ITfs1okQ}So cold" IconItem="whiteFlame" UseSlider="true">
+    <StatusEffectTemplate>
+      <Effect Duration="5">
+        <Actions>
+          <MovementSpeed Key="freeze" Value="-0.3" />
+        </Actions>
+      </Effect>
+    </StatusEffectTemplate>
     <ItemTypes>
       <ItemType>OneHandedWeapon</ItemType>
       <ItemType>TwoHandedWeapon</ItemType>

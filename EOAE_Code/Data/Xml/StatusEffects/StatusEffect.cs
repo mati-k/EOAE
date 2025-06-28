@@ -12,6 +12,8 @@ namespace EOAE_Code.Data.Xml.StatusEffects
     [Serializable]
     public class StatusEffect
     {
+        [XmlArrayItem("DamageOverTime", typeof(DamageOverTimeEffectData))]
+        [XmlArrayItem("MovementSpeed", typeof(MovementSpeedEffectData))]
         public List<StatusEffectAction> Actions = new List<StatusEffectAction>();
 
         [XmlAttribute]
