@@ -78,6 +78,11 @@ namespace EOAE_Code.States.Spellbook
                 )
             );
 
+            if (Spell is MissileSpell missile)
+            {
+                missile.Effect?.AddTooltips(tooltips);
+            }
+
             InformationManager.ShowTooltip(typeof(List<TooltipProperty>), tooltips);
         }
 

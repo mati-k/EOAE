@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using EOAE_Code.Extensions;
 using EOAE_Code.Wrappers;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
+using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -60,6 +61,14 @@ namespace EOAE_Code.Data.Xml.StatusEffects
             foreach (var action in Actions)
             {
                 itemMenuVM.AddTooltip("", action.GetDescription(), Color.Black);
+            }
+        }
+
+        public void AddTooltips(List<TooltipProperty> tooltips)
+        {
+            foreach (var action in Actions)
+            {
+                tooltips.Add(new TooltipProperty("", action.GetDescription(), 0));
             }
         }
     }
