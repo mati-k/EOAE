@@ -377,6 +377,8 @@ namespace EOAE_Code.States.Enchantment
             PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, -1);
 
             CampaignEventDispatcher.Instance.OnNewItemCrafted(enchantedItem, null, false);
+
+            Refresh();
         }
 
         public override void OnFinalize()
