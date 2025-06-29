@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EOAE_Code.Data.Managers;
+using EOAE_Code.Data.Xml.StatusEffects;
 using EOAE_Code.Extensions;
 using EOAE_Code.Magic.Spells;
 using EOAE_Code.Wrappers;
@@ -63,9 +64,7 @@ namespace EOAE_Code.StatusEffects
                 .AddStatusEffect(new AppliedStatusEffect(statusEffect, affectorAgent));
         }
 
-        private static Data.Xml.StatusEffects.StatusEffect? GetStatusEffectFromWeapon(
-            MissionWeapon weapon
-        )
+        private static StatusEffect? GetStatusEffectFromWeapon(MissionWeapon weapon)
         {
             var missileEffect = weapon.Item.GetMissileEffect();
             if (missileEffect != null)
@@ -75,13 +74,16 @@ namespace EOAE_Code.StatusEffects
 
             if (!SpellManager.IsWeaponSpell(weapon.CurrentUsageItem))
             {
-                return null;
+                var spell = SpellManager.GetSpellFromWeapon(weapon.CurrentUsageItem);
+                if (spell is MissileSpell missileSpell)
+                {
+                    return missileSpell.Effect;
+                }
             }
 
-            var spell = SpellManager.GetSpellFromWeapon(weapon.CurrentUsageItem);
-            if (spell is MissileSpell missileSpell)
+            if (weapon.Item.IsEnchanted())
             {
-                return missileSpell.Effect;
+                return weapon.Item.GetEnchantment()!.StatusEffect;
             }
 
             return null;

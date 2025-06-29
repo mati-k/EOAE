@@ -203,7 +203,7 @@ namespace EOAE_Code.Magic
             Agent __instance
         )
         {
-            // Prevent from spells being droped on ground and costing mana
+            // Prevent from spells being dropped on ground and costing mana
             if (
                 itemIndex == EquipmentIndex.ExtraWeaponSlot
                 && SpellManager.IsWeaponSpell(__instance.Equipment[itemIndex].CurrentUsageItem)
