@@ -51,7 +51,8 @@
     <string id="WLl0rTcB" text="Deal {value} damage per second" />
     <string id="lhJ1SPoM" text="Slow down by {value}%" />
     <string id="pSm32bJu" text="Increase speed by {value}%" />
-    
+    <string id="XjBGc7Bp" text="Grant {value}% magic resistance" />
+
     <!-- Enchantments -->
     <string id="S1sdnNit" text="BURN BURN BURN" />
     <string id="ITfs1okQ" text="So cold" />

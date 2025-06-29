@@ -27,6 +27,13 @@
     </ItemTypes>
   </EnchantmentData>
   <EnchantmentData Name="armor" DisplayName="{=2Iqj0Cwe}Good Armor" IconItem="whiteFlame" UseSlider="false">
+    <StatusEffectTemplate>
+      <Effect Duration="-1">
+        <Actions>
+          <Resistance Value="0.05" />
+        </Actions>
+      </Effect>
+    </StatusEffectTemplate>
     <ItemTypes>
       <ItemType>HandArmor</ItemType>  
       <ItemType>HeadArmor</ItemType>  

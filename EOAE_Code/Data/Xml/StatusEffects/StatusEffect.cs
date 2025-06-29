@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using EOAE_Code.Data.Xml.StatusEffects.Modifiers;
 using EOAE_Code.Extensions;
 using EOAE_Code.Wrappers;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Inventory;
@@ -15,6 +16,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
     {
         [XmlArrayItem("DamageOverTime", typeof(DamageOverTimeEffectData))]
         [XmlArrayItem("MovementSpeed", typeof(MovementSpeedEffectData))]
+        [XmlArrayItem("Resistance", typeof(ResistanceEffectData))]
         public List<StatusEffectAction> Actions = new List<StatusEffectAction>();
 
         [XmlAttribute]

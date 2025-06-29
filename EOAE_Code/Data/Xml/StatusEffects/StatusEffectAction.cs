@@ -7,6 +7,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 {
     [XmlInclude(typeof(MovementSpeedEffectData))]
     [XmlInclude(typeof(DamageOverTimeEffectData))]
+    [XmlInclude(typeof(ResistanceEffectData))]
     [Serializable]
     public abstract class StatusEffectAction
     {
