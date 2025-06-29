@@ -2,6 +2,7 @@
 using EOAE_Code.Consts;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Enchanting;
+using EOAE_Code.Extensions;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
@@ -391,7 +392,10 @@ namespace EOAE_Code.States.Enchantment
             var inventory = MobileParty.MainParty.ItemRoster;
             foreach (var item in inventory)
             {
-                if (EnchantableTypes.Contains(item.EquipmentElement.Item.Type))
+                if (
+                    !item.EquipmentElement.Item.IsEnchanted()
+                    && EnchantableTypes.Contains(item.EquipmentElement.Item.Type)
+                )
                 {
                     var enchantmentItemVM = new EnchantmentItemVM(item);
                     ItemList.Add(enchantmentItemVM);
