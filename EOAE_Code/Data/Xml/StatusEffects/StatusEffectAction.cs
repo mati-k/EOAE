@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using EOAE_Code.Data.Xml.StatusEffects.Modifiers;
 using EOAE_Code.Wrappers;
 using TaleWorlds.MountAndBlade;
 
