@@ -72,7 +72,7 @@ namespace EOAE_Code.StatusEffects
                 return missileEffect;
             }
 
-            if (!SpellManager.IsWeaponSpell(weapon.CurrentUsageItem))
+            if (SpellManager.IsWeaponSpell(weapon.CurrentUsageItem))
             {
                 var spell = SpellManager.GetSpellFromWeapon(weapon.CurrentUsageItem);
                 if (spell is MissileSpell missileSpell)
