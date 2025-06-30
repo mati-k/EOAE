@@ -46,7 +46,7 @@ namespace EOAE_Code.States.Enchantment
         private EnchantmentSlotVM<EnchantmentSoulGemVM> _soulGemSlot;
 
         private string _enchantmentDescription = string.Empty;
-        private string _enchantmentItemName = "INITIAL NAME";
+        private string _enchantmentItemName = "";
 
         [DataSourceProperty]
         public InputKeyItemVM DoneInputKey
@@ -57,7 +57,7 @@ namespace EOAE_Code.States.Enchantment
                 if (value != this._doneInputKey)
                 {
                     this._doneInputKey = value;
-                    base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "DoneInputKey");
+                    base.OnPropertyChangedWithValue<InputKeyItemVM>(value, nameof(DoneInputKey));
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace EOAE_Code.States.Enchantment
                 if (value != _doneText)
                 {
                     _doneText = value;
-                    OnPropertyChangedWithValue(value, "DoneText");
+                    OnPropertyChangedWithValue(value, nameof(DoneText));
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace EOAE_Code.States.Enchantment
                     this._itemList = value;
                     base.OnPropertyChangedWithValue<MBBindingList<EnchantmentItemVM>>(
                         value,
-                        "ItemList"
+                        nameof(ItemList)
                     );
                 }
             }
@@ -104,7 +104,7 @@ namespace EOAE_Code.States.Enchantment
                     this._enchantmentList = value;
                     base.OnPropertyChangedWithValue<MBBindingList<EnchantmentEnchantmentVM>>(
                         value,
-                        "EnchantmentList"
+                        nameof(EnchantmentList)
                     );
                 }
             }
@@ -121,7 +121,7 @@ namespace EOAE_Code.States.Enchantment
                     this._soulGemList = value;
                     base.OnPropertyChangedWithValue<MBBindingList<EnchantmentSoulGemVM>>(
                         value,
-                        "SoulGemList"
+                        nameof(SoulGemList)
                     );
                 }
             }
@@ -136,7 +136,7 @@ namespace EOAE_Code.States.Enchantment
                 if (value != this._hint)
                 {
                     this._hint = value;
-                    base.OnPropertyChangedWithValue<HintViewModel>(value, "Hint");
+                    base.OnPropertyChangedWithValue<HintViewModel>(value, nameof(Hint));
                 }
             }
         }
@@ -152,7 +152,7 @@ namespace EOAE_Code.States.Enchantment
                     this._itemSlot = value;
                     base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentItemVM>>(
                         value,
-                        "ItemSlot"
+                        nameof(ItemSlot)
                     );
                 }
             }
@@ -169,7 +169,7 @@ namespace EOAE_Code.States.Enchantment
                     this._enchantmentSlot = value;
                     base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentEnchantmentVM>>(
                         value,
-                        "EnchantmentSlot"
+                        nameof(EnchantmentSlot)
                     );
                 }
             }
@@ -186,7 +186,7 @@ namespace EOAE_Code.States.Enchantment
                     this._soulGemSlot = value;
                     base.OnPropertyChangedWithValue<EnchantmentSlotVM<EnchantmentSoulGemVM>>(
                         value,
-                        "SoulGemSlot"
+                        nameof(SoulGemSlot)
                     );
                 }
             }
@@ -218,7 +218,7 @@ namespace EOAE_Code.States.Enchantment
                 if (value != _scaleSliderValue)
                 {
                     _scaleSliderValue = value;
-                    OnPropertyChangedWithValue(value, "ScaleSliderValue");
+                    OnPropertyChangedWithValue(value, nameof(ScaleSliderValue));
                     RefreshEnchantmentDescription();
                 }
             }
@@ -245,7 +245,7 @@ namespace EOAE_Code.States.Enchantment
                 if (value != _enchantmentDescription)
                 {
                     _enchantmentDescription = value;
-                    OnPropertyChangedWithValue(value, "EnchantmentDescription");
+                    OnPropertyChangedWithValue(value, nameof(EnchantmentDescription));
                 }
             }
         }
@@ -259,7 +259,7 @@ namespace EOAE_Code.States.Enchantment
                 if (value != _enchantmentItemName)
                 {
                     _enchantmentItemName = value;
-                    OnPropertyChangedWithValue(value, "EnchantmentItemName");
+                    OnPropertyChangedWithValue(value, nameof(EnchantmentItemName));
                 }
             }
         }
@@ -444,6 +444,11 @@ namespace EOAE_Code.States.Enchantment
         private void OnItemChanged(object? sender, System.EventArgs e)
         {
             base.OnPropertyChanged(nameof(CanFinish));
+            if (ItemSlot.Item.Item != null)
+            {
+                EnchantmentItemName =
+                    ItemSlot.Item.Item.Value.EquipmentElement.Item.Name.ToString();
+            }
         }
 
         private void OnSoulGemChanged(object? sender, System.EventArgs e)
