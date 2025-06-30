@@ -23,12 +23,14 @@ public class TooltipPatch
         ItemMenuVM __instance
     )
     {
-        if (BookManager.IsBook(item.StringId))
+        string itemId = item.ItemRosterElement.EquipmentElement.Item.StringId;
+
+        if (BookManager.IsBook(itemId))
         {
-            BookManager.GetBook(item.StringId).AddTooltips(__instance);
+            BookManager.GetBook(itemId).AddTooltips(__instance);
         }
 
-        var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(item.StringId);
+        var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(itemId);
         if (itemObject.IsEnchanted())
         {
             __instance.AddTooltip(
