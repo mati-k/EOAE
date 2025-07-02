@@ -336,25 +336,20 @@ namespace EOAE_Code.States.Enchantment
             }
 
             var equipmentElement = item.Value.EquipmentElement;
-
-            ItemObject enchantedItem = new ItemObject(equipmentElement.Item);
-            ItemObject.InitAsPlayerCraftedItem(ref enchantedItem);
-            enchantedItem.StringId =
+            string stringId =
                 $"{equipmentElement.Item.StringId}_{enchantment.Name}_{EnchantmentScale.ToString("F1")}";
 
-            if (equipmentElement.Item.WeaponDesign != null)
-            {
-                AccessTools
-                    .DeclaredPropertySetter(typeof(ItemObject), "WeaponDesign")
-                    .Invoke(enchantedItem, new object[] { equipmentElement.Item.WeaponDesign });
-            }
-
-            AccessTools
-                .Method(typeof(ItemObject), "SetName")
-                .Invoke(enchantedItem, new object[] { new TextObject(EnchantmentItemName) });
-            AccessTools
-                .DeclaredPropertySetter(typeof(ItemObject), "Culture")
-                .Invoke(enchantedItem, new object[] { Hero.MainHero.Culture });
+            var enchantedItem = Campaign
+                .Current.GetCampaignBehavior<EnchantingCampaignBehavior>()
+                .RegisterEnchantedItem(
+                    stringId,
+                    new EnchantedItem(
+                        enchantment,
+                        EnchantmentItemName,
+                        EnchantmentScale,
+                        item.Value.EquipmentElement.Item
+                    )
+                );
 
             EquipmentElement enchantedEquipmentElement = new EquipmentElement(
                 enchantedItem,
@@ -363,20 +358,8 @@ namespace EOAE_Code.States.Enchantment
                 equipmentElement.IsQuestItem
             );
 
-            enchantedItem.DetermineItemCategoryForItem();
-
-            MBObjectManager.Instance.RegisterObject<ItemObject>(enchantedItem);
-            Campaign
-                .Current.GetCampaignBehavior<EnchantingCampaignBehavior>()
-                .RegisterEnchantedItem(
-                    enchantedItem,
-                    new EnchantedItem(enchantment, EnchantmentScale)
-                );
-
             PartyBase.MainParty.ItemRoster.AddToCounts(enchantedItem, 1);
             PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, -1);
-
-            CampaignEventDispatcher.Instance.OnNewItemCrafted(enchantedItem, null, false);
 
             Refresh();
         }
