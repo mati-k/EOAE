@@ -22,7 +22,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects.Modifiers
 
         public override StatusEffectAction GetScaled(float scale)
         {
-            return new ResistanceEffectData { Value = Value * scale };
+            return new ResistanceEffectData { Value = Value * scale, Key = Key };
         }
 
         public override void Tick(float totalValue, AgentWrapper target, Agent caster) { }

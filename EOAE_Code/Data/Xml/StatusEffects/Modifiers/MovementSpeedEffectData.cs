@@ -24,7 +24,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
         public override StatusEffectAction GetScaled(float scale)
         {
-            return new MovementSpeedEffectData { Value = Value * scale };
+            return new MovementSpeedEffectData { Value = Value * scale, Key = Key };
         }
 
         public override string GetDescription(float scale)

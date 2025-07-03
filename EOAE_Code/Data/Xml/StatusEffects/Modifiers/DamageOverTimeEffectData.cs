@@ -26,7 +26,7 @@ namespace EOAE_Code.Data.Xml.StatusEffects
 
         public override StatusEffectAction GetScaled(float scale)
         {
-            return new DamageOverTimeEffectData { Value = Value * scale };
+            return new DamageOverTimeEffectData { Value = Value * scale, Key = Key };
         }
 
         public override string GetDescription(float scale)
