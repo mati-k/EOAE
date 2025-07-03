@@ -49,7 +49,7 @@ namespace EOAE_Code.StatusEffects
         {
             var statusEffect = GetStatusEffectFromWeapon(affectorWeapon);
 
-            if (statusEffect == null)
+            if (statusEffect == null || attackCollisionData.AttackBlockedWithShield)
                 return;
 
             if (!AgentActiveEffects.ContainsKey(affectedAgent))

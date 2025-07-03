@@ -91,10 +91,16 @@ namespace EOAE_Code.StatusEffects
             {
                 string key = exclusiveModifier.Key;
 
-                if (exclusiveModifier.Value.IsEmpty && particleEffects.ContainsKey(key))
+                if (!StatusEffectParticleManager.StatusEffectPrefabs.ContainsKey(key))
                 {
-                    particleEffects[key].FadeOut(0, true);
-                    particleEffects.Remove(key);
+                    continue;
+                }
+                string particlePrefab = StatusEffectParticleManager.StatusEffectPrefabs[key];
+
+                if (exclusiveModifier.Value.IsEmpty && particleEffects.ContainsKey(particlePrefab))
+                {
+                    particleEffects[particlePrefab].FadeOut(0, true);
+                    particleEffects.Remove(particlePrefab);
                 }
             }
 
