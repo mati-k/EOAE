@@ -171,6 +171,11 @@ namespace EOAE_Code.Enchanting
 
         public bool IsItemEnchanted(ItemObject item)
         {
+            if (item == null)
+            {
+                return false;
+            }
+
             return enchantedItems.ContainsKey(item);
         }
 

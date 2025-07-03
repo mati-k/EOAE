@@ -19,9 +19,9 @@ namespace EOAE_Code.StatusEffects
         protected List<AppliedStatusEffect> activeEffects = new();
         protected Dictionary<
             string,
-            TaleWorlds.Library.PriorityQueue<float, Modifier>
+            TaleWorlds.Library.PriorityQueue<float, AppliedModifier>
         > exclusiveModifiers = new();
-        protected List<Modifier> stackableModifiers = new();
+        protected List<AppliedModifier> stackableModifiers = new();
 
         protected Dictionary<string, GameEntity> particleEffects = new();
 
@@ -47,9 +47,11 @@ namespace EOAE_Code.StatusEffects
                     continue;
                 }
 
+                var appliedModifier = new AppliedModifier(modifier, appliedStatusEffect.Caster);
+
                 if (string.IsNullOrEmpty(modifier.Key))
                 {
-                    stackableModifiers.Add(modifier);
+                    stackableModifiers.Add(appliedModifier);
                 }
                 else
                 {
@@ -58,7 +60,8 @@ namespace EOAE_Code.StatusEffects
                         exclusiveModifiers.Add(modifier.Key, new());
                     }
 
-                    exclusiveModifiers[modifier.Key].Enqueue(Math.Abs(modifier.Value), modifier);
+                    exclusiveModifiers[modifier.Key]
+                        .Enqueue(Math.Abs(modifier.Value), appliedModifier);
 
                     string key = modifier.Key;
                     if (StatusEffectParticleManager.StatusEffectPrefabs.ContainsKey(key))
@@ -110,13 +113,14 @@ namespace EOAE_Code.StatusEffects
             {
                 if (!exclusiveModifier.Value.IsEmpty)
                 {
-                    var modifier = exclusiveModifier.Value.PeekValue();
+                    var modifier = exclusiveModifier.Value.PeekValue().Modifier;
                     modifier.Apply(modifier.Value, AgentPropertiesMultipliers);
                 }
             }
 
-            foreach (var modifier in stackableModifiers)
+            foreach (var stackable in stackableModifiers)
             {
+                var modifier = stackable.Modifier;
                 modifier.Apply(modifier.Value, AgentPropertiesMultipliers);
             }
         }
@@ -131,14 +135,19 @@ namespace EOAE_Code.StatusEffects
                 {
                     if (!exclusiveModifier.Value.IsEmpty)
                     {
-                        var modifier = exclusiveModifier.Value.PeekValue();
-                        modifier.Tick(modifier.Value, Agent, null);
+                        var modifier = exclusiveModifier.Value.PeekValue().Modifier;
+                        var caster = exclusiveModifier.Value.PeekValue().Caster;
+
+                        modifier.Tick(modifier.Value, Agent, caster);
                     }
                 }
 
-                foreach (var modifier in stackableModifiers)
+                foreach (var stackable in stackableModifiers)
                 {
-                    modifier.Tick(modifier.Value, Agent, null);
+                    var modifier = stackable.Modifier;
+                    var caster = stackable.Caster;
+
+                    modifier.Tick(modifier.Value, Agent, caster);
                 }
 
                 tickCounter = EFFECT_TICK_RATE;
@@ -188,9 +197,11 @@ namespace EOAE_Code.StatusEffects
             {
                 if (action is Modifier modifier)
                 {
+                    var appliedModifier = new AppliedModifier(modifier, appliedEffect.Caster);
+
                     if (string.IsNullOrEmpty(modifier.Key))
                     {
-                        stackableModifiers.Remove(modifier);
+                        stackableModifiers.Remove(appliedModifier);
                     }
                     else
                     {
@@ -198,9 +209,9 @@ namespace EOAE_Code.StatusEffects
                         {
                             exclusiveModifiers[modifier.Key]
                                 .Remove(
-                                    new KeyValuePair<float, Modifier>(
+                                    new KeyValuePair<float, AppliedModifier>(
                                         Math.Abs(modifier.Value),
-                                        modifier
+                                        appliedModifier
                                     )
                                 );
                         }

@@ -18,6 +18,11 @@ public static class ItemObjectExtensions
 
     public static StatusEffect? GetMissileEffect(this ItemObject instance)
     {
+        if (instance == null)
+        {
+            return null;
+        }
+
         return !_missileEffects.TryGetValue(instance, out var value) ? null : value.StatusEffect;
     }
 

@@ -61,6 +61,7 @@ namespace EOAE_Code.Extensions
             var blow = new Blow(attacker.Index);
             blow.BaseMagnitude = value;
             blow.InflictedDamage = (int)value;
+            blow.WeaponRecord.FillAsMeleeBlow(null, null, -1, -1);
 
             // todo: lookup over the arguments, extend into option parameters to this method
             var collisionData = AttackCollisionData.GetAttackCollisionDataForDebugPurpose(

@@ -62,15 +62,20 @@ namespace EOAE_Code.Tests.StatusEffects
             {
                 if (action is Modifier modifier)
                 {
+                    var appliedModifier = new AppliedModifier(modifier, appliedEffect.Caster);
+
                     if (String.IsNullOrEmpty(modifier.Key))
                     {
-                        Assert.Contains(modifier, agentEffects.StackableModifiers);
+                        Assert.Contains(appliedModifier, agentEffects.StackableModifiers);
                     }
                     else
                     {
                         Assert.True(agentEffects.ExclusiveModifiers.ContainsKey(modifier.Key));
                         Assert.Contains(
-                            new KeyValuePair<float, Modifier>(Math.Abs(modifier.Value), modifier),
+                            new KeyValuePair<float, AppliedModifier>(
+                                Math.Abs(modifier.Value),
+                                appliedModifier
+                            ),
                             agentEffects.ExclusiveModifiers[modifier.Key]
                         );
                     }
