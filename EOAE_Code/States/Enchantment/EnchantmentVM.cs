@@ -337,7 +337,7 @@ namespace EOAE_Code.States.Enchantment
 
             var equipmentElement = item.Value.EquipmentElement;
             string stringId =
-                $"{equipmentElement.Item.StringId}_{enchantment.Name}_{EnchantmentScale.ToString("F1")}";
+                $"{equipmentElement.Item.StringId}_{enchantment.Name}_{EnchantmentScale.ToString("F1")}_";
 
             var enchantedItem = Campaign
                 .Current.GetCampaignBehavior<EnchantingCampaignBehavior>()
@@ -360,6 +360,7 @@ namespace EOAE_Code.States.Enchantment
 
             PartyBase.MainParty.ItemRoster.AddToCounts(enchantedItem, 1);
             PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, -1);
+            PartyBase.MainParty.ItemRoster.AddToCounts(SoulGemSlot.Item.Item!, -1);
 
             Refresh();
         }
@@ -415,6 +416,9 @@ namespace EOAE_Code.States.Enchantment
                 new EnchantmentSoulGemVM(true)
             );
             SoulGemSlot.Item.ItemChanged += OnSoulGemChanged;
+
+            base.OnPropertyChanged(nameof(IsSliderVisible));
+            base.OnPropertyChanged(nameof(CanFinish));
         }
 
         private void OnEnchantmentChanged(object? sender, System.EventArgs e)
