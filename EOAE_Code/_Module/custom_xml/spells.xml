@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SpellList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <Spells>
+    <Missile
+      Name="{=3fY2LWVv}Fireball"
+      ItemName="fireball"
+      School="Destruction"
+      ExtraMissiles="4"
+      MissileSpread="10"
+      Cost="25"
+      Icon="Stone"
+      Animation="act_fire_magic"
+    >
+      <Effect Duration="5">
+        <Actions>
+          <DamageOverTime Key="burning" Value="10" />
+        </Actions>
+      </Effect>
+    </Missile>
+    <Missile
+      Name="{=i2b32j8F}Snowball"
+      ItemName="lightningsparks"
+      School="Destruction"
+      Cost="25"
+      Icon="Stone"
+      Animation="act_fire_magic"
+    >
+      <Effect Duration="15">
+        <Actions>
+          <MovementSpeed Key="freeze" Value="-0.8" />
+        </Actions>
+      </Effect>
+    </Missile>
+    <Bombard
+      Name="{=JduiaSRZ}Rain of Fire"
+      ItemName="whiteFlame"
+      School="Destruction"
+      Cost="70"
+      Range="50"
+      Radius="6"
+      AreaAimPrefab="casting_circle_prefab"
+      Icon="Stone"
+      Animation="act_fire_magic"
+    >
+      <Missile
+        MissileName="firestorm"
+        MissileCount="30"
+        MissileSpeed="10"
+        MinHeight="20"
+        MaxHeight="100"
+      >
+        <Effect Duration="5">
+          <Actions>
+            <DamageOverTime Key="burning" Value="10" />
+          </Actions>
+        </Effect>
+      </Missile>
+    </Bombard>
+    <Bombard
+      Name="{=xAhvfsnc}Arrow Volley"
+      ItemName="deathbite"
+      School="Destruction"
+      Cost="10"
+      Range="20"
+      Radius="2"
+      AreaAimPrefab="casting_circle_prefab"
+      Icon="Stone"
+      Animation="act_fire_magic"
+    >
+      <Missile
+        MissileName="volley_arrows"
+        MissileCount="50"
+        MissileSpeed="50"
+        MinHeight="20"
+        MaxHeight="150"
+      />
+    </Bombard>
+    <Area
+      Name="Lightning Storm"
+      ItemName="fireSkull"
+      School="Destruction"
+      Cost="40"
+      Range="30"
+      Radius="5"
+      AreaAimPrefab="casting_circle_prefab"
+      Icon="Stone"
+      Animation="act_fire_magic"
+      >
+      <Effect
+        Prefab="casting_circle_prefab"
+        DamagePerSecond="15"
+        Duration="5"
+        Height="50"
+        />
+    </Area>
+    <HealSelf
+      Name="{=BlcTFN2S}Heal"
+      ItemName="blueFlame"
+      School="Restoration"
+      Cost="25"
+      HealValue="50"
+      Icon="Shield"
+      Animation="act_fire_magic"
+    />
+    <HealGroup
+      Name="{=MNL67CIp}Group Heal"
+      ItemName="bloodFlame"
+      School="Restoration"
+      Cost="25"
+      HealRange="15"
+      HealValue="25"
+      Icon="Shield"
+      Animation="act_fire_magic"
+    />
+    <Summon
+      Name="{=pbsK81br}Summon"
+      ItemName="arcanesparks"
+      School="Conjuration"
+      Cost="25"
+      Range="15"
+      Radius="3"
+      AreaAimPrefab="casting_circle_prefab"
+      Icon="Banner"
+      Animation="act_fire_magic"
+    >
+      <SummonEntities>
+        <SummonEntity
+          AgentName="sword_sisters_sister_infantry_t5"
+          Duration="15"
+          Amount="3"
+        />
+      </SummonEntities>
+    </Summon>
+  </Spells>
+</SpellList>
