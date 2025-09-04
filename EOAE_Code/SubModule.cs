@@ -74,6 +74,7 @@ namespace EOAE_Code
                 starter.AddBehavior(new SavePatch());
                 starter.AddBehavior(new LiteratureCampaignBehavior());
                 starter.AddBehavior(new EnchantingCampaignBehavior());
+                starter.AddBehavior(new SpellBookCampaignBehavior());
             }
         }
 

@@ -18,7 +18,7 @@ namespace EOAE_Code.Data.Managers
             }
             else
             {
-                throw new Exception($"NobleSpellbook with Culture {item.Culture} already exists.");
+                throw new Exception($"Noble Spellbook with Culture {item.Culture} already exists.");
             }
         }
 
