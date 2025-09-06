@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EOAE_Code.Consts;
 using EOAE_Code.Data.Managers;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.SaveSystem;
 
 namespace EOAE_Code.Magic
 {
@@ -67,5 +69,16 @@ namespace EOAE_Code.Magic
                 }
             }
         }
+    }
+}
+
+public class SpellBookSaveDefiner : SaveableTypeDefiner
+{
+    public SpellBookSaveDefiner()
+        : base(ModuleConsts.SaveId) { }
+
+    protected override void DefineContainerDefinitions()
+    {
+        ConstructContainerDefinition(typeof(Dictionary<Hero, List<string>>));
     }
 }
