@@ -48,7 +48,7 @@ namespace EOAE_Code.AI
             }
         }
 
-        public override void OnTickAsAI(float dt)
+        public override void OnTick(float dt)
         {
             timeSinceLastCast += dt;
             if (timeSinceLastCast > SPELLCASTING_DELAY)

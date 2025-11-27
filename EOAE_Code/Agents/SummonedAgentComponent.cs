@@ -15,10 +15,8 @@ public class SummonedAgentComponent : AgentComponent
         this.lifespan = lifespan;
     }
 
-    public override void OnTickAsAI(float dt)
+    public override void OnTick(float dt)
     {
-        base.OnTickAsAI(dt);
-
         lifespan -= dt;
         if (lifespan <= 0)
         {
