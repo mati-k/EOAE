@@ -42,17 +42,17 @@ namespace EOAE_Code.Extensions
 
                     if (shouldAddXp)
                     {
-                        int xpToGive;
-                        Campaign.Current.Models.CombatXpModel.GetXpFromHit(
-                            (CharacterObject)attacker.Character,
-                            (CharacterObject?)attacker.Formation.Captain?.Character,
-                            (CharacterObject)agent.Character,
-                            null,
-                            (int)value,
-                            false,
-                            CombatXpModel.MissionTypeEnum.Battle,
-                            out xpToGive
-                        );
+                        var xpToGive = Campaign
+                            .Current.Models.CombatXpModel.GetXpFromHit(
+                                (CharacterObject)attacker.Character,
+                                (CharacterObject?)attacker.Formation.Captain?.Character,
+                                (CharacterObject)agent.Character,
+                                null,
+                                (int)value,
+                                false,
+                                CombatXpModel.MissionTypeEnum.Battle
+                            )
+                            .ResultNumber;
                         attacker.AddSkillXp(CustomSkills.Instance.Destruction, xpToGive);
                     }
                 }
