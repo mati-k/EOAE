@@ -2,6 +2,7 @@
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.ImageIdentifiers;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -87,7 +88,7 @@ namespace EOAE_Code.States.Enchantment
         public EnchantmentSoulGemVM(bool isInSlot)
         {
             IsInSlot = isInSlot;
-            ImageIdentifier = new ImageIdentifierVM();
+            ImageIdentifier = new GenericImageIdentifierVM(null);
         }
 
         public EnchantmentSoulGemVM(CraftingMaterials material, int amount)
@@ -109,7 +110,7 @@ namespace EOAE_Code.States.Enchantment
 
             if (Item != null)
             {
-                this.ImageIdentifier = new ImageIdentifierVM(Item);
+                this.ImageIdentifier = new ItemImageIdentifierVM(Item);
                 this._soulGemHint = new HintViewModel(
                     new TextObject("{=!}" + Item.Name.ToString(), null),
                     null
@@ -129,7 +130,7 @@ namespace EOAE_Code.States.Enchantment
 
         public override void Clear()
         {
-            this.ImageIdentifier = new ImageIdentifierVM();
+            this.ImageIdentifier = new GenericImageIdentifierVM(null);
             this.Item = null;
         }
 

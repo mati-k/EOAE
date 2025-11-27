@@ -1,7 +1,9 @@
 ﻿using EOAE_Code.Data.Xml.Enchantments;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.ImageIdentifiers;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.ObjectSystem;
 
 namespace EOAE_Code.States.Enchantment
 {
@@ -45,13 +47,15 @@ namespace EOAE_Code.States.Enchantment
         public EnchantmentEnchantmentVM(bool isInSlot)
         {
             IsInSlot = isInSlot;
-            ImageIdentifier = new ImageIdentifierVM();
+            ImageIdentifier = new GenericImageIdentifierVM(null);
         }
 
         public EnchantmentEnchantmentVM(EnchantmentData enchantment)
         {
             this.EnchantmentData = enchantment;
-            ImageIdentifier = new ImageIdentifierVM(enchantment.IconItem, ImageIdentifierType.Item);
+            ImageIdentifier = new ItemImageIdentifierVM(
+                MBObjectManager.Instance.GetObject<ItemObject>(enchantment.IconItem)
+            );
         }
 
         public void AssignToSlot(EnchantmentEnchantmentVM enchantment)
@@ -62,7 +66,7 @@ namespace EOAE_Code.States.Enchantment
 
         public override void Clear()
         {
-            this.ImageIdentifier = new ImageIdentifierVM();
+            this.ImageIdentifier = new GenericImageIdentifierVM(null);
             this.EnchantmentData = null;
         }
 

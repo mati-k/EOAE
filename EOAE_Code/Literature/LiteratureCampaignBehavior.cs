@@ -5,6 +5,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ImageIdentifiers;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
@@ -77,7 +78,7 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
                 new InquiryElement(
                     hero,
                     title,
-                    new ImageIdentifier(CharacterCode.CreateFrom(character))
+                    new CharacterImageIdentifier(CharacterCode.CreateFrom(character))
                 )
             );
         }
@@ -125,7 +126,7 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
             var bookOption = new InquiryElement(
                 bookObject.StringId,
                 title,
-                new ImageIdentifier(bookObject)
+                new ItemImageIdentifier(bookObject)
             );
 
             if (HasReadBook(hero, bookObject.StringId))
@@ -133,7 +134,7 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
                 bookOption = new InquiryElement(
                     bookObject.StringId,
                     title,
-                    new ImageIdentifier(bookObject),
+                    new ItemImageIdentifier(bookObject),
                     false,
                     new TextObject("{=rfFMrQ7v}{HeroName} has already read this book.")
                         .SetTextVariable("HeroName", hero.Name)
@@ -145,7 +146,7 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
                 bookOption = new InquiryElement(
                     bookObject.StringId,
                     title,
-                    new ImageIdentifier(bookObject),
+                    new ItemImageIdentifier(bookObject),
                     false,
                     explanation
                 );
