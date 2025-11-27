@@ -184,7 +184,7 @@ namespace EOAE_Code.States
         {
             if (this.PreviousCharacterInputKey == null || this.getKeyTextFromKeyId == null)
             {
-                return TextObject.Empty;
+                return TextObject.GetEmpty();
             }
             return this.getKeyTextFromKeyId(this.PreviousCharacterInputKey.KeyID);
         }
@@ -193,7 +193,7 @@ namespace EOAE_Code.States
         {
             if (this.NextCharacterInputKey == null || this.getKeyTextFromKeyId == null)
             {
-                return TextObject.Empty;
+                return TextObject.GetEmpty();
             }
             return this.getKeyTextFromKeyId(this.NextCharacterInputKey.KeyID);
         }
