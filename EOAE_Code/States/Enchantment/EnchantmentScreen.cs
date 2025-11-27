@@ -51,7 +51,7 @@ namespace EOAE_Code.States.Enchantment
             base.OnFrameTick(dt);
             LoadingWindow.DisableGlobalLoadingWindow();
 
-            if (gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
+            if (gauntletLayer.Input.IsHotKeyPressed("Exit"))
             {
                 vm.ExecuteClose();
             }

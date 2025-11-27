@@ -264,11 +264,11 @@ namespace EOAE_Code.States
 
         public void HandleHotKeyNavigation(GauntletLayer gauntletLayer)
         {
-            if (gauntletLayer.Input.IsHotKeyDownAndReleased("SwitchToPreviousTab"))
+            if (gauntletLayer.Input.IsHotKeyPressed("SwitchToPreviousTab"))
             {
                 CharacterList.ExecuteSelectPreviousItem();
             }
-            else if (gauntletLayer.Input.IsHotKeyDownAndReleased("SwitchToNextTab"))
+            else if (gauntletLayer.Input.IsHotKeyPressed("SwitchToNextTab"))
             {
                 CharacterList.ExecuteSelectNextItem();
             }
