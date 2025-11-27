@@ -35,27 +35,21 @@ namespace EOAE_Code.Character
             Conjuration = Game.Current.ObjectManager.RegisterPresumedObject(
                 new SkillObject("Conjuration")
             );
-            Destruction
-                .Initialize(
-                    new TextObject("{=5o7F9ZFA}Destruction"),
-                    new TextObject("{=P7SIPHVb}Destruction, break shit!"),
-                    SkillObject.SkillTypeEnum.Personal
-                )
-                .SetAttribute(Attributes.Instance.Magic);
-            Restoration
-                .Initialize(
-                    new TextObject("{=NCf2MEdC}Restoration"),
-                    new TextObject("{=9a1GPLFY}Restoration, fix shit!"),
-                    SkillObject.SkillTypeEnum.Personal
-                )
-                .SetAttribute(Attributes.Instance.Magic);
-            Conjuration
-                .Initialize(
-                    new TextObject("{=5C8nzLIQ}Conjuration"),
-                    new TextObject("{=XQ4epc7d}Conjuration, summon shit!"),
-                    SkillObject.SkillTypeEnum.Personal
-                )
-                .SetAttribute(Attributes.Instance.Magic);
+            Destruction.Initialize(
+                new TextObject("{=5o7F9ZFA}Destruction"),
+                new TextObject("{=P7SIPHVb}Destruction, break shit!"),
+                new[] { Attributes.Instance.Magic }
+            );
+            Restoration.Initialize(
+                new TextObject("{=NCf2MEdC}Restoration"),
+                new TextObject("{=9a1GPLFY}Restoration, fix shit!"),
+                new[] { Attributes.Instance.Magic }
+            );
+            Conjuration.Initialize(
+                new TextObject("{=5C8nzLIQ}Conjuration"),
+                new TextObject("{=XQ4epc7d}Conjuration, summon shit!"),
+                new[] { Attributes.Instance.Magic }
+            );
         }
     }
 }

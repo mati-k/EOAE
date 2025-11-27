@@ -92,9 +92,9 @@ namespace EOAE_Code.Character
                 25,
                 null,
                 "{=xSw48XXU}Can learn apprentice spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             AdeptDestruction.Initialize(
                 "{=gyabOx0V}Adept Destruction",
@@ -102,9 +102,9 @@ namespace EOAE_Code.Character
                 100,
                 null,
                 "{=HE1SUCpQ}Can learn adept spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             ExpertDestruction.Initialize(
                 "{=ykH7O1SM}Expert Destruction",
@@ -112,9 +112,9 @@ namespace EOAE_Code.Character
                 175,
                 null,
                 "{=oiH5Nuyg}Can learn expert spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             MasterDestruction.Initialize(
                 "{=dba7Epiv}Master Destruction",
@@ -122,9 +122,9 @@ namespace EOAE_Code.Character
                 250,
                 null,
                 "{=jFT76UZ1}Can learn master spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
 
             ApprenticeConjuration.Initialize(
@@ -133,9 +133,9 @@ namespace EOAE_Code.Character
                 25,
                 null,
                 "{=gQIVgPsS}Can learn apprentice spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             AdeptConjuration.Initialize(
                 "{=zXkCQuUo}Adept Conjuration",
@@ -143,9 +143,9 @@ namespace EOAE_Code.Character
                 100,
                 null,
                 "{=92T2ds8C}Can learn adept spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             ExpertConjuration.Initialize(
                 "{=Z0qjpU9J}Expert Conjuration",
@@ -153,9 +153,9 @@ namespace EOAE_Code.Character
                 175,
                 null,
                 "{=AmbRtiOh}Can learn expert spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             MasterConjuration.Initialize(
                 "{=7gEDv0CF}Master Conjuration",
@@ -163,9 +163,9 @@ namespace EOAE_Code.Character
                 250,
                 null,
                 "{=wSI1xsQl}Can learn master spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
 
             ApprenticeRestoration.Initialize(
@@ -174,9 +174,9 @@ namespace EOAE_Code.Character
                 25,
                 null,
                 "{=VRbtelpk}Can learn apprentice spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             AdeptRestoration.Initialize(
                 "{=VXCQathC}Adept Restoration",
@@ -184,9 +184,9 @@ namespace EOAE_Code.Character
                 100,
                 null,
                 "{=6NhHrkLF}Can learn adept spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             ExpertRestoration.Initialize(
                 "{=kSztGC4X}Expert Restoration",
@@ -194,9 +194,9 @@ namespace EOAE_Code.Character
                 175,
                 null,
                 "{=NuagJ5IG}Can learn expert spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
             MasterRestoration.Initialize(
                 "{=EDkjmSOY}Master Restoration",
@@ -204,9 +204,9 @@ namespace EOAE_Code.Character
                 250,
                 null,
                 "{=6XeZ0kxn}Can learn master spells",
-                SkillEffect.PerkRole.Personal,
+                PartyRole.Personal,
                 0,
-                SkillEffect.EffectIncrementType.Invalid
+                EffectIncrementType.Invalid
             );
         }
     }
