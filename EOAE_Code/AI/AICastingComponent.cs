@@ -84,7 +84,7 @@ namespace EOAE_Code.AI
             SetupSpellSlot();
 
             // If is already using spell, don't interrupt
-            if (Agent.GetWieldedItemIndex(Agent.HandIndex.MainHand) == equipmentIndex)
+            if (Agent.GetPrimaryWieldedItemIndex() == equipmentIndex)
             {
                 return;
             }
