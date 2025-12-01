@@ -141,7 +141,7 @@ namespace EOAE_Code.States
         private void SetPreviousCharacterHint()
         {
             this.PreviousCharacterHint = new BasicTooltipViewModel(
-                delegate()
+                delegate ()
                 {
                     GameTexts.SetVariable("HOTKEY", this.GetPreviousCharacterKeyText());
                     GameTexts.SetVariable(
@@ -156,7 +156,7 @@ namespace EOAE_Code.States
         private void SetNextCharacterHint()
         {
             this.NextCharacterHint = new BasicTooltipViewModel(
-                delegate()
+                delegate ()
                 {
                     GameTexts.SetVariable("HOTKEY", this.GetNextCharacterKeyText());
                     GameTexts.SetVariable(
