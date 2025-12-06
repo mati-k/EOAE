@@ -55,7 +55,7 @@ public class SpellAimView : MissionView
             return;
 
         aimEntity = GameEntity.Instantiate(Mission.Scene, useAreaAim.AreaAimPrefab, false);
-        aimEntity.SetMobility(GameEntity.Mobility.dynamic);
+        aimEntity.SetMobility(GameEntity.Mobility.Dynamic);
         equippedSpell = newSpell;
     }
 
