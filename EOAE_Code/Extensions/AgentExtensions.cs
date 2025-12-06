@@ -36,7 +36,6 @@ namespace EOAE_Code.Extensions
                 if (skill == CustomSkills.Instance.Destruction)
                 {
                     value *= agent.GetMultiplierForSkill(
-                        CustomSkills.Instance.Destruction,
                         CustomSkillEffects.Instance.DestructionDamage
                     );
 
@@ -107,27 +106,14 @@ namespace EOAE_Code.Extensions
             agent.RegisterBlow(blow, collisionData);
         }
 
-        public static float GetMultiplierForSkill(
-            this Agent agent,
-            SkillObject skill,
-            SkillEffect skillEffect
-        )
+        public static float GetMultiplierForSkill(this Agent agent, SkillEffect skillEffect)
         {
             ExplainedNumber explainedNumber = new(1f, false, null);
             var character = agent.Character as CharacterObject;
 
-            if (character != null && skill != null)
+            if (character != null)
             {
-                int effectiveSkill = character.GetSkillValue(skill);
-                SkillHelper.AddSkillBonusForCharacter(
-                    skill,
-                    skillEffect,
-                    character,
-                    ref explainedNumber,
-                    effectiveSkill,
-                    true,
-                    0
-                );
+                SkillHelper.AddSkillBonusForCharacter(skillEffect, character, ref explainedNumber);
             }
 
             return Math.Max(0, explainedNumber.ResultNumber);

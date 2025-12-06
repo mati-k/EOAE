@@ -26,10 +26,7 @@ namespace EOAE_Code.Magic.Spells
         {
             var healValueWithBonus =
                 HealValue
-                * caster.GetMultiplierForSkill(
-                    CustomSkills.Instance.Restoration,
-                    CustomSkillEffects.Instance.RestorationHeal
-                );
+                * caster.GetMultiplierForSkill(CustomSkillEffects.Instance.RestorationHeal);
 
             float originalHealth = caster.Health;
             caster.Health = Math.Min(caster.Health + healValueWithBonus, caster.HealthLimit);
