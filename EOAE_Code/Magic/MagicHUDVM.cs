@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using EOAE_Code.Agents;
+﻿using EOAE_Code.Agents;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
@@ -61,10 +60,10 @@ namespace EOAE_Code.Magic
         public void Initialize()
         {
             Mission.Current.OnMainAgentChanged += OnMainAgentChanged;
-            OnMainAgentChanged(null, null);
+            OnMainAgentChanged(null!);
         }
 
-        private void OnMainAgentChanged(object? sender, PropertyChangedEventArgs? e)
+        private void OnMainAgentChanged(Agent oldAgent)
         {
             if (Agent.Main != null)
             {
