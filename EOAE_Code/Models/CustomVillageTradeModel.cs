@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.ComponentInterfaces;
+using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.ModuleManager;
 
 namespace EOAE_Code.Models
 {
-    public class CustomVillageTradeModel : VillageTradeModel
+    public class CustomVillageTradeModel : DefaultVillageTradeModel
     {
         private readonly float tradeBoundDistance;
 
@@ -21,24 +19,11 @@ namespace EOAE_Code.Models
             );
         }
 
-        public override Settlement GetTradeBoundToAssignForVillage(Village village)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override float TradeBoundDistanceLimitAsDays(
             MobileParty.NavigationType navigationType
         )
         {
-            // Default implementation for now
-            return Campaign.Current.GetAverageDistanceBetweenClosestTwoTownsWithNavigationType(
-                    navigationType
-                )
-                * 3f
-                / (
-                    Campaign.Current.EstimatedAverageVillagerPartySpeed
-                    * (float)CampaignTime.HoursInDay
-                );
+            return tradeBoundDistance;
         }
     }
 }
