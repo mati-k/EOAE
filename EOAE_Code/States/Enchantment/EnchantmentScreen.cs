@@ -33,15 +33,10 @@ namespace EOAE_Code.States.Enchantment
 
         private void LoadInventorySprites()
         {
-            var spriteData = UIResourceManager.SpriteData;
-            var resourceContext = UIResourceManager.ResourceContext;
-            var resourceDepot = UIResourceManager.UIResourceDepot;
-
             LoadedSpriteCategories.Clear();
             foreach (var spriteCategoryName in SPRITE_CATEGORY_NAMES)
             {
-                var spriteCategory = spriteData.SpriteCategories[spriteCategoryName];
-                spriteCategory.Load(resourceContext, resourceDepot);
+                var spriteCategory = UIResourceManager.LoadSpriteCategory(spriteCategoryName);
                 LoadedSpriteCategories.Add(spriteCategory);
             }
         }
