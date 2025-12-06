@@ -46,7 +46,7 @@ public class SpellSelectorView : MissionView
         base.OnBehaviorInitialize();
 
         spellSelector = new SpellSelectorVM();
-        var layer = new GauntletLayer(0);
+        var layer = new GauntletLayer("SpellSelector", 0);
         layer.LoadMovie("SpellSelector", spellSelector);
         MissionScreen.AddLayer(layer);
     }

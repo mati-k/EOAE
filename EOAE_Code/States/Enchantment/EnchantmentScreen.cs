@@ -73,7 +73,7 @@ namespace EOAE_Code.States.Enchantment
 
             //this.vm.CharacterSwitcher.RegisterHotKeys();
 
-            gauntletLayer = new GauntletLayer(1, "GauntletLayer", true);
+            gauntletLayer = new GauntletLayer("EnchantmentLayer", 1, true);
             gauntletLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
             this.gauntletLayer.Input.RegisterHotKeyCategory(
                 HotKeyManager.GetCategory("GenericPanelGameKeyCategory")
