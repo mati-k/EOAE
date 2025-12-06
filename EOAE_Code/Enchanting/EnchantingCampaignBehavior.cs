@@ -155,9 +155,6 @@ namespace EOAE_Code.Enchanting
                 .DeclaredPropertySetter(typeof(ItemObject), "ScaleFactor")
                 .Invoke(item, new object[] { itemToCopy.ScaleFactor });
             AccessTools
-                .DeclaredPropertySetter(typeof(ItemObject), "IsUniqueItem")
-                .Invoke(item, new object[] { itemToCopy.IsUniqueItem });
-            AccessTools
                 .DeclaredPropertySetter(typeof(ItemObject), "WeaponDesign")
                 .Invoke(item, new object[] { itemToCopy.WeaponDesign });
             AccessTools
