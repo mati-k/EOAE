@@ -141,7 +141,7 @@ namespace EOAE_Code.States
         private void SetPreviousCharacterHint()
         {
             this.PreviousCharacterHint = new BasicTooltipViewModel(
-                delegate()
+                delegate ()
                 {
                     GameTexts.SetVariable("HOTKEY", this.GetPreviousCharacterKeyText());
                     GameTexts.SetVariable(
@@ -156,7 +156,7 @@ namespace EOAE_Code.States
         private void SetNextCharacterHint()
         {
             this.NextCharacterHint = new BasicTooltipViewModel(
-                delegate()
+                delegate ()
                 {
                     GameTexts.SetVariable("HOTKEY", this.GetNextCharacterKeyText());
                     GameTexts.SetVariable(
@@ -184,7 +184,7 @@ namespace EOAE_Code.States
         {
             if (this.PreviousCharacterInputKey == null || this.getKeyTextFromKeyId == null)
             {
-                return TextObject.Empty;
+                return TextObject.GetEmpty();
             }
             return this.getKeyTextFromKeyId(this.PreviousCharacterInputKey.KeyID);
         }
@@ -193,7 +193,7 @@ namespace EOAE_Code.States
         {
             if (this.NextCharacterInputKey == null || this.getKeyTextFromKeyId == null)
             {
-                return TextObject.Empty;
+                return TextObject.GetEmpty();
             }
             return this.getKeyTextFromKeyId(this.NextCharacterInputKey.KeyID);
         }
@@ -264,11 +264,11 @@ namespace EOAE_Code.States
 
         public void HandleHotKeyNavigation(GauntletLayer gauntletLayer)
         {
-            if (gauntletLayer.Input.IsHotKeyDownAndReleased("SwitchToPreviousTab"))
+            if (gauntletLayer.Input.IsHotKeyPressed("SwitchToPreviousTab"))
             {
                 CharacterList.ExecuteSelectPreviousItem();
             }
-            else if (gauntletLayer.Input.IsHotKeyDownAndReleased("SwitchToNextTab"))
+            else if (gauntletLayer.Input.IsHotKeyPressed("SwitchToNextTab"))
             {
                 CharacterList.ExecuteSelectNextItem();
             }

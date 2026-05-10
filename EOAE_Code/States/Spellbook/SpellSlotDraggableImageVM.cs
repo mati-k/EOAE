@@ -1,4 +1,5 @@
 ﻿using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.ImageIdentifiers;
 using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 
@@ -34,13 +35,13 @@ namespace EOAE_Code.States.Spellbook
         {
             if (Parent.Spell != null)
             {
-                ImageIdentifier = new ImageIdentifierVM(
+                ImageIdentifier = new ItemImageIdentifierVM(
                     MBObjectManager.Instance.GetObject<ItemObject>(Parent.Spell.ItemName)
                 );
             }
             else
             {
-                ImageIdentifier = new ImageIdentifierVM();
+                ImageIdentifier = new GenericImageIdentifierVM(null);
             }
         }
     }

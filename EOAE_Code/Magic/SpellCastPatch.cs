@@ -80,7 +80,6 @@ namespace EOAE_Code.Magic
             if (skill == CustomSkills.Instance.Destruction && SpellManager.IsWeaponSpell(weapon!))
             {
                 __result = agent.GetMultiplierForSkill(
-                    CustomSkills.Instance.Destruction,
                     CustomSkillEffects.Instance.DestructionDamage
                 );
             }

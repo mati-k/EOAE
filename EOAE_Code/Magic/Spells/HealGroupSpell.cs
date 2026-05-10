@@ -37,10 +37,7 @@ namespace EOAE_Code.Magic.Spells
 
             var healValueWithBonus =
                 HealValue
-                * caster.GetMultiplierForSkill(
-                    CustomSkills.Instance.Restoration,
-                    CustomSkillEffects.Instance.RestorationHeal
-                );
+                * caster.GetMultiplierForSkill(CustomSkillEffects.Instance.RestorationHeal);
 
             float healedValue = 0;
             foreach (var agent in agents)

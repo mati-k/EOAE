@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using EOAE_Code.Agents;
+﻿using EOAE_Code.Agents;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
 using TaleWorlds.Engine;
@@ -23,7 +22,7 @@ public class SpellAimView : MissionView
         base.OnBehaviorInitialize();
 
         Mission.Current.OnMainAgentChanged += OnMainAgentChanged;
-        OnMainAgentChanged(null, null);
+        OnMainAgentChanged(null!);
     }
 
     public override void OnMissionTick(float dt)
@@ -33,7 +32,7 @@ public class SpellAimView : MissionView
         AimTick();
     }
 
-    private void OnMainAgentChanged(object? sender, PropertyChangedEventArgs? e)
+    private void OnMainAgentChanged(Agent oldAgent)
     {
         if (Agent.Main != null)
         {
@@ -56,13 +55,17 @@ public class SpellAimView : MissionView
             return;
 
         aimEntity = GameEntity.Instantiate(Mission.Scene, useAreaAim.AreaAimPrefab, false);
-        aimEntity.SetMobility(GameEntity.Mobility.dynamic);
+        aimEntity.SetMobility(GameEntity.Mobility.Dynamic);
         equippedSpell = newSpell;
     }
 
     private void AimTick()
     {
-        if (aimEntity == null || Mission.MainAgent == null || equippedSpell is not IUseAreaAim areaAimable)
+        if (
+            aimEntity == null
+            || Mission.MainAgent == null
+            || equippedSpell is not IUseAreaAim areaAimable
+        )
             return;
 
         var playerAgent = Mission.MainAgent;
@@ -92,7 +95,10 @@ public class SpellAimView : MissionView
             // 3 is a magic number that fixes aim point snapping in third-person view
             var furthestPosition =
                 playerFrame.origin + playerLookDirection * (areaAimable.Range - 3);
-            furthestPosition.z = MagicAgentUtils.GetHeightAtPoint(furthestPosition.AsVec2, areaAimable);
+            furthestPosition.z = MagicAgentUtils.GetHeightAtPoint(
+                furthestPosition.AsVec2,
+                areaAimable
+            );
 
             aimFrame.origin = furthestPosition;
         }

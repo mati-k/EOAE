@@ -17,12 +17,7 @@ public class SpellSelectorView : MissionView
     private bool HoldHandled
     {
         get => holdHandled;
-        set
-        {
-            holdHandled = value;
-            var missionScreen = MissionScreen;
-            missionScreen?.SetRadialMenuActiveState(value);
-        }
+        set => holdHandled = value;
     }
 
     private bool IsDisplayingADialog
@@ -46,7 +41,7 @@ public class SpellSelectorView : MissionView
         base.OnBehaviorInitialize();
 
         spellSelector = new SpellSelectorVM();
-        var layer = new GauntletLayer(0);
+        var layer = new GauntletLayer("SpellSelector", 0);
         layer.LoadMovie("SpellSelector", spellSelector);
         MissionScreen.AddLayer(layer);
     }
@@ -86,7 +81,7 @@ public class SpellSelectorView : MissionView
     private void HandleOpeningHold()
     {
         spellSelector.OnToggle(true);
-        MissionScreen.SetRadialMenuActiveState(true);
+        MissionScreen.RegisterRadialMenuObject(this);
         if (!GameNetwork.IsMultiplayer && !isSlowDownApplied)
         {
             Mission.AddTimeSpeedRequest(new Mission.TimeSpeedRequest(0.25f, TimeSpeedRequestId));
@@ -97,7 +92,7 @@ public class SpellSelectorView : MissionView
     private void HandleClosingHold()
     {
         spellSelector.OnToggle(false);
-        MissionScreen.SetRadialMenuActiveState(false);
+        MissionScreen.UnregisterRadialMenuObject(this);
         if (!GameNetwork.IsMultiplayer && isSlowDownApplied)
         {
             Mission.RemoveTimeSpeedRequest(TimeSpeedRequestId);

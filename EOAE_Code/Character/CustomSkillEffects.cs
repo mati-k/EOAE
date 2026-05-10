@@ -39,36 +39,33 @@ namespace EOAE_Code.Character
 
             DestructionDamage.Initialize(
                 new TextObject("{=eaPW4J70}Destruction spells damage: +{a0} %"),
-                new SkillObject[] { CustomSkills.Instance.Destruction },
-                SkillEffect.PerkRole.Personal,
+                CustomSkills.Instance.Destruction,
+                PartyRole.Personal,
                 0.1f,
-                SkillEffect.PerkRole.None,
+                EffectIncrementType.AddFactor,
                 0,
-                SkillEffect.EffectIncrementType.AddFactor,
                 0,
                 0
             );
 
             RestorationHeal.Initialize(
                 new TextObject("{=SaRDNkCn}Restoration spells heal: +{a0} %"),
-                new SkillObject[] { CustomSkills.Instance.Restoration },
-                SkillEffect.PerkRole.Personal,
+                CustomSkills.Instance.Restoration,
+                PartyRole.Personal,
                 0.2f,
-                SkillEffect.PerkRole.None,
+                EffectIncrementType.AddFactor,
                 0,
-                SkillEffect.EffectIncrementType.AddFactor,
                 0,
                 0
             );
 
             ConjurationDuration.Initialize(
                 new TextObject("{=WJCOjwML}Conjuration spells duration: +{a0} %"),
-                new SkillObject[] { CustomSkills.Instance.Conjuration },
-                SkillEffect.PerkRole.Personal,
+                CustomSkills.Instance.Conjuration,
+                PartyRole.Personal,
                 0.2f,
-                SkillEffect.PerkRole.None,
+                EffectIncrementType.AddFactor,
                 0,
-                SkillEffect.EffectIncrementType.AddFactor,
                 0,
                 0
             );

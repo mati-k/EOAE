@@ -33,15 +33,10 @@ namespace EOAE_Code.States.Enchantment
 
         private void LoadInventorySprites()
         {
-            var spriteData = UIResourceManager.SpriteData;
-            var resourceContext = UIResourceManager.ResourceContext;
-            var resourceDepot = UIResourceManager.UIResourceDepot;
-
             LoadedSpriteCategories.Clear();
             foreach (var spriteCategoryName in SPRITE_CATEGORY_NAMES)
             {
-                var spriteCategory = spriteData.SpriteCategories[spriteCategoryName];
-                spriteCategory.Load(resourceContext, resourceDepot);
+                var spriteCategory = UIResourceManager.LoadSpriteCategory(spriteCategoryName);
                 LoadedSpriteCategories.Add(spriteCategory);
             }
         }
@@ -51,7 +46,7 @@ namespace EOAE_Code.States.Enchantment
             base.OnFrameTick(dt);
             LoadingWindow.DisableGlobalLoadingWindow();
 
-            if (gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
+            if (gauntletLayer.Input.IsHotKeyPressed("Exit"))
             {
                 vm.ExecuteClose();
             }
@@ -73,7 +68,7 @@ namespace EOAE_Code.States.Enchantment
 
             //this.vm.CharacterSwitcher.RegisterHotKeys();
 
-            gauntletLayer = new GauntletLayer(1, "GauntletLayer", true);
+            gauntletLayer = new GauntletLayer("EnchantmentLayer", 1, true);
             gauntletLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
             this.gauntletLayer.Input.RegisterHotKeyCategory(
                 HotKeyManager.GetCategory("GenericPanelGameKeyCategory")

@@ -26,7 +26,7 @@ namespace EOAE_Code.States.Spellbook
             base.OnFrameTick(dt);
             LoadingWindow.DisableGlobalLoadingWindow();
 
-            if (gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
+            if (gauntletLayer.Input.IsHotKeyPressed("Exit"))
             {
                 vm.ExecuteClose();
             }
@@ -48,7 +48,7 @@ namespace EOAE_Code.States.Spellbook
 
             this.vm.CharacterSwitcher.RegisterHotKeys();
 
-            gauntletLayer = new GauntletLayer(1, "GauntletLayer", true);
+            gauntletLayer = new GauntletLayer("SpellbookLayer", 1, true);
             gauntletLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
             this.gauntletLayer.Input.RegisterHotKeyCategory(
                 HotKeyManager.GetCategory("GenericPanelGameKeyCategory")

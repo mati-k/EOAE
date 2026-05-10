@@ -15,7 +15,7 @@ namespace EOAE_Code.Magic
             base.OnBehaviorInitialize();
 
             magicHUD = new MagicHudVM();
-            magicLayer = new GauntletLayer(0);
+            magicLayer = new GauntletLayer("MagicHUDLayer", 0);
             magicLayer.LoadMovie("MagicHUD", magicHUD);
             MissionScreen.AddLayer(magicLayer);
             magicHUD.Initialize();

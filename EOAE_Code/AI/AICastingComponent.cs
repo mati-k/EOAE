@@ -48,7 +48,7 @@ namespace EOAE_Code.AI
             }
         }
 
-        public override void OnTickAsAI(float dt)
+        public override void OnTick(float dt)
         {
             timeSinceLastCast += dt;
             if (timeSinceLastCast > SPELLCASTING_DELAY)
@@ -84,7 +84,7 @@ namespace EOAE_Code.AI
             SetupSpellSlot();
 
             // If is already using spell, don't interrupt
-            if (Agent.GetWieldedItemIndex(Agent.HandIndex.MainHand) == equipmentIndex)
+            if (Agent.GetPrimaryWieldedItemIndex() == equipmentIndex)
             {
                 return;
             }

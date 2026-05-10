@@ -40,10 +40,7 @@ namespace EOAE_Code.Magic
         {
             var damageWithBonus =
                 Data.DamagePerSecond
-                * Caster.GetMultiplierForSkill(
-                    CustomSkills.Instance.Destruction,
-                    CustomSkillEffects.Instance.DestructionDamage
-                );
+                * Caster.GetMultiplierForSkill(CustomSkillEffects.Instance.DestructionDamage);
 
             var agents = new MBList<Agent>();
             Mission.Current.GetNearbyAgents(GameEntity.GlobalPosition.AsVec2, Radius, agents);

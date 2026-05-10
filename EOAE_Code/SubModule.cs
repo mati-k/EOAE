@@ -49,7 +49,6 @@ namespace EOAE_Code
             );
             XmlDataLoader.LoadXmlDataList<EnchantmentData, EnchantmentManager>("enchantments.xml");
 
-            TradeBoundPatch.Apply(Harmony);
             Harmony.PatchAll();
 
             var uiExtender = UIExtender.Create("EOAE_Code");
@@ -94,6 +93,7 @@ namespace EOAE_Code
             base.OnGameStart(game, gameStarterObject);
 
             gameStarterObject.AddModel(new AgentStatusEffectModel());
+            gameStarterObject.AddModel(new CustomVillageTradeModel());
         }
     }
 }

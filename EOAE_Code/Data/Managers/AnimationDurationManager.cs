@@ -1,7 +1,8 @@
-﻿using EOAE_Code.Data.Xml;
+﻿using System;
+using System.Collections.Generic;
+using EOAE_Code.Data.Xml;
 using EOAE_Code.Interfaces;
 using EOAE_Code.Magic.Spells;
-using System.Collections.Generic;
 using TaleWorlds.MountAndBlade;
 
 namespace EOAE_Code.Data.Managers
@@ -34,7 +35,13 @@ namespace EOAE_Code.Data.Managers
         public static ActionIndexCache GetCacheIndex(string animation)
         {
             AnimationDurations.TryGetValue(animation, out var animationDuration);
-            return animationDuration?.AnimationIndexCache;
+
+            if (animationDuration == null)
+            {
+                throw new Exception($"Animation index not found for {animation}");
+            }
+
+            return animationDuration.AnimationIndexCache;
         }
 
         public static ActionIndexCache GetCacheIndex(Spell spell)

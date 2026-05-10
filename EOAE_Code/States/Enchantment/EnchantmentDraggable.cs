@@ -1,5 +1,5 @@
 ﻿using System;
-using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.ImageIdentifiers;
 using TaleWorlds.Library;
 
 namespace EOAE_Code.States.Enchantment

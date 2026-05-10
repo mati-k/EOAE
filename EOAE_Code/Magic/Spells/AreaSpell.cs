@@ -73,7 +73,7 @@ namespace EOAE_Code.Magic.Spells
                     )
                 )
             );
-            handlerEntity.CreateAndAddScriptComponent(nameof(AreaSpellEffectHandler));
+            handlerEntity.CreateAndAddScriptComponent(nameof(AreaSpellEffectHandler), true);
 
             var effectHandler = handlerEntity.GetFirstScriptOfType<AreaSpellEffectHandler>();
             effectHandler.Caster = caster;

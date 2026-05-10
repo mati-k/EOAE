@@ -52,10 +52,7 @@ public class SummonerAgentComponent : AgentComponent
 
         var durationWithMultiplier =
             data.Duration
-            * caster.GetMultiplierForSkill(
-                CustomSkills.Instance.Conjuration,
-                CustomSkillEffects.Instance.ConjurationDuration
-            );
+            * caster.GetMultiplierForSkill(CustomSkillEffects.Instance.ConjurationDuration);
         agent.AddComponent(new SummonedAgentComponent(agent, caster, durationWithMultiplier));
         agent.SetAgentFlags(
             (agent.GetAgentFlags() | AgentFlag.CanGetAlarmed) & ~AgentFlag.CanRetreat

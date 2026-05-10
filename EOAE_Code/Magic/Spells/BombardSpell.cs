@@ -78,7 +78,7 @@ public class BombardSpell : Spell, IUseAreaAim
     {
         var spawnerEntity = GameEntity.Instantiate(Mission.Current.Scene, "__empty_object", false);
         spawnerEntity.SetGlobalFrame(castFrame);
-        spawnerEntity.CreateAndAddScriptComponent(nameof(MissileSpawner));
+        spawnerEntity.CreateAndAddScriptComponent(nameof(MissileSpawner), false);
 
         var missileSpawner = spawnerEntity.GetFirstScriptOfType<MissileSpawner>();
         missileSpawner.Caster = caster;
