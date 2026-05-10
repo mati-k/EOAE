@@ -328,7 +328,6 @@ public class LiteratureCampaignBehavior : CampaignBehaviorBase
 
 public class BookProgressSaveDefiner : SaveableTypeDefiner
 {
-    // use a big number and ensure that no other mod is using a close range
     public BookProgressSaveDefiner()
         : base(ModuleConsts.SaveId) { }
 
